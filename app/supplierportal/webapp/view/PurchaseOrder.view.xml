@@ -1,0 +1,503 @@
+<mvc:View
+    controllerName="supplier.po.supplierportal.controller.PurchaseOrder"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Page
+        id="purchaseOrderPage"
+        showNavButton="false"
+        class="supplierPOPage">
+
+        <!-- ===================================================== -->
+        <!-- HEADER -->
+        <!-- ===================================================== -->
+
+        <customHeader>
+
+            <Bar class="poHeaderBar">
+
+                <contentLeft>
+
+                    <Button
+                        icon="sap-icon://nav-back"
+                        type="Transparent"
+                        press=".onNavBack"
+                        class="poBackButton" />
+
+                </contentLeft>
+
+                <contentMiddle>
+
+                    <Title
+                        text="My Purchase Orders"
+                        class="poHeaderTitle" />
+
+                </contentMiddle>
+
+                <contentRight>
+
+                    <Button
+                        icon="sap-icon://refresh"
+                        type="Transparent"
+                        tooltip="Refresh Purchase Orders"
+                        press=".onRefresh"
+                        class="poRefreshButton" />
+
+                </contentRight>
+
+            </Bar>
+
+        </customHeader>
+
+
+        <!-- ===================================================== -->
+        <!-- PAGE CONTENT -->
+        <!-- ===================================================== -->
+
+        <content>
+
+            <VBox
+                class="poContent"
+                width="100%">
+
+
+                <!-- ================================================= -->
+                <!-- PAGE INTRO -->
+                <!-- ================================================= -->
+
+                <VBox
+                    class="poIntro">
+
+                    <Text
+                        text="Purchase Orders"
+                        class="poEyebrow" />
+
+                    <Title
+                        text="My Purchase Orders"
+                        level="H1"
+                        class="poPageTitle" />
+
+                    <Text
+                        text="View and manage purchase orders related to your supplier account."
+                        class="poPageSubtitle" />
+
+                </VBox>
+
+
+                <!-- ================================================= -->
+                <!-- SEARCH & FILTER CARD -->
+                <!-- ================================================= -->
+
+                <VBox
+                    class="poFilterCard">
+
+                    <!-- FILTER HEADER -->
+
+                    <HBox
+                        class="poFilterHeader"
+                        alignItems="Center">
+
+                        <VBox
+                            class="poFilterIconBox">
+
+                            <core:Icon
+                                src="sap-icon://filter"
+                                class="poFilterIcon" />
+
+                        </VBox>
+
+                        <VBox>
+
+                            <Title
+                                text="Search &amp; Filter"
+                                level="H3"
+                                class="poFilterTitle" />
+
+                            <Text
+                                text="Find and organize your purchase orders"
+                                class="poFilterSubtitle" />
+
+                        </VBox>
+
+                    </HBox>
+
+
+                    <!-- ================================================= -->
+                    <!-- FILTER FIELDS -->
+                    <!-- ================================================= -->
+
+                    <HBox
+                        wrap="Wrap"
+                        class="poFilterFields">
+
+
+                        <!-- SEARCH -->
+
+                        <VBox
+                            class="poFilterField poSearchField">
+
+                            <Label
+                                text="Search Purchase Order"
+                                class="poFieldLabel" />
+
+                            <SearchField
+                                id="poSearchField"
+                                width="100%"
+                                placeholder="Search by PO number..."
+                                liveChange=".onSearchPO"
+                                class="poSearchControl" />
+
+                        </VBox>
+
+
+                        <!-- STATUS -->
+
+                        <VBox
+                            class="poFilterField">
+
+                            <Label
+                                text="Status"
+                                class="poFieldLabel" />
+
+                            <Select
+                                id="statusFilter"
+                                width="100%"
+                                selectedKey="ALL"
+                                change=".onStatusFilterChange"
+                                class="poSelectControl">
+
+                                <items>
+
+                                    <core:Item
+                                        key="ALL"
+                                        text="All Statuses" />
+
+                                    <core:Item
+                                        key="OPEN"
+                                        text="Open" />
+
+                                    <core:Item
+                                        key="COMPLETED"
+                                        text="Completed" />
+
+                                </items>
+
+                            </Select>
+
+                        </VBox>
+
+
+                        <!-- DATE -->
+
+                        <VBox
+                            class="poFilterField">
+
+                            <Label
+                                text="Purchase Order Date"
+                                class="poFieldLabel" />
+
+                            <DatePicker
+                                id="poDateFilter"
+                                width="100%"
+                                placeholder="Select PO date..."
+                                change=".onDateFilterChange"
+                                class="poDateControl" />
+
+                        </VBox>
+
+
+                        <!-- SORT -->
+
+                        <VBox
+                            class="poFilterField">
+
+                            <Label
+                                text="Sort By"
+                                class="poFieldLabel" />
+
+                            <Select
+                                id="sortSelect"
+                                width="100%"
+                                selectedKey="NONE"
+                                change=".onSortChange"
+                                class="poSelectControl">
+
+                                <items>
+
+                                    <core:Item
+                                        key="NONE"
+                                        text="Default" />
+
+                                    <core:Item
+                                        key="PO_ASC"
+                                        text="PO Number ↑" />
+
+                                    <core:Item
+                                        key="PO_DESC"
+                                        text="PO Number ↓" />
+
+                                    <core:Item
+                                        key="DATE_ASC"
+                                        text="PO Date ↑" />
+
+                                    <core:Item
+                                        key="DATE_DESC"
+                                        text="PO Date ↓" />
+
+                                </items>
+
+                            </Select>
+
+                        </VBox>
+
+                    </HBox>
+
+
+                    <!-- ================================================= -->
+                    <!-- CLEAR FILTERS -->
+                    <!-- ================================================= -->
+
+                    <HBox
+                        class="poFilterActions"
+                        justifyContent="End">
+
+                        <Button
+                            text="Clear Filters"
+                            icon="sap-icon://clear-filter"
+                            type="Transparent"
+                            press=".onClearFilters"
+                            class="poClearButton" />
+
+                    </HBox>
+
+                </VBox>
+
+
+                <!-- ================================================= -->
+                <!-- PURCHASE ORDER TABLE CARD -->
+                <!-- ================================================= -->
+
+                <VBox
+                    class="poTableCard">
+
+
+                    <!-- ================================================= -->
+                    <!-- TABLE HEADER -->
+                    <!-- ================================================= -->
+
+                    <HBox
+                        class="poTableHeader"
+                        alignItems="Center">
+
+                        <VBox
+                            class="poTableIconBox">
+
+                            <core:Icon
+                                src="sap-icon://sales-order"
+                                class="poTableIcon" />
+
+                        </VBox>
+
+                        <VBox>
+
+                            <Title
+                                text="Purchase Orders"
+                                level="H3"
+                                class="poTableTitle" />
+
+                            <Text
+                                text="Your supplier purchase order history"
+                                class="poTableSubtitle" />
+
+                        </VBox>
+
+                        <ToolbarSpacer />
+
+                        <Button
+                            icon="sap-icon://refresh"
+                            tooltip="Refresh Purchase Orders"
+                            type="Transparent"
+                            press=".onRefresh"
+                            class="poTableRefreshButton" />
+
+                    </HBox>
+
+
+                    <!-- ================================================= -->
+                    <!-- PURCHASE ORDER TABLE -->
+                    <!-- ================================================= -->
+
+                    <Table
+                        id="purchaseOrderTable"
+                        growing="true"
+                        growingThreshold="20"
+                        noDataText="No Purchase Orders Found"
+                        items="{purchaseOrders>/value}"
+                        class="poTable">
+
+
+                        <!-- ================================================= -->
+                        <!-- COLUMNS -->
+                        <!-- ================================================= -->
+
+                        <columns>
+
+                            <Column>
+                                <Text
+                                    text="Purchase Order"
+                                    class="poColumnHeader" />
+                            </Column>
+
+                            <Column>
+                                <Text
+                                    text="Company Code"
+                                    class="poColumnHeader" />
+                            </Column>
+
+                            <Column>
+                                <Text
+                                    text="PO Type"
+                                    class="poColumnHeader" />
+                            </Column>
+
+                            <Column>
+                                <Text
+                                    text="Supplier"
+                                    class="poColumnHeader" />
+                            </Column>
+
+                            <Column>
+                                <Text
+                                    text="PO Date"
+                                    class="poColumnHeader" />
+                            </Column>
+
+                            <Column>
+                                <Text
+                                    text="Currency"
+                                    class="poColumnHeader" />
+                            </Column>
+
+                            <Column>
+                                <Text
+                                    text="Status"
+                                    class="poColumnHeader" />
+                            </Column>
+
+                        </columns>
+
+
+                        <!-- ================================================= -->
+                        <!-- TABLE ITEMS -->
+                        <!-- ================================================= -->
+
+                        <items>
+
+                            <ColumnListItem
+                                type="Navigation"
+                                press=".onPurchaseOrderPress"
+                                class="poTableRow">
+
+                                <cells>
+
+                                    <!-- PO NUMBER -->
+
+                                    <Text
+                                        text="{purchaseOrders>PurchaseOrder}"
+                                        class="poCellPrimary" />
+
+
+                                    <!-- COMPANY CODE -->
+
+                                    <Text
+                                        text="{purchaseOrders>CompanyCode}"
+                                        class="poCellText" />
+
+
+                                    <!-- PO TYPE -->
+
+                                    <Text
+                                        text="{purchaseOrders>PurchaseOrderType}"
+                                        class="poCellText" />
+
+
+                                    <!-- SUPPLIER -->
+
+                                    <Text
+                                        text="{purchaseOrders>Supplier}"
+                                        class="poCellText" />
+
+
+                                    <!-- DATE -->
+
+                                    <Text
+                                        text="{path: 'purchaseOrders>PurchaseOrderDate', formatter: '.formatDate'}"
+                                        class="poCellText" />
+
+
+                                    <!-- CURRENCY -->
+
+                                    <Text
+                                        text="{purchaseOrders>DocumentCurrency}"
+                                        class="poCellText" />
+
+
+                                    <!-- STATUS -->
+
+                                    <ObjectStatus
+                                        text="{
+                                            path: 'purchaseOrders>PurchasingProcessingStatus',
+                                            formatter: '.formatStatus'
+                                        }"
+                                        state="{
+                                            path: 'purchaseOrders>PurchasingProcessingStatus',
+                                            formatter: '.formatStatusState'
+                                        }"
+                                        class="poStatus" />
+
+                                </cells>
+
+                            </ColumnListItem>
+
+                        </items>
+
+                    </Table>
+
+                </VBox>
+
+
+                <!-- ================================================= -->
+                <!-- FOOTER STATUS -->
+                <!-- ================================================= -->
+
+                <HBox
+                    class="poStatusBar"
+                    alignItems="Center">
+
+                    <core:Icon
+                        src="sap-icon://locked"
+                        class="poStatusIcon" />
+
+                    <VBox>
+
+                        <Text
+                            text="Secure • Reliable • Connected"
+                            class="poStatusTitle" />
+
+                        <Text
+                            text="Your purchase orders are securely connected to S/4HANA."
+                            class="poStatusSubtitle" />
+
+                    </VBox>
+
+                </HBox>
+
+
+            </VBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

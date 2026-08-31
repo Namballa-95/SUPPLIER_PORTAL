@@ -1,0 +1,528 @@
+<mvc:View
+    controllerName="supplier.po.supplierportal.controller.Profile"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <Page
+        id="profilePage"
+        showNavButton="false"
+        class="supplierProfilePage">
+
+        <!-- ===================================================== -->
+        <!-- HEADER -->
+        <!-- ===================================================== -->
+
+        <customHeader>
+
+            <Bar class="profileHeaderBar">
+
+                <contentLeft>
+
+                    <Button
+                        icon="sap-icon://nav-back"
+                        type="Transparent"
+                        press=".onNavBack"
+                        class="profileBackButton" />
+
+                </contentLeft>
+
+                <contentMiddle>
+
+                    <Title
+                        text="My Profile"
+                        class="profileHeaderTitle" />
+
+                </contentMiddle>
+
+                <contentRight>
+
+                    <Button
+                        id="editProfileButton"
+                        text="Edit"
+                        icon="sap-icon://edit"
+                        type="Transparent"
+                        press=".onEditProfile"
+                        class="profileEditButton" />
+
+                </contentRight>
+
+            </Bar>
+
+        </customHeader>
+
+
+        <!-- ===================================================== -->
+        <!-- CONTENT -->
+        <!-- ===================================================== -->
+
+        <content>
+
+            <VBox
+                class="profileContent"
+                width="100%">
+
+
+                <!-- ================================================= -->
+                <!-- PROFILE HERO -->
+                <!-- ================================================= -->
+
+                <HBox
+                    class="profileHeroCard"
+                    alignItems="Center">
+
+                    <VBox
+                        class="profileAvatarBox">
+
+                        <core:Icon
+                            xmlns:core="sap.ui.core"
+                            src="sap-icon://employee"
+                            class="profileHeroIcon" />
+
+                    </VBox>
+
+
+                    <VBox
+                        class="profileHeroInfo">
+
+                        <Text
+                            text="Supplier Profile"
+                            class="profileEyebrow" />
+
+                        <Title
+                            text="{profile>/value/0/BusinessPartnerFullName}"
+                            level="H1"
+                            class="profileName" />
+
+                        <Text
+                            text="Business Partner • {profile>/value/0/BusinessPartner}"
+                            class="profileSubtitle" />
+
+                        <Text
+                            text="Supplier • {profile>/value/0/Supplier}"
+                            class="profileSupplierId" />
+
+                    </VBox>
+
+                </HBox>
+
+
+                <!-- ================================================= -->
+                <!-- BUSINESS PARTNER CARD -->
+                <!-- ================================================= -->
+
+                <VBox
+                    class="profileInfoCard profileBlueCard">
+
+                    <HBox
+                        class="profileCardTitleRow"
+                        alignItems="Center">
+
+                        <VBox
+                            class="profileSectionIcon blueIcon">
+
+                            <core:Icon
+                                xmlns:core="sap.ui.core"
+                                src="sap-icon://business-objects-experience"
+                                class="sectionIcon" />
+
+                        </VBox>
+
+                        <VBox>
+
+                            <Title
+                                text="Business Partner Information"
+                                level="H3"
+                                class="profileSectionTitle" />
+
+                            <Text
+                                text="Business partner identification and details"
+                                class="profileSectionSubtitle" />
+
+                        </VBox>
+
+                    </HBox>
+
+
+                    <HBox
+                        wrap="Wrap"
+                        class="profileFields">
+
+
+                        <VBox class="profileField">
+
+                            <Text
+                                text="Business Partner"
+                                class="profileFieldLabel" />
+
+                            <Text
+                                text="{profile>/value/0/BusinessPartner}"
+                                class="profileFieldValue" />
+
+                        </VBox>
+
+
+                        <VBox class="profileField">
+
+                            <Text
+                                text="Supplier"
+                                class="profileFieldLabel" />
+
+                            <Text
+                                text="{profile>/value/0/Supplier}"
+                                class="profileFieldValue" />
+
+                        </VBox>
+
+
+                        <VBox class="profileField">
+
+                            <Text
+                                text="Customer"
+                                class="profileFieldLabel" />
+
+                            <Text
+                                text="{profile>/value/0/Customer}"
+                                class="profileFieldValue" />
+
+                        </VBox>
+
+
+                        <VBox class="profileField">
+
+                            <Text
+                                text="Full Name"
+                                class="profileFieldLabel" />
+
+                            <Text
+                                text="{profile>/value/0/BusinessPartnerFullName}"
+                                class="profileFieldValue" />
+
+                        </VBox>
+
+
+                        <VBox class="profileField">
+
+                            <Text
+                                text="Business Partner Name"
+                                class="profileFieldLabel" />
+
+                            <Text
+                                text="{profile>/value/0/BusinessPartnerName}"
+                                class="profileFieldValue" />
+
+                        </VBox>
+
+
+                        <VBox class="profileField">
+
+                            <Text
+                                text="Category"
+                                class="profileFieldLabel" />
+
+                            <Text
+                                text="{profile>/value/0/BusinessPartnerCategory}"
+                                class="profileFieldValue" />
+
+                        </VBox>
+
+
+                        <VBox class="profileField">
+
+                            <Text
+                                text="Grouping"
+                                class="profileFieldLabel" />
+
+                            <Text
+                                text="{profile>/value/0/BusinessPartnerGrouping}"
+                                class="profileFieldValue" />
+
+                        </VBox>
+
+
+                        <VBox class="profileField">
+
+                            <Text
+                                text="Search Term 1"
+                                class="profileFieldLabel" />
+
+                            <Text
+                                text="{profile>/value/0/SearchTerm1}"
+                                class="profileFieldValue" />
+
+                        </VBox>
+
+
+                        <VBox class="profileField">
+
+                            <Text
+                                text="Search Term 2"
+                                class="profileFieldLabel" />
+
+                            <Text
+                                text="{profile>/value/0/SearchTerm2}"
+                                class="profileFieldValue" />
+
+                        </VBox>
+
+                    </HBox>
+
+                </VBox>
+
+
+                <!-- ================================================= -->
+                <!-- ADDRESS CARD -->
+                <!-- ================================================= -->
+
+                <VBox
+                    class="profileInfoCard profilePurpleCard">
+
+                    <HBox
+                        class="profileCardTitleRow"
+                        alignItems="Center">
+
+                        <VBox
+                            class="profileSectionIcon purpleIcon">
+
+                            <core:Icon
+                                xmlns:core="sap.ui.core"
+                                src="sap-icon://map"
+                                class="sectionIcon" />
+
+                        </VBox>
+
+                        <VBox>
+
+                            <Title
+                                text="Address"
+                                level="H3"
+                                class="profileSectionTitle" />
+
+                            <Text
+                                text="Registered supplier address"
+                                class="profileSectionSubtitle" />
+
+                        </VBox>
+
+                    </HBox>
+
+
+                    <HBox
+                        wrap="Wrap"
+                        class="profileFields">
+
+
+                        <VBox class="profileField">
+
+                            <Text
+                                text="Address ID"
+                                class="profileFieldLabel" />
+
+                            <Text
+                                text="{profile>/value/0/AddressID}"
+                                class="profileFieldValue" />
+
+                        </VBox>
+
+
+                        <VBox class="profileField">
+
+                            <Text
+                                text="Street"
+                                class="profileFieldLabel" />
+
+                            <Text
+                                text="{profile>/value/0/StreetName}"
+                                class="profileFieldValue" />
+
+                        </VBox>
+
+
+                        <VBox class="profileField">
+
+                            <Text
+                                text="House Number"
+                                class="profileFieldLabel" />
+
+                            <Text
+                                text="{profile>/value/0/HouseNumber}"
+                                class="profileFieldValue" />
+
+                        </VBox>
+
+
+                        <VBox class="profileField">
+
+                            <Text
+                                text="City"
+                                class="profileFieldLabel" />
+
+                            <Text
+                                text="{profile>/value/0/CityName}"
+                                class="profileFieldValue" />
+
+                        </VBox>
+
+
+                        <VBox class="profileField">
+
+                            <Text
+                                text="Postal Code"
+                                class="profileFieldLabel" />
+
+                            <Text
+                                text="{profile>/value/0/PostalCode}"
+                                class="profileFieldValue" />
+
+                        </VBox>
+
+
+                        <VBox class="profileField">
+
+                            <Text
+                                text="Region"
+                                class="profileFieldLabel" />
+
+                            <Text
+                                text="{profile>/value/0/Region}"
+                                class="profileFieldValue" />
+
+                        </VBox>
+
+
+                        <VBox class="profileField">
+
+                            <Text
+                                text="Country"
+                                class="profileFieldLabel" />
+
+                            <Text
+                                text="{profile>/value/0/Country}"
+                                class="profileFieldValue" />
+
+                        </VBox>
+
+                    </HBox>
+
+                </VBox>
+
+
+                <!-- ================================================= -->
+                <!-- CONTACT CARD -->
+                <!-- ================================================= -->
+
+                <VBox
+                    class="profileInfoCard profileGreenCard">
+
+                    <HBox
+                        class="profileCardTitleRow"
+                        alignItems="Center">
+
+                        <VBox
+                            class="profileSectionIcon greenIcon">
+
+                            <core:Icon
+                                xmlns:core="sap.ui.core"
+                                src="sap-icon://contacts"
+                                class="sectionIcon" />
+
+                        </VBox>
+
+                        <VBox>
+
+                            <Title
+                                text="Contact Information"
+                                level="H3"
+                                class="profileSectionTitle" />
+
+                            <Text
+                                text="Supplier communication details"
+                                class="profileSectionSubtitle" />
+
+                        </VBox>
+
+                    </HBox>
+
+
+                    <HBox
+                        wrap="Wrap"
+                        class="profileFields">
+
+
+                        <VBox class="profileField">
+
+                            <Text
+                                text="Email"
+                                class="profileFieldLabel" />
+
+                            <Text
+                                text="{profile>/value/0/Email}"
+                                class="profileFieldValue" />
+
+                        </VBox>
+
+
+                        <VBox class="profileField">
+
+                            <Text
+                                text="Phone"
+                                class="profileFieldLabel" />
+
+                            <Text
+                                text="{profile>/value/0/Phone}"
+                                class="profileFieldValue" />
+
+                        </VBox>
+
+
+                        <VBox class="profileField">
+
+                            <Text
+                                text="Mobile"
+                                class="profileFieldLabel" />
+
+                            <Text
+                                text="{profile>/value/0/Mobile}"
+                                class="profileFieldValue" />
+
+                        </VBox>
+
+                    </HBox>
+
+                </VBox>
+
+
+                <!-- ================================================= -->
+                <!-- SECURITY / STATUS -->
+                <!-- ================================================= -->
+
+                <HBox
+                    class="profileStatusBar"
+                    alignItems="Center">
+
+                    <core:Icon
+                        xmlns:core="sap.ui.core"
+                        src="sap-icon://locked"
+                        class="statusIcon" />
+
+                    <VBox>
+
+                        <Text
+                            text="Secure • Reliable • Connected"
+                            class="statusTitle" />
+
+                        <Text
+                            text="Your supplier profile is connected to S/4HANA."
+                            class="statusSubtitle" />
+
+                    </VBox>
+
+                </HBox>
+
+
+            </VBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

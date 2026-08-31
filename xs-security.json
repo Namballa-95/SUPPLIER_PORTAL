@@ -1,0 +1,20 @@
+{
+  "xsappname": "supplier-portal",
+  "tenant-mode": "dedicated",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.SupplierUser",
+      "description": "Supplier Portal User"
+    }
+  ],
+  "attributes": [],
+  "role-templates": [
+    {
+      "name": "SupplierUser",
+      "description": "Supplier Portal User",
+      "scope-references": [
+        "$XSAPPNAME.SupplierUser"
+      ]
+    }
+  ]
+}

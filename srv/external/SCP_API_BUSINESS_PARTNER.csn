@@ -1,0 +1,3705 @@
+{
+ "meta": {
+  "creator": "cds-dk 10.0.5"
+ },
+ "$version": "2.0",
+ "definitions": {
+  "SCP_API_BUSINESS_PARTNER": {
+   "kind": "service",
+   "@cds.external": true,
+   "@m.IsDefaultEntityContainer": "true"
+  },
+  "SCP_API_BUSINESS_PARTNER.Address": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "AddressType": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "PrfrdCommMediumType": {
+     "type": "cds.String",
+     "length": 3
+    },
+    "to_WorkplaceAddress": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.Workplace",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Email": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.EmailAddress",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_MobilePhone": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.PhoneNumber",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_LandlinePhone": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.PhoneNumber",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Fax": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.FaxNumber",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Web": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.Web",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_PostalAddress": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.PostalAddress",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Person": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.AddressPersonName",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Organization": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.AddressOrganizationName",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_DefaultPostalAddress": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.PostalAddress",
+     "keys": []
+    },
+    "to_DefaultEmail": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.EmailAddress",
+     "keys": []
+    },
+    "to_DefaultMobilePhone": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.PhoneNumber",
+     "keys": []
+    },
+    "to_DefaultLandlinePhone": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.PhoneNumber",
+     "keys": []
+    },
+    "to_DefaultFax": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.FaxNumber",
+     "keys": []
+    },
+    "to_DefaultWeb": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.Web",
+     "keys": []
+    },
+    "to_DefaultPerson": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.AddressPersonName",
+     "keys": []
+    },
+    "to_DefaultOrganization": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.AddressOrganizationName",
+     "keys": []
+    },
+    "to_DefaultWorkplaceAddress": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.Workplace",
+     "keys": []
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.AddressInformation",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.AddressIndependentCommunication": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "IsDeleted": {
+     "type": "cds.Boolean"
+    },
+    "CreatedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "CreationDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "LastChangeDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "ValidityStartDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "ValidityEndDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "AddressType": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "IsIndependent": {
+     "type": "cds.Boolean"
+    },
+    "PrfrdCommMediumType": {
+     "type": "cds.String",
+     "length": 3
+    },
+    "to_AddressIndependentLandlinePhone": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.AddressIndependentPhoneNumber",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_AddressIndependentMobilePhone": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.AddressIndependentPhoneNumber",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_AddressIndependentFax": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.AddressIndependentFaxNumber",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_AddressIndependentEmail": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.AddressIndependentEmail",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_AddressIndependentWeb": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.AddressIndependentWeb",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.AddressIndependentEmail": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "ValidityStartDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "ValidityEndDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "IsDefaultEmailAddress": {
+     "type": "cds.Boolean"
+    },
+    "EmailAddress": {
+     "type": "cds.String",
+     "length": 241
+    },
+    "UsageDeniedIndicator": {
+     "type": "cds.Boolean"
+    },
+    "AddressType": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "to_EmailNote": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.CommunicationDataText",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.AddressIndependentCommunication",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.AddressIndependentEmailAddressDummy": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "ValidityStartDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "ValidityEndDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "IsDefaultEmailAddress": {
+     "type": "cds.Boolean"
+    },
+    "EmailAddress": {
+     "type": "cds.String",
+     "length": 241
+    },
+    "UsageDeniedIndicator": {
+     "type": "cds.Boolean"
+    },
+    "AddressType": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "to_EmailNote": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.CommunicationDataText",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.AddressIndependentCommunication",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.AddressIndependentFaxNumber": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "ValidityStartDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "ValidityEndDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "IsDefaultFaxNumber": {
+     "type": "cds.Boolean"
+    },
+    "DestinationLocationCountry": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "Number": {
+     "type": "cds.String",
+     "length": 30
+    },
+    "NumberExtension": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "UsageDeniedIndicator": {
+     "type": "cds.Boolean"
+    },
+    "AddressType": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "to_FaxNote": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.CommunicationDataText",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.AddressIndependentCommunication",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.AddressIndependentFaxNumberDummy": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "ValidityStartDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "ValidityEndDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "IsDefaultFaxNumber": {
+     "type": "cds.Boolean"
+    },
+    "DestinationLocationCountry": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "Number": {
+     "type": "cds.String",
+     "length": 30
+    },
+    "NumberExtension": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "UsageDeniedIndicator": {
+     "type": "cds.Boolean"
+    },
+    "AddressType": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "to_FaxNote": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.CommunicationDataText",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.AddressIndependentCommunication",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.AddressIndependentPhoneNumber": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "ValidityStartDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "ValidityEndDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "IsDefaultPhoneNumber": {
+     "type": "cds.Boolean"
+    },
+    "DestinationLocationCountry": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "Number": {
+     "type": "cds.String",
+     "length": 30
+    },
+    "NumberType": {
+     "type": "cds.String",
+     "length": 1
+    },
+    "NumberExtension": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "UsageDeniedIndicator": {
+     "type": "cds.Boolean"
+    },
+    "SMSEnabledIndicator": {
+     "type": "cds.Boolean"
+    },
+    "AddressType": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "to_PhoneNote": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.CommunicationDataText",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.AddressIndependentCommunication",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.AddressIndependentPhoneNumberDummy": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "ValidityStartDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "ValidityEndDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "IsDefaultPhoneNumber": {
+     "type": "cds.Boolean"
+    },
+    "DestinationLocationCountry": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "Number": {
+     "type": "cds.String",
+     "length": 30
+    },
+    "NumberType": {
+     "type": "cds.String",
+     "length": 1
+    },
+    "NumberExtension": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "UsageDeniedIndicator": {
+     "type": "cds.Boolean"
+    },
+    "SMSEnabledIndicator": {
+     "type": "cds.Boolean"
+    },
+    "AddressType": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "to_PhoneNote": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.CommunicationDataText",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.AddressIndependentCommunication",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.AddressIndependentWeb": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "ValidityStartDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "ValidityEndDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "IsDefaultUri": {
+     "type": "cds.Boolean"
+    },
+    "UriType": {
+     "type": "cds.String",
+     "length": 3
+    },
+    "Uri": {
+     "type": "cds.String",
+     "length": 2048
+    },
+    "UsageDeniedIndicator": {
+     "type": "cds.Boolean"
+    },
+    "AddressType": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "to_WebNote": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.CommunicationDataText",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.AddressIndependentCommunication",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.AddressIndependentWebDummy": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "ValidityStartDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "ValidityEndDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "IsDefaultUri": {
+     "type": "cds.Boolean"
+    },
+    "UriType": {
+     "type": "cds.String",
+     "length": 3
+    },
+    "Uri": {
+     "type": "cds.String",
+     "length": 2048
+    },
+    "UsageDeniedIndicator": {
+     "type": "cds.Boolean"
+    },
+    "AddressType": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "to_WebNote": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.CommunicationDataText",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.AddressIndependentCommunication",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.AddressInformation": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "CreatedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "CreationDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "LastChangeDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "ValidityStartDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "ValidityEndDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "Address_Id": {
+     "type": "cds.UUID"
+    },
+    "IsDeleted": {
+     "type": "cds.Boolean"
+    },
+    "IsIndependent": {
+     "type": "cds.Boolean"
+    },
+    "to_AddressUsage": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.AddressUsage",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Address": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.Address",
+     "keys": []
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.BusinessPartner",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.AddressOrganizationName": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "CreatedByUser": {
+     "type": "cds.String",
+     "length": 12
+    },
+    "CreationDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 12
+    },
+    "LastChangeDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "ScriptCode": {
+     "type": "cds.String",
+     "length": 1
+    },
+    "FormOfAddress": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "LegalForm": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "FoundationDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "LiquidationDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "OrganizationName1": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "OrganizationName2": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "OrganizationName3": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "OrganizationName4": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.Address",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.AddressPersonName": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "CreatedByUser": {
+     "type": "cds.String",
+     "length": 12
+    },
+    "CreationDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 12
+    },
+    "LastChangeDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "ScriptCode": {
+     "type": "cds.String",
+     "length": 1
+    },
+    "FormOfAddress": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "Gender": {
+     "type": "cds.String",
+     "length": 1
+    },
+    "AcademicTitle": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "AdditionalAcademicTitle": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "LastNamePrefix": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "AdditionalNamePrefix": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "NameSupplement": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "NameCountry": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "NameFormat": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "FirstName": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "MiddleName": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "LastName": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "AdditionalLastName": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "BirthName": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "NickName": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "Initials": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "FullName": {
+     "type": "cds.String",
+     "length": 80
+    },
+    "BirthDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.Address",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.AddressUsage": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "CreatedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "CreationDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "LastChangeDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "ValidityStartDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "ValidityEndDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "AddressUsage": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "IsDefaultAddress": {
+     "type": "cds.Boolean"
+    },
+    "Root_Id": {
+     "type": "cds.UUID"
+    },
+    "Address_Id": {
+     "type": "cds.UUID"
+    },
+    "to_Address": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.Address",
+     "keys": []
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.AddressInformation",
+     "keys": []
+    },
+    "to_Root": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.BusinessPartner",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.BusinessPartner": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "CreatedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "CreationDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "LastChangeDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "BusinessPartner": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "Category": {
+     "type": "cds.String",
+     "length": 1
+    },
+    "FullName": {
+     "type": "cds.String",
+     "length": 80
+    },
+    "AuthorizationGroup": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "SearchTerm1": {
+     "type": "cds.String",
+     "length": 20
+    },
+    "SearchTerm2": {
+     "type": "cds.String",
+     "length": 20
+    },
+    "IsBlocked": {
+     "type": "cds.Boolean"
+    },
+    "IsMarkedForDeletion": {
+     "type": "cds.Boolean"
+    },
+    "IsReleased": {
+     "type": "cds.Boolean"
+    },
+    "IsBusinessPurposeCompleted": {
+     "type": "cds.Boolean"
+    },
+    "Language": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "CorrespondenceLanguage": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "Status": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "IsNaturalPerson": {
+     "type": "cds.Boolean"
+    },
+    "BusinessPartnerGrouping": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "IAMId": {
+     "type": "cds.String",
+     "length": 100
+    },
+    "ContactPermission": {
+     "type": "cds.String",
+     "length": 1
+    },
+    "BusinessPartnerPrintFormat": {
+     "type": "cds.Boolean"
+    },
+    "IsConsentGranted": {
+     "type": "cds.Boolean"
+    },
+    "to_Customer": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.Customer",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_AddressInformation": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.AddressInformation",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Person": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.PersonName",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Organization": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.OrganizationName",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Group": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.GroupName",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Identification": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.Identification",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_IndustrySector": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.IndustrySector",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Role": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.Role",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_AddressUsage": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.AddressUsage",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_TaxNumber": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.TaxNumber",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_DefaultIndustrySector": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.IndustrySector",
+     "keys": []
+    },
+    "to_DefaultPerson": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.PersonName",
+     "keys": []
+    },
+    "to_DefaultOrganization": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.OrganizationName",
+     "keys": []
+    },
+    "to_DefaultGroup": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.GroupName",
+     "keys": []
+    },
+    "to_CurrentAddressInformation": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.AddressInformation",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_CurrentDefaultAddressUsageCode": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.AddressUsage",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_CurrentDefaultAddressUsage": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.AddressUsage",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_BusinessPartnerRelationship": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.BusinessPartnerRelationship",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_HasContactPerson": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.BusinessPartnerRelationship",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_CurrentHasContactPerson": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.BusinessPartnerRelationship",
+     "keys": []
+    },
+    "to_CurrentDefaultHasContactPerson": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.BusinessPartnerRelationship",
+     "keys": []
+    },
+    "to_Supplier": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.Supplier",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Bank": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.BusinessPartnerBank",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_PaymentCard": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.PaymentCard",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_AddressIndependentCommunication": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.AddressIndependentCommunication",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.BusinessPartnerBank": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "CreatedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "CreationDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "LastChangeDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "BankIdentification": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "BankAccount": {
+     "type": "cds.String",
+     "length": 18
+    },
+    "BankCountryKey": {
+     "type": "cds.String",
+     "length": 3
+    },
+    "BankNumber": {
+     "type": "cds.String",
+     "length": 15
+    },
+    "BankControlKey": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "BankAccountName": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "BankAccountHolderName": {
+     "type": "cds.String",
+     "length": 60
+    },
+    "IBAN": {
+     "type": "cds.String",
+     "length": 34
+    },
+    "IBANValidityStartDate": {
+     "type": "cds.DateTime",
+     "@odata.Type": "Edm.DateTimeOffset"
+    },
+    "ValidityStartDate": {
+     "type": "cds.DateTime",
+     "@odata.Type": "Edm.DateTimeOffset"
+    },
+    "ValidityEndDate": {
+     "type": "cds.DateTime",
+     "@odata.Type": "Edm.DateTimeOffset"
+    },
+    "BankAccountReferenceText": {
+     "type": "cds.String",
+     "length": 20
+    },
+    "to_CountryCode": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.C_Countries",
+     "keys": []
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.BusinessPartner",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.BusinessPartnerRelationship": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "CreatedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "CreationDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "LastChangeDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "ValidityStartDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "ValidityEndDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "RelationshipCategory": {
+     "type": "cds.String",
+     "length": 6
+    },
+    "IsDefault": {
+     "type": "cds.Boolean"
+    },
+    "Status": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "FirstBusinessPartner_Id": {
+     "type": "cds.UUID"
+    },
+    "SecondBusinessPartner_Id": {
+     "type": "cds.UUID"
+    },
+    "IsDeleted": {
+     "type": "cds.Boolean"
+    },
+    "to_ContactPerson": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.ContactPerson",
+     "keys": []
+    },
+    "to_FirstBusinessPartner": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.BusinessPartner",
+     "keys": []
+    },
+    "to_SecondBusinessPartner": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.BusinessPartner",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.BusinessPartnerWhldgTax": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "CreatedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "CreationDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "LastChangeDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "WithholdingTaxType": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "WithholdingTaxCode": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "WithholdingTaxNumber": {
+     "type": "cds.String",
+     "length": 16
+    },
+    "WithholdingTaxCertificate": {
+     "type": "cds.String",
+     "length": 25
+    },
+    "WithholdingTaxExmptPercent": {
+     "type": "cds.Decimal",
+     "precision": 5,
+     "scale": 2
+    },
+    "ExemptionReason": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "ExemptionDateBegin": {
+     "type": "cds.DateTime",
+     "@odata.Type": "Edm.DateTimeOffset"
+    },
+    "ExemptionDateEnd": {
+     "type": "cds.DateTime",
+     "@odata.Type": "Edm.DateTimeOffset"
+    },
+    "RecipientType": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.SupplierCompany",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.C_Countries": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "BusConfignVersion": {
+     "key": true,
+     "type": "cds.Integer64",
+     "notNull": true
+    },
+    "CountryTwoLetterISOCode": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true
+    },
+    "CountryThreeLetterISOCode": {
+     "type": "cds.String",
+     "length": 3
+    },
+    "CountryThreeDigitISOCode": {
+     "type": "cds.String",
+     "length": 3
+    },
+    "text": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.CountryTexts",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "subdivision": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.Subdivisions",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "localised": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.CountryTexts",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.CommunicationDataText": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "CommunicationLanguage": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "remark": {
+     "type": "cds.String",
+     "length": 50
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.ContactPerson": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "CreatedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "CreationDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "LastChangeDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "VipPartner": {
+     "type": "cds.String",
+     "length": 1
+    },
+    "Department": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "PartnerFunction": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "PartnerAuthority": {
+     "type": "cds.String",
+     "length": 1
+    },
+    "Note": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "CustomerContactPerson": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "SupplierContactPerson": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.BusinessPartnerRelationship",
+     "keys": []
+    },
+    "to_WorkPlaceAddressInformation": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.WorkPlaceAddressInformation",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_CurrentDefaultWorkPlaceAddressInformation": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.WorkPlaceAddressInformation",
+     "keys": []
+    },
+    "to_Cwai": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.WorkPlaceAddressInformation",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.CountryTexts": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "BusConfignVersion": {
+     "key": true,
+     "type": "cds.Integer64",
+     "notNull": true
+    },
+    "CountryTwoLetterISOCode": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true
+    },
+    "LanguageTwoLetterISOCode": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true
+    },
+    "BusConfignIsDeleted": {
+     "type": "cds.Boolean"
+    },
+    "CountryISOShortName": {
+     "type": "cds.String",
+     "length": 100
+    },
+    "CountryISOFullName": {
+     "type": "cds.String",
+     "length": 200
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.Customer": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "CreatedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "CreationDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "LastChangeDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "Customer": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "CustomerCorporateGroup": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "CustomerAccountGroup": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "IsMarkedForDeletion": {
+     "type": "cds.Boolean"
+    },
+    "OrderIsBlockedForCustomer": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "BillingIsBlockedForCustomer": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "CustomerClassification": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "DeliveryIsBlockedForCustomer": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "NielsenRegion": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "SalesBlockForCustomer": {
+     "type": "cds.Boolean"
+    },
+    "IsStandardCustomer": {
+     "type": "cds.Boolean"
+    },
+    "Address_Id": {
+     "type": "cds.UUID"
+    },
+    "to_AddressInformation": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.AddressInformation",
+     "keys": []
+    },
+    "to_SalesArea": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.SalesArea",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_SalesTax": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.SalesTax",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.BusinessPartner",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.CustomerPartnerFunction": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "CreatedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "CreationDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "LastChangeDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "PartnerFunction": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "DefaultPartner": {
+     "type": "cds.Boolean"
+    },
+    "PartnerNumber": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "PartnerType": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "PartnerDescription": {
+     "type": "cds.String",
+     "length": 30
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.SalesArea",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.EmailAddress": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "ValidityStartDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "ValidityEndDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "IsDefaultEmailAddress": {
+     "type": "cds.Boolean"
+    },
+    "EmailAddress": {
+     "type": "cds.String",
+     "length": 241
+    },
+    "UsageDeniedIndicator": {
+     "type": "cds.Boolean"
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.Address",
+     "keys": []
+    },
+    "to_EmailNote": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.CommunicationDataText",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.FaxNumber": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "ValidityStartDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "ValidityEndDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "IsDefaultFaxNumber": {
+     "type": "cds.Boolean"
+    },
+    "DestinationLocationCountry": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "Number": {
+     "type": "cds.String",
+     "length": 30
+    },
+    "NumberExtension": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "UsageDeniedIndicator": {
+     "type": "cds.Boolean"
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.Address",
+     "keys": []
+    },
+    "to_FaxNote": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.CommunicationDataText",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.GroupName": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "CreatedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "CreationDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "LastChangeDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "ScriptCode": {
+     "type": "cds.String",
+     "length": 1
+    },
+    "BusinessPartnerGroupName1": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "BusinessPartnerGroupName2": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "BusinessPartnerGroupType": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.BusinessPartner",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.Identification": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "CreatedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "CreationDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "LastChangeDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "ValidityStartDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "ValidityEndDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "IdentificationNumber": {
+     "type": "cds.String",
+     "length": 60
+    },
+    "IdentificationType": {
+     "type": "cds.String",
+     "length": 6
+    },
+    "EntryDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "Country": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "Region": {
+     "type": "cds.String",
+     "length": 3
+    },
+    "Institute": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.BusinessPartner",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.IndustrySector": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "CreatedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "CreationDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "LastChangeDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "IndustrySector": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "IndustrySystemType": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "IsDefaultIndustry": {
+     "type": "cds.Boolean"
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.BusinessPartner",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.OrganizationName": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "CreatedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "CreationDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "LastChangeDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "ScriptCode": {
+     "type": "cds.String",
+     "length": 1
+    },
+    "FormOfAddress": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "LegalForm": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "FoundationDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "LiquidationDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "OrganizationName1": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "OrganizationName2": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "OrganizationName3": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "OrganizationName4": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.BusinessPartner",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.PaymentCard": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "CreatedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "CreationDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "LastChangeDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "ValidityStartDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "ValidityEndDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "PaymentCardID": {
+     "type": "cds.String",
+     "length": 6
+    },
+    "PaymentCardType": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "PaymentCardNumber": {
+     "type": "cds.String",
+     "length": 25
+    },
+    "IsStandardCard": {
+     "type": "cds.Boolean"
+    },
+    "CardDescription": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "CardHolder": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "CardIssuingBank": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "CardCategory": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "PaymentCardLock": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "CardIssueDate": {
+     "type": "cds.DateTime",
+     "@odata.Type": "Edm.DateTimeOffset"
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.BusinessPartner",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.PersonName": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "CreatedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "CreationDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "LastChangeDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "ScriptCode": {
+     "type": "cds.String",
+     "length": 1
+    },
+    "FormOfAddress": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "Gender": {
+     "type": "cds.String",
+     "length": 1
+    },
+    "Nationality": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "AcademicTitle": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "AdditionalAcademicTitle": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "LastNamePrefix": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "AdditionalNamePrefix": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "NameSupplement": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "NameCountry": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "NameFormat": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "FirstName": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "MiddleName": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "LastName": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "AdditionalLastName": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "BirthName": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "NickName": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "Initials": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "BirthDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "MaritalStatus": {
+     "type": "cds.String",
+     "length": 1
+    },
+    "NaturalPersonEmployerName": {
+     "type": "cds.String",
+     "length": 35
+    },
+    "BusinessPartnerOccupationGroup": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "BusinessPartnerBirthplaceName": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "BusinessPartnerDeathDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.BusinessPartner",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.PhoneNumber": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "ValidityStartDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "ValidityEndDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "IsDefaultPhoneNumber": {
+     "type": "cds.Boolean"
+    },
+    "DestinationLocationCountry": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "Number": {
+     "type": "cds.String",
+     "length": 30
+    },
+    "NumberType": {
+     "type": "cds.String",
+     "length": 1
+    },
+    "NumberExtension": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "UsageDeniedIndicator": {
+     "type": "cds.Boolean"
+    },
+    "SMSEnabledIndicator": {
+     "type": "cds.Boolean"
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.Address",
+     "keys": []
+    },
+    "to_PhoneNote": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.CommunicationDataText",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.PostalAddress": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "ScriptCode": {
+     "type": "cds.String",
+     "length": 1
+    },
+    "CorrespondenceLanguage": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "PoBox": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "PoBoxIsWithoutNumber": {
+     "type": "cds.Boolean"
+    },
+    "PoBoxPostalCode": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "PoBoxDeviatingCountry": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "PoBoxDeviatingRegion": {
+     "type": "cds.String",
+     "length": 3
+    },
+    "PostalCode": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "CompanyPostalCode": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "StreetName": {
+     "type": "cds.String",
+     "length": 60
+    },
+    "StreetPrefixName": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "AdditionalStreetPrefixName": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "StreetSuffixName": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "AdditionalStreetSuffixName": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "HouseNumber": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "HouseNumberSupplementText": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "CityCode": {
+     "type": "cds.String",
+     "length": 12
+    },
+    "CityName": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "AdditionalCityName": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "District": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "Country": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "Region": {
+     "type": "cds.String",
+     "length": 3
+    },
+    "AddressTimeZone": {
+     "type": "cds.String",
+     "length": 6
+    },
+    "County": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "Building": {
+     "type": "cds.String",
+     "length": 20
+    },
+    "Floor": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "RoomNumber": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "CareOfName": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "PoBoxLobbyName": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "PoBoxDeviatingCityName": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "Latitude": {
+     "type": "cds.Decimal",
+     "precision": 15,
+     "scale": 12
+    },
+    "Longitude": {
+     "type": "cds.Decimal",
+     "precision": 15,
+     "scale": 12
+    },
+    "DeliveryServiceNumber": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "DeliveryServiceTypeCode": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.Address",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.Role": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "CreatedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "CreationDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "LastChangeDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "ValidityStartDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "ValidityEndDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "Role": {
+     "type": "cds.String",
+     "length": 6
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.BusinessPartner",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.SalesArea": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "CreatedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "CreationDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "LastChangeDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "SalesOrganization": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "DistributionChannel": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "Division": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "IsMarkedForDeletion": {
+     "type": "cds.Boolean"
+    },
+    "OrderIsBlockedForCustomer": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "DeliveryIsBlockedForCustomer": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "BillingIsBlockedForCustomer": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "CompleteDeliveryIsDefined": {
+     "type": "cds.Boolean"
+    },
+    "PartialDeliveryIsAllowed": {
+     "type": "cds.String",
+     "length": 1
+    },
+    "IncotermsClassification": {
+     "type": "cds.String",
+     "length": 3
+    },
+    "IncotermsTransferLocation": {
+     "type": "cds.String",
+     "length": 28
+    },
+    "Currency": {
+     "type": "cds.String",
+     "length": 5
+    },
+    "PaymentTerms": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "CustomerPriceGroup": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "CustomerGroup": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "DeliveryPriority": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "SalesGroup": {
+     "type": "cds.String",
+     "length": 3
+    },
+    "SalesOffice": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "SalesBlockForCustomer": {
+     "type": "cds.Boolean"
+    },
+    "to_CustomerPartnerFunction": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.CustomerPartnerFunction",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.Customer",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.SalesTax": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "CreatedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "CreationDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "LastChangeDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "Country": {
+     "type": "cds.String",
+     "length": 3
+    },
+    "TaxCategory": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "TaxClassification": {
+     "type": "cds.String",
+     "length": 1
+    },
+    "Customer_Id": {
+     "type": "cds.UUID"
+    },
+    "to_Customer": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.Customer",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.SubdivisionTexts": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "BusConfignVersion": {
+     "key": true,
+     "type": "cds.Integer64",
+     "notNull": true
+    },
+    "CountryTwoLetterISOCode": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true
+    },
+    "CountrySubdivision": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true
+    },
+    "LanguageTwoLetterISOCode": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true
+    },
+    "BusConfignIsDeleted": {
+     "type": "cds.Boolean"
+    },
+    "CountrySubdivisionName": {
+     "type": "cds.String",
+     "length": 100
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.Subdivisions": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "elements": {
+    "BusConfignVersion": {
+     "key": true,
+     "type": "cds.Integer64",
+     "notNull": true
+    },
+    "CountryTwoLetterISOCode": {
+     "key": true,
+     "type": "cds.String",
+     "length": 2,
+     "notNull": true
+    },
+    "CountrySubdivision": {
+     "key": true,
+     "type": "cds.String",
+     "length": 3,
+     "notNull": true
+    },
+    "BusConfignIsDeleted": {
+     "type": "cds.Boolean"
+    },
+    "CountrySubdivisionType": {
+     "type": "cds.String",
+     "length": 50
+    },
+    "CountrySubdivisionRegionaldivision": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "CountrySubdivisionRomanizationSystem": {
+     "type": "cds.String",
+     "length": 200
+    },
+    "subdivisionText": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.SubdivisionTexts",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "localisedSubdivision": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.SubdivisionTexts",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.Supplier": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "CreatedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "CreationDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "LastChangeDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "Supplier": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "Customer": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "ResponsibleType": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "SupplierAccountGroup": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "DeletionIndicator": {
+     "type": "cds.Boolean"
+    },
+    "PostingIsBlocked": {
+     "type": "cds.Boolean"
+    },
+    "VATLiability": {
+     "type": "cds.Boolean"
+    },
+    "IsStandardSupplier": {
+     "type": "cds.Boolean"
+    },
+    "Address_Id": {
+     "type": "cds.UUID"
+    },
+    "AlternativePayee": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "PaymentIsBlockedForSupplier": {
+     "type": "cds.Boolean"
+    },
+    "PurchasingIsBlocked": {
+     "type": "cds.Boolean"
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.BusinessPartner",
+     "keys": []
+    },
+    "to_AddressInformation": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.AddressInformation",
+     "keys": []
+    },
+    "to_CompanyCode": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.SupplierCompany",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_SupplierPurchasing": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.SupplierPurchasingOrg",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.SupplierCompany": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "CreatedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "CreationDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "LastChangeDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "CompanyCode": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "ReconciliationAccount": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "LayoutSortingRule": {
+     "type": "cds.String",
+     "length": 3
+    },
+    "MinorityGroup": {
+     "type": "cds.String",
+     "length": 3
+    },
+    "DeletionIndicator": {
+     "type": "cds.Boolean"
+    },
+    "SupplierIsBlockedForPosting": {
+     "type": "cds.Boolean"
+    },
+    "PaymentBlockingReason": {
+     "type": "cds.String",
+     "length": 1
+    },
+    "PaymentTerms": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "IsDoubleInvoice": {
+     "type": "cds.Boolean"
+    },
+    "PaymentMethodsList": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "HouseBank": {
+     "type": "cds.String",
+     "length": 5
+    },
+    "CashPlanningGroup": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "AccountingClerk": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "AccountingClerkInternetAddress": {
+     "type": "cds.String",
+     "length": 130
+    },
+    "AccountingClerkPhoneNumber": {
+     "type": "cds.String",
+     "length": 30
+    },
+    "AlternativePayee": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "APARToleranceGroup": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "ClearCustomerSupplier": {
+     "type": "cds.Boolean"
+    },
+    "to_WithholdingTax": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.BusinessPartnerWhldgTax",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.Supplier",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.SupplierPartnerFunction": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "CreatedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "CreationDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "LastChangeDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "PartnerFunction": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "DefaultPartner": {
+     "type": "cds.Boolean"
+    },
+    "PartnerNumber": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "PartnerType": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "PartnerDescription": {
+     "type": "cds.String",
+     "length": 30
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.SupplierPurchasingOrg",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.SupplierPurchasingOrg": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "CreatedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "CreationDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "LastChangeDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "PurchasingOrganization": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "PurchaseOrderCurrency": {
+     "type": "cds.String",
+     "length": 3
+    },
+    "PaymentTerms": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "IncotermsClassification": {
+     "type": "cds.String",
+     "length": 3
+    },
+    "IncotermsTransferLocation": {
+     "type": "cds.String",
+     "length": 28
+    },
+    "CalculationSchemaGroupCode": {
+     "type": "cds.String",
+     "length": 2
+    },
+    "PurchasingGroup": {
+     "type": "cds.String",
+     "length": 3
+    },
+    "PurchasingIsBlockedForSupplier": {
+     "type": "cds.Boolean"
+    },
+    "DeletionIndicator": {
+     "type": "cds.Boolean"
+    },
+    "PurOrdAutoGenerationIsAllowed": {
+     "type": "cds.Boolean"
+    },
+    "SupplierABCClassificationCode": {
+     "type": "cds.String",
+     "length": 1
+    },
+    "to_SupplierPartnerFunction": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.SupplierPartnerFunction",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.Supplier",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.TaxNumber": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "CreatedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "CreationDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "LastChangeDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "TaxNumberCategory": {
+     "type": "cds.String",
+     "length": 4
+    },
+    "TaxNumber": {
+     "type": "cds.String",
+     "length": 60
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.BusinessPartner",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.Web": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "ValidityStartDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "ValidityEndDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "IsDefaultUri": {
+     "type": "cds.Boolean"
+    },
+    "UriType": {
+     "type": "cds.String",
+     "length": 3
+    },
+    "Uri": {
+     "type": "cds.String",
+     "length": 2048
+    },
+    "UsageDeniedIndicator": {
+     "type": "cds.Boolean"
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.Address",
+     "keys": []
+    },
+    "to_WebNote": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.CommunicationDataText",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.WorkPlaceAddressInformation": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "CreatedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "CreationDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "LastChangedByUser": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "LastChangeDate": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "ValidityStartDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "ValidityEndDate": {
+     "type": "cds.Date",
+     "@sap.display.format": "Date"
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "WorkplaceAddress_Id": {
+     "type": "cds.UUID"
+    },
+    "OrganizationAddress_Id": {
+     "type": "cds.UUID"
+    },
+    "IsDefaultAddress": {
+     "type": "cds.Boolean"
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.ContactPerson",
+     "keys": []
+    },
+    "to_WorkplaceAddress": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.Address",
+     "keys": []
+    },
+    "to_OrganizationAddress": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.Address",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.Workplace": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.searchable": "true",
+   "elements": {
+    "Id": {
+     "key": true,
+     "type": "cds.UUID",
+     "notNull": true
+    },
+    "Parent_Id": {
+     "type": "cds.UUID"
+    },
+    "ScriptCode": {
+     "type": "cds.String",
+     "length": 1
+    },
+    "FunctionalTitleName": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "DepartmentName": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "Building": {
+     "type": "cds.String",
+     "length": 20
+    },
+    "Floor": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "Room": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "CorrespondenceShortName": {
+     "type": "cds.String",
+     "length": 30
+    },
+    "to_Parent": {
+     "type": "cds.Association",
+     "target": "SCP_API_BUSINESS_PARTNER.Address",
+     "keys": []
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.BusinessPartnerWithConsent": {
+   "kind": "type",
+   "@cds.external": true,
+   "elements": {
+    "Id": {
+     "type": "cds.UUID"
+    },
+    "BusinessPartnerCategory": {
+     "type": "cds.String",
+     "length": 1
+    },
+    "BusinessPartnerNumber": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "OrganizationName1": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "LastName": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "ConsentTemplateName": {
+     "type": "cds.String",
+     "length": 30
+    },
+    "ConsentTemplateId": {
+     "type": "cds.UUID"
+    },
+    "ConsentId": {
+     "type": "cds.UUID"
+    }
+   }
+  },
+  "SCP_API_BUSINESS_PARTNER.CreateBusinessPartnerWithConsent": {
+   "kind": "action",
+   "@cds.external": true,
+   "params": {
+    "DataSubjectId": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "TemplateName": {
+     "type": "cds.String",
+     "length": 30,
+     "notNull": true
+    },
+    "LanguageCode": {
+     "type": "cds.String",
+     "length": 5,
+     "notNull": true
+    },
+    "DataSubjectTypeName": {
+     "type": "cds.String",
+     "length": 30,
+     "notNull": true
+    },
+    "DataSubjectDescription": {
+     "type": "cds.String",
+     "length": 255
+    },
+    "ValidFrom": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "GrantedBy": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "GrantedAt": {
+     "type": "cds.Timestamp",
+     "@odata.Type": "Edm.DateTimeOffset",
+     "@odata.Precision": 7
+    },
+    "SubmissionSite": {
+     "type": "cds.String",
+     "length": 128
+    },
+    "BusinessPartner": {
+     "type": "cds.String",
+     "length": 10
+    },
+    "AuthorizationGroup": {
+     "type": "cds.String",
+     "length": 4,
+     "notNull": true
+    },
+    "Category": {
+     "type": "cds.String",
+     "length": 1,
+     "notNull": true
+    },
+    "LastName": {
+     "type": "cds.String",
+     "length": 40
+    },
+    "OrganizationName": {
+     "type": "cds.String",
+     "length": 40
+    }
+   },
+   "returns": {
+    "items": {
+     "type": "SCP_API_BUSINESS_PARTNER.BusinessPartnerWithConsent"
+    }
+   }
+  }
+ }
+}

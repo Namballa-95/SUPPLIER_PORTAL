@@ -1,0 +1,131 @@
+<mvc:View
+    controllerName="supplier.po.supplierportal.controller.PurchaseOrderDetail"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <Page
+        id="purchaseOrderDetailPage"
+        title="Purchase Order Details"
+        showNavButton="true"
+        navButtonPress=".onNavBack">
+
+        <content>
+
+            <VBox class="sapUiMediumMargin">
+
+                <ObjectHeader
+                    title="{poDetail>/PurchaseOrder}"
+                    intro="Purchase Order">
+
+                    <attributes>
+
+                        <ObjectAttribute
+                            title="Company Code"
+                            text="{poDetail>/CompanyCode}" />
+
+                        <ObjectAttribute
+                            title="PO Type"
+                            text="{poDetail>/PurchaseOrderType}" />
+
+                        <ObjectAttribute
+                            title="Supplier"
+                            text="{poDetail>/Supplier}" />
+
+                        <ObjectAttribute
+                            title="Currency"
+                            text="{poDetail>/DocumentCurrency}" />
+
+                        <ObjectAttribute
+                            title="Status"
+                            text="{poDetail>/PurchasingProcessingStatus}" />
+
+                    </attributes>
+
+                </ObjectHeader>
+
+
+                <Title
+                    text="Purchase Order Items"
+                    level="H2"
+                    class="sapUiMediumMarginTop sapUiSmallMarginBottom" />
+
+
+                <Table
+                    id="itemsTable"
+                    items="{poItems>/value}"
+                    noDataText="No Purchase Order Items Found">
+
+                    <columns>
+
+                        <Column>
+                            <Text text="Item" />
+                        </Column>
+
+                        <Column>
+                            <Text text="Description" />
+                        </Column>
+
+                        <Column>
+                            <Text text="Quantity" />
+                        </Column>
+
+                        <Column>
+                            <Text text="Unit" />
+                        </Column>
+
+                        <Column>
+                            <Text text="Net Price" />
+                        </Column>
+
+                        <Column>
+                            <Text text="Material" />
+                        </Column>
+
+                        <Column>
+                            <Text text="Plant" />
+                        </Column>
+
+                    </columns>
+
+                    <items>
+
+                        <ColumnListItem>
+
+                            <cells>
+
+                                <Text
+                                    text="{poItems>PurchaseOrderItem}" />
+
+                                <Text
+                                    text="{poItems>PurchaseOrderItemText}" />
+
+                                <Text
+                                    text="{poItems>OrderQuantity}" />
+
+                                <Text
+                                    text="{poItems>PurchaseOrderQuantityUnit}" />
+
+                                <Text
+                                    text="{poItems>NetPriceAmount}" />
+
+                                <Text
+                                    text="{poItems>Material}" />
+
+                                <Text
+                                    text="{poItems>Plant}" />
+
+                            </cells>
+
+                        </ColumnListItem>
+
+                    </items>
+
+                </Table>
+
+            </VBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

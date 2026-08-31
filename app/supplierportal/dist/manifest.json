@@ -1,0 +1,137 @@
+{
+	"_version": "1.86.0",
+	"sap.app": {
+		"id": "supplier.po.supplierportal",
+		"type": "application",
+		"i18n": {
+			"bundleUrl": "i18n/i18n.properties",
+			"supportedLocales": [
+				""
+			]
+		},
+		"applicationVersion": {
+			"version": "0.0.1"
+		},
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"resources": "resources.json",
+		"sourceTemplate": {
+			"id": "@sap/generator-fiori:basic",
+			"version": "1.31.1",
+			"toolsId": "7de7479a-4a02-4da9-9fd1-f7b93b9ee951"
+		},
+		"dataSources": {
+			"mainService": {
+				"uri": "/bp/",
+				"type": "OData",
+				"settings": {
+					"annotations": [],
+					"odataVersion": "4.0"
+				}
+			}
+		}
+	},
+	"sap.ui": {
+		"technology": "UI5",
+		"icons": {
+			"icon": "",
+			"favIcon": "",
+			"phone": "",
+			"phone@2": "",
+			"tablet": "",
+			"tablet@2": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		}
+	},
+	"sap.ui5": {
+		"flexEnabled": true,
+		"dependencies": {
+			"minUI5Version": "1.151.0",
+			"libs": {
+				"sap.m": {},
+				"sap.ui.core": {}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "supplier.po.supplierportal.i18n.i18n",
+					"supportedLocales": [
+						""
+					]
+				}
+			},
+			"": {
+				"dataSource": "mainService",
+				"preload": true,
+				"settings": {
+					"operationMode": "Server",
+					"autoExpandSelect": true,
+					"earlyRequests": true
+				}
+			}
+		},
+		"resources": {
+			"css": [
+				{
+					"uri": "css/style.css"
+				}
+			]
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"controlAggregation": "pages",
+				"controlId": "app",
+				"transition": "slide",
+				"type": "View",
+				"viewType": "XML",
+				"path": "supplier.po.supplierportal.view",
+				"async": true,
+				"viewPath": "supplier.po.supplierportal.view"
+			},
+			"routes": [
+				{
+					"name": "RoutePurchaseOrder",
+					"pattern": ":?query:",
+					"target": [
+						"TargetPurchaseOrder"
+					]
+				},
+				{
+					"name": "RoutePurchaseOrderDetail",
+					"pattern": "purchaseOrder/{BusinessPartner}/{PurchaseOrder}",
+					"target": [
+						"TargetPurchaseOrderDetail"
+					]
+				}
+			],
+			"targets": {
+				"TargetPurchaseOrder": {
+					"id": "PurchaseOrder",
+					"name": "PurchaseOrder"
+				},
+				"TargetPurchaseOrderDetail": {
+					"id": "PurchaseOrderDetail",
+					"name": "PurchaseOrderDetail"
+				}
+			}
+		},
+		"rootView": {
+			"viewName": "supplier.po.supplierportal.view.App",
+			"type": "XML",
+			"id": "App",
+			"async": true
+		},
+		"flexBundle": false
+	}
+}

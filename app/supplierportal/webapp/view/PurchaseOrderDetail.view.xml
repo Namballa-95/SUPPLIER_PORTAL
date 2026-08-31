@@ -1,0 +1,381 @@
+<mvc:View
+    controllerName="supplier.po.supplierportal.controller.PurchaseOrderDetail"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+>
+    <Page
+        id="purchaseOrderDetailPage"
+        title="Purchase Order Details"
+        showNavButton="true"
+        navButtonPress=".onNavBack"
+    >
+        <headerContent>
+            <Button
+                icon="sap-icon://print"
+                text="Print"
+                tooltip="Print Purchase Order"
+                press=".onPrintPurchaseOrder"
+            />
+
+            <Button
+                icon="sap-icon://email"
+                text="Send PO"
+                tooltip="Send Purchase Order"
+                press=".onSendPurchaseOrder"
+            />
+
+            <Button
+                icon="sap-icon://refresh"
+                text="Refresh"
+                tooltip="Refresh latest Purchase Order status"
+                press=".onRefreshPurchaseOrder"
+            />
+        </headerContent>
+
+        <content>
+            <VBox class="sapUiMediumMargin">
+                <!-- ================================================= -->
+                <!-- PURCHASE ORDER HEADER -->
+                <!-- ================================================= -->
+
+                <ObjectHeader
+                    title="{poDetail>/PurchaseOrder}"
+                    intro="Purchase Order"
+                >
+                    <attributes>
+                        <ObjectAttribute
+                            title="Company Code"
+                            text="{poDetail>/CompanyCode}"
+                        />
+
+                        <ObjectAttribute
+                            title="PO Type"
+                            text="{poDetail>/PurchaseOrderType}"
+                        />
+
+                        <ObjectAttribute
+                            title="Supplier"
+                            text="{poDetail>/Supplier}"
+                        />
+
+                        <ObjectAttribute
+                            title="Currency"
+                            text="{poDetail>/DocumentCurrency}"
+                        />
+
+                        <ObjectAttribute
+                            title="PO Date"
+                            text="{
+                                path: 'poDetail>/PurchaseOrderDate',
+                                formatter: '.formatDate'
+                            }"
+                        />
+                    </attributes>
+
+                    <statuses>
+                        <ObjectStatus
+                            title="Status"
+                            text="{
+                                path: 'poDetail>/PurchasingProcessingStatus',
+                                formatter: '.formatPOStatus'
+                            }"
+                            state="{
+                                path: 'poDetail>/PurchasingProcessingStatus',
+                                formatter: '.formatPOStatusState'
+                            }"
+                        />
+                    </statuses>
+                </ObjectHeader>
+
+                <!-- ================================================= -->
+                <!-- PURCHASING INFORMATION -->
+                <!-- ================================================= -->
+
+                <Panel
+                    headerText="Purchasing Information"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiMediumMarginTop"
+                >
+                    <content>
+                        <VBox class="sapUiMediumMargin">
+                            <HBox wrap="Wrap">
+                                <VBox
+                                    class="sapUiMediumMarginEnd sapUiSmallMarginBottom"
+                                >
+                                    <Label text="Purchasing Organization" />
+
+                                    <Text
+                                        text="{poDetail>/PurchasingOrganization}"
+                                    />
+                                </VBox>
+
+                                <VBox
+                                    class="sapUiMediumMarginEnd sapUiSmallMarginBottom"
+                                >
+                                    <Label text="Purchasing Group" />
+
+                                    <Text text="{poDetail>/PurchasingGroup}" />
+                                </VBox>
+
+                                <VBox
+                                    class="sapUiMediumMarginEnd sapUiSmallMarginBottom"
+                                >
+                                    <Label text="Payment Terms" />
+
+                                    <Text text="{poDetail>/PaymentTerms}" />
+                                </VBox>
+
+                                <VBox
+                                    class="sapUiMediumMarginEnd sapUiSmallMarginBottom"
+                                >
+                                    <Label text="Created By" />
+
+                                    <Text text="{poDetail>/CreatedByUser}" />
+                                </VBox>
+                            </HBox>
+                        </VBox>
+                    </content>
+                </Panel>
+
+                <!-- ================================================= -->
+                <!-- SUPPLIER INFORMATION -->
+                <!-- ================================================= -->
+
+                <Panel
+                    headerText="Supplier Information"
+                    expandable="true"
+                    expanded="false"
+                    class="sapUiMediumMarginTop"
+                >
+                    <content>
+                        <VBox class="sapUiMediumMargin">
+                            <HBox wrap="Wrap">
+                                <VBox
+                                    class="sapUiMediumMarginEnd sapUiSmallMarginBottom"
+                                >
+                                    <Label text="Supplier" />
+
+                                    <Text text="{poDetail>/Supplier}" />
+                                </VBox>
+
+                                <VBox
+                                    class="sapUiMediumMarginEnd sapUiSmallMarginBottom"
+                                >
+                                    <Label text="Supplier Name" />
+
+                                    <Text text="{poDetail>/AddressName}" />
+                                </VBox>
+
+                                <VBox
+                                    class="sapUiMediumMarginEnd sapUiSmallMarginBottom"
+                                >
+                                    <Label text="City" />
+
+                                    <Text text="{poDetail>/AddressCityName}" />
+                                </VBox>
+
+                                <VBox
+                                    class="sapUiMediumMarginEnd sapUiSmallMarginBottom"
+                                >
+                                    <Label text="Country" />
+
+                                    <Text text="{poDetail>/AddressCountry}" />
+                                </VBox>
+                            </HBox>
+                        </VBox>
+                    </content>
+                </Panel>
+
+                <!-- ===================================================== -->
+                <!-- DELIVERY / GOODS RECEIPT -->
+                <!-- ===================================================== -->
+
+                <Panel
+                    headerText="📦 Delivery / Goods Receipt"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiSmallMarginTop"
+                >
+                    <VBox class="sapUiMediumMargin">
+                        <!-- ORDER QUANTITY -->
+
+                        <HBox class="sapUiSmallMarginBottom">
+                            <Label
+                                text="Order Quantity"
+                                width="220px"
+                            />
+
+                            <Text
+                                text="{
+                    parts: [
+                        'poDetail>/OrderQuantity',
+                        'poDetail>/PurchaseOrderQuantityUnit'
+                    ],
+                    formatter: '.formatQuantity'
+                }"
+                            />
+                        </HBox>
+
+                        <!-- GOODS RECEIPT EXPECTED -->
+
+                        <HBox class="sapUiSmallMarginBottom">
+                            <Label
+                                text="Goods Receipt"
+                                width="220px"
+                            />
+
+                            <ObjectStatus
+                                text="{
+                    path: 'poDetail>/GoodsReceiptIsExpected',
+                    formatter: '.formatGoodsReceiptExpected'
+                }"
+                                state="{
+                    path: 'poDetail>/GoodsReceiptIsExpected',
+                    formatter: '.formatGoodsReceiptExpectedState'
+                }"
+                            />
+                        </HBox>
+
+                        <!-- DELIVERY STATUS -->
+
+                        <HBox>
+                            <Label
+                                text="Delivery Status"
+                                width="220px"
+                            />
+
+                            <ObjectStatus
+                                icon="sap-icon://shipping-status"
+                                text="{
+                    path: 'poDetail>/IsCompletelyDelivered',
+                    formatter: '.formatDeliveryStatus'
+                }"
+                                state="{
+                    path: 'poDetail>/IsCompletelyDelivered',
+                    formatter: '.formatDeliveryStatusState'
+                }"
+                            />
+                        </HBox>
+                    </VBox>
+                </Panel>
+
+                <!-- ================================================= -->
+                <!-- PURCHASE ORDER ITEMS -->
+                <!-- ================================================= -->
+
+                <Title
+                    text="Purchase Order Items"
+                    level="H2"
+                    class="sapUiMediumMarginTop sapUiSmallMarginBottom"
+                />
+
+                <Table
+                    id="itemsTable"
+                    growing="true"
+                    growingThreshold="20"
+                    items="{poItems>/value}"
+                    noDataText="No Purchase Order Items Found"
+                >
+                    <columns>
+                        <Column>
+                            <Text text="Item" />
+                        </Column>
+
+                        <Column>
+                            <Text text="Description" />
+                        </Column>
+
+                        <Column hAlign="End">
+                            <Text text="Quantity" />
+                        </Column>
+
+                        <Column>
+                            <Text text="Unit" />
+                        </Column>
+
+                        <Column hAlign="End">
+                            <Text text="Net Price" />
+                        </Column>
+
+                        <Column>
+                            <Text text="Material" />
+                        </Column>
+
+                        <Column>
+                            <Text text="Plant" />
+                        </Column>
+
+                        <!-- ================================================= -->
+                        <!-- DELIVERY STATUS -->
+                        <!-- ================================================= -->
+
+                        <Column>
+                            <Text text="Delivery Status" />
+                        </Column>
+
+                        <Column>
+                            <Text text="Invoice Status" />
+                        </Column>
+                    </columns>
+
+                    <items>
+                        <ColumnListItem
+                            type="Navigation"
+                            press=".onPurchaseOrderItemPress"
+                        >
+                            <cells>
+                                <Text text="{poItems>PurchaseOrderItem}" />
+
+                                <Text text="{poItems>PurchaseOrderItemText}" />
+
+                                <ObjectNumber
+                                    number="{poItems>OrderQuantity}"
+                                />
+
+                                <Text
+                                    text="{poItems>PurchaseOrderQuantityUnit}"
+                                />
+
+                                <ObjectNumber
+                                    number="{poItems>NetPriceAmount}"
+                                    unit="{poItems>DocumentCurrency}"
+                                />
+
+                                <Text text="{poItems>Material}" />
+
+                                <Text text="{poItems>Plant}" />
+
+                                <!-- ================================================= -->
+                                <!-- DELIVERY STATUS -->
+                                <!-- ================================================= -->
+
+                                <ObjectStatus
+                                    text="{
+                                        path: 'poItems>IsCompletelyDelivered',
+                                        formatter: '.formatDeliveryStatus'
+                                    }"
+                                    state="{
+                                        path: 'poItems>IsCompletelyDelivered',
+                                        formatter: '.formatDeliveryStatusState'
+                                    }"
+                                />
+
+                                <ObjectStatus
+                                    text="{
+        path: 'poItems>IsFinallyInvoiced',
+        formatter: '.formatInvoiceStatus'
+    }"
+                                    state="{
+        path: 'poItems>IsFinallyInvoiced',
+        formatter: '.formatInvoiceStatusState'
+    }"
+                                />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

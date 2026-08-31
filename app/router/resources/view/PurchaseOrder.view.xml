@@ -1,0 +1,131 @@
+<mvc:View
+    controllerName="supplier.po.supplierportal.controller.PurchaseOrder"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <Page
+        id="page"
+        title="My Purchase Orders">
+
+        <content>
+
+            <VBox class="sapUiMediumMargin">
+
+                <Title
+                    text="Supplier Purchase Orders"
+                    level="H2"
+                    class="sapUiSmallMarginBottom"/>
+
+                <HBox
+                    alignItems="Center"
+                    class="sapUiSmallMarginBottom">
+
+                    <Label
+                        text="Business Partner"
+                        width="150px"/>
+
+                    <Input
+                        id="businessPartnerInput"
+                        value="1"
+                        width="250px"
+                        placeholder="Enter Business Partner"/>
+
+                    <Button
+                        text="Load Purchase Orders"
+                        type="Emphasized"
+                        press=".onLoadPurchaseOrders"
+                        class="sapUiSmallMarginBegin"/>
+
+                </HBox>
+
+                <Title
+                    text="Purchase Orders"
+                    level="H3"
+                    class="sapUiMediumMarginTop sapUiSmallMarginBottom"/>
+
+                <Table
+                    id="purchaseOrderTable"
+                    items="{purchaseOrders>/value}"
+                    growing="true"
+                    growingThreshold="20"
+                    noDataText="No Purchase Orders Found">
+
+                    <columns>
+
+                        <Column>
+                            <Text text="Purchase Order"/>
+                        </Column>
+
+                        <Column>
+                            <Text text="Company Code"/>
+                        </Column>
+
+                        <Column>
+                            <Text text="PO Type"/>
+                        </Column>
+
+                        <Column>
+                            <Text text="Supplier"/>
+                        </Column>
+
+                        <Column>
+                            <Text text="PO Date"/>
+                        </Column>
+
+                        <Column>
+                            <Text text="Currency"/>
+                        </Column>
+
+                        <Column>
+                            <Text text="Status"/>
+                        </Column>
+
+                    </columns>
+
+                    <items>
+
+                        <ColumnListItem
+                            type="Navigation"
+                            press=".onPurchaseOrderPress">
+
+                            <cells>
+
+                                <Text
+                                    text="{purchaseOrders>PurchaseOrder}"/>
+
+                                <Text
+                                    text="{purchaseOrders>CompanyCode}"/>
+
+                                <Text
+                                    text="{purchaseOrders>PurchaseOrderType}"/>
+
+                                <Text
+                                    text="{purchaseOrders>Supplier}"/>
+
+                                <Text
+    text="{
+        path: 'purchaseOrders>PurchaseOrderDate',
+        formatter: '.formatDate'
+    }"/>
+
+                                <Text
+                                    text="{purchaseOrders>DocumentCurrency}"/>
+
+                                <Text
+                                    text="{purchaseOrders>PurchasingProcessingStatus}"/>
+
+                            </cells>
+
+                        </ColumnListItem>
+
+                    </items>
+
+                </Table>
+
+            </VBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

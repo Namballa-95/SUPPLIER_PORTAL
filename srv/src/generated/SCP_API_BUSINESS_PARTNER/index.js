@@ -1,0 +1,120 @@
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+/*
+ * Copyright (c) 2026 SAP SE or an SAP affiliate company. All rights reserved.
+ *
+ * This is a generated file powered by the SAP Cloud SDK for JavaScript.
+ */
+__exportStar(require("./Address"), exports);
+__exportStar(require("./AddressIndependentCommunication"), exports);
+__exportStar(require("./AddressIndependentEmail"), exports);
+__exportStar(require("./AddressIndependentEmailAddressDummy"), exports);
+__exportStar(require("./AddressIndependentFaxNumber"), exports);
+__exportStar(require("./AddressIndependentFaxNumberDummy"), exports);
+__exportStar(require("./AddressIndependentPhoneNumber"), exports);
+__exportStar(require("./AddressIndependentPhoneNumberDummy"), exports);
+__exportStar(require("./AddressIndependentWeb"), exports);
+__exportStar(require("./AddressIndependentWebDummy"), exports);
+__exportStar(require("./AddressInformation"), exports);
+__exportStar(require("./AddressOrganizationName"), exports);
+__exportStar(require("./AddressPersonName"), exports);
+__exportStar(require("./AddressUsage"), exports);
+__exportStar(require("./BusinessPartner"), exports);
+__exportStar(require("./BusinessPartnerBank"), exports);
+__exportStar(require("./BusinessPartnerRelationship"), exports);
+__exportStar(require("./BusinessPartnerWhldgTax"), exports);
+__exportStar(require("./C_Countries"), exports);
+__exportStar(require("./CommunicationDataText"), exports);
+__exportStar(require("./ContactPerson"), exports);
+__exportStar(require("./CountryTexts"), exports);
+__exportStar(require("./Customer"), exports);
+__exportStar(require("./CustomerPartnerFunction"), exports);
+__exportStar(require("./EmailAddress"), exports);
+__exportStar(require("./FaxNumber"), exports);
+__exportStar(require("./GroupName"), exports);
+__exportStar(require("./Identification"), exports);
+__exportStar(require("./IndustrySector"), exports);
+__exportStar(require("./OrganizationName"), exports);
+__exportStar(require("./PaymentCard"), exports);
+__exportStar(require("./PersonName"), exports);
+__exportStar(require("./PhoneNumber"), exports);
+__exportStar(require("./PostalAddress"), exports);
+__exportStar(require("./Role"), exports);
+__exportStar(require("./SalesArea"), exports);
+__exportStar(require("./SalesTax"), exports);
+__exportStar(require("./SubdivisionTexts"), exports);
+__exportStar(require("./Subdivisions"), exports);
+__exportStar(require("./Supplier"), exports);
+__exportStar(require("./SupplierCompany"), exports);
+__exportStar(require("./SupplierPartnerFunction"), exports);
+__exportStar(require("./SupplierPurchasingOrg"), exports);
+__exportStar(require("./TaxNumber"), exports);
+__exportStar(require("./Web"), exports);
+__exportStar(require("./WorkPlaceAddressInformation"), exports);
+__exportStar(require("./Workplace"), exports);
+__exportStar(require("./AddressRequestBuilder"), exports);
+__exportStar(require("./AddressIndependentCommunicationRequestBuilder"), exports);
+__exportStar(require("./AddressIndependentEmailRequestBuilder"), exports);
+__exportStar(require("./AddressIndependentEmailAddressDummyRequestBuilder"), exports);
+__exportStar(require("./AddressIndependentFaxNumberRequestBuilder"), exports);
+__exportStar(require("./AddressIndependentFaxNumberDummyRequestBuilder"), exports);
+__exportStar(require("./AddressIndependentPhoneNumberRequestBuilder"), exports);
+__exportStar(require("./AddressIndependentPhoneNumberDummyRequestBuilder"), exports);
+__exportStar(require("./AddressIndependentWebRequestBuilder"), exports);
+__exportStar(require("./AddressIndependentWebDummyRequestBuilder"), exports);
+__exportStar(require("./AddressInformationRequestBuilder"), exports);
+__exportStar(require("./AddressOrganizationNameRequestBuilder"), exports);
+__exportStar(require("./AddressPersonNameRequestBuilder"), exports);
+__exportStar(require("./AddressUsageRequestBuilder"), exports);
+__exportStar(require("./BusinessPartnerRequestBuilder"), exports);
+__exportStar(require("./BusinessPartnerBankRequestBuilder"), exports);
+__exportStar(require("./BusinessPartnerRelationshipRequestBuilder"), exports);
+__exportStar(require("./BusinessPartnerWhldgTaxRequestBuilder"), exports);
+__exportStar(require("./C_CountriesRequestBuilder"), exports);
+__exportStar(require("./CommunicationDataTextRequestBuilder"), exports);
+__exportStar(require("./ContactPersonRequestBuilder"), exports);
+__exportStar(require("./CountryTextsRequestBuilder"), exports);
+__exportStar(require("./CustomerRequestBuilder"), exports);
+__exportStar(require("./CustomerPartnerFunctionRequestBuilder"), exports);
+__exportStar(require("./EmailAddressRequestBuilder"), exports);
+__exportStar(require("./FaxNumberRequestBuilder"), exports);
+__exportStar(require("./GroupNameRequestBuilder"), exports);
+__exportStar(require("./IdentificationRequestBuilder"), exports);
+__exportStar(require("./IndustrySectorRequestBuilder"), exports);
+__exportStar(require("./OrganizationNameRequestBuilder"), exports);
+__exportStar(require("./PaymentCardRequestBuilder"), exports);
+__exportStar(require("./PersonNameRequestBuilder"), exports);
+__exportStar(require("./PhoneNumberRequestBuilder"), exports);
+__exportStar(require("./PostalAddressRequestBuilder"), exports);
+__exportStar(require("./RoleRequestBuilder"), exports);
+__exportStar(require("./SalesAreaRequestBuilder"), exports);
+__exportStar(require("./SalesTaxRequestBuilder"), exports);
+__exportStar(require("./SubdivisionTextsRequestBuilder"), exports);
+__exportStar(require("./SubdivisionsRequestBuilder"), exports);
+__exportStar(require("./SupplierRequestBuilder"), exports);
+__exportStar(require("./SupplierCompanyRequestBuilder"), exports);
+__exportStar(require("./SupplierPartnerFunctionRequestBuilder"), exports);
+__exportStar(require("./SupplierPurchasingOrgRequestBuilder"), exports);
+__exportStar(require("./TaxNumberRequestBuilder"), exports);
+__exportStar(require("./WebRequestBuilder"), exports);
+__exportStar(require("./WorkPlaceAddressInformationRequestBuilder"), exports);
+__exportStar(require("./WorkplaceRequestBuilder"), exports);
+__exportStar(require("./BusinessPartnerWithConsent"), exports);
+__exportStar(require("./operations"), exports);
+__exportStar(require("./BatchRequest"), exports);
+__exportStar(require("./service"), exports);
+//# sourceMappingURL=index.js.map
