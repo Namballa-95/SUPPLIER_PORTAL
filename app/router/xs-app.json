@@ -4,7 +4,7 @@
     {
       "source": "^/bp/(.*)$",
       "target": "/bp/$1",
-      "destination": "srv-api",
+      "destination": "BP-CAP-API",
       "authenticationType": "xsuaa",
       "csrfProtection": true
     },
