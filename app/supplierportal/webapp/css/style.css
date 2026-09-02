@@ -1400,3 +1400,483 @@
     color: #70859c !important;
     font-size: 11px !important;
 }
+
+/* =========================================================
+   SUPPLIER VERIFICATION PAGE
+   SUPPLIER PORTAL PREMIUM THEME
+   ========================================================= */
+
+
+/* =========================================================
+   PAGE BACKGROUND
+   ========================================================= */
+
+.supplierVerificationPage,
+.supplierVerificationPage .sapMPageBgStandard,
+.supplierVerificationPage .sapMPageBgSolid {
+
+    background:
+        radial-gradient(
+            circle at 50% 30%,
+            rgba(0, 125, 255, 0.09),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at 15% 85%,
+            rgba(0, 100, 220, 0.045),
+            transparent 30%
+        ),
+        #06101d !important;
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+   ========================================================= */
+
+.verificationPageContent {
+
+    box-sizing: border-box;
+
+    padding: 35px 20px;
+
+    min-height: 100%;
+
+    position: relative;
+}
+
+
+/* =========================================================
+   VERIFICATION ICON CONTAINER
+   ========================================================= */
+
+.verificationIconBox {
+
+    width: 78px;
+
+    height: 78px;
+
+    margin-bottom: 18px;
+
+    border-radius: 22px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0, 145, 255, 0.22),
+            rgba(0, 95, 190, 0.07)
+        );
+
+    border: 1px solid rgba(55, 170, 255, 0.62);
+
+    box-shadow:
+        0 0 20px rgba(0, 135, 255, 0.18),
+        0 0 45px rgba(0, 115, 255, 0.07),
+        inset 0 0 18px rgba(0, 145, 255, 0.08);
+
+    position: relative;
+}
+
+
+/* =========================================================
+   ICON
+   ========================================================= */
+
+.verificationIcon {
+
+    color: #42adff !important;
+
+    font-size: 38px !important;
+
+    text-shadow:
+        0 0 8px rgba(45, 170, 255, 0.65),
+        0 0 20px rgba(0, 130, 255, 0.30);
+}
+
+
+/* =========================================================
+   VERIFICATION CARD
+   ========================================================= */
+
+.verificationCard {
+
+    box-sizing: border-box;
+
+    padding: 30px 32px 24px 32px;
+
+    background:
+        radial-gradient(
+            circle at 90% 0%,
+            rgba(0, 130, 255, 0.08),
+            transparent 32%
+        ),
+        linear-gradient(
+            145deg,
+            rgba(10, 27, 45, 0.98),
+            rgba(7, 20, 34, 0.98)
+        );
+
+    border: 1px solid rgba(48, 159, 255, 0.58);
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 0 22px rgba(0, 125, 255, 0.12),
+        0 10px 45px rgba(0, 0, 0, 0.25),
+        inset 0 0 24px rgba(0, 105, 220, 0.025);
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   CARD TOP NEON LINE
+   ========================================================= */
+
+.verificationCard::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+
+    left: 12%;
+
+    right: 12%;
+
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(60, 180, 255, 0.9),
+            transparent
+        );
+
+    box-shadow:
+        0 0 10px rgba(40, 170, 255, 0.5);
+}
+
+
+/* =========================================================
+   CARD HEADER
+   ========================================================= */
+
+.verificationCardHeader {
+
+    margin-bottom: 27px;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   TITLE
+   ========================================================= */
+
+.verificationTitle {
+
+    color: #f3f8ff !important;
+
+    font-size: 23px !important;
+
+    font-weight: 700 !important;
+
+    margin-bottom: 6px !important;
+}
+
+
+/* =========================================================
+   SUBTITLE
+   ========================================================= */
+
+.verificationSubtitle {
+
+    color: #8ea7bf !important;
+
+    font-size: 12px !important;
+
+    line-height: 18px !important;
+}
+
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+.verificationForm {
+
+    width: 100%;
+}
+
+
+/* =========================================================
+   FIELD
+   ========================================================= */
+
+.verificationField {
+
+    width: 100%;
+
+    margin-bottom: 19px;
+}
+
+
+/* =========================================================
+   LABEL
+   ========================================================= */
+
+.verificationLabel {
+
+    color: #9bb1c7 !important;
+
+    font-size: 11px !important;
+
+    font-weight: 600 !important;
+
+    margin-bottom: 7px !important;
+}
+
+
+/* =========================================================
+   INPUT CONTAINER
+   ========================================================= */
+
+.verificationInput {
+
+    width: 100%;
+}
+
+
+.verificationInput .sapMInputBaseContentWrapper {
+
+    background: #0b1c2f !important;
+
+    border: 1px solid rgba(76, 145, 201, 0.36) !important;
+
+    border-radius: 8px !important;
+
+    min-height: 42px !important;
+
+    box-shadow:
+        inset 0 0 10px rgba(0, 80, 150, 0.025);
+
+    transition:
+        border-color 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+
+/* =========================================================
+   INPUT TEXT
+   ========================================================= */
+
+.verificationInput .sapMInputBaseInner {
+
+    background: transparent !important;
+
+    color: #e2effb !important;
+
+    font-size: 13px !important;
+
+    padding-left: 13px !important;
+}
+
+
+/* =========================================================
+   PLACEHOLDER
+   ========================================================= */
+
+.verificationInput .sapMInputBaseInner::placeholder {
+
+    color: #647e96 !important;
+}
+
+
+/* =========================================================
+   INPUT FOCUS
+   ========================================================= */
+
+.verificationInput .sapMInputBaseContentWrapper:focus-within {
+
+    border-color: rgba(55, 174, 255, 0.78) !important;
+
+    box-shadow:
+        0 0 0 1px rgba(40, 155, 255, 0.14),
+        0 0 13px rgba(0, 135, 255, 0.12),
+        inset 0 0 10px rgba(0, 125, 255, 0.04) !important;
+}
+
+
+/* =========================================================
+   VERIFY BUTTON
+   ========================================================= */
+
+.verificationButton {
+
+    width: 100% !important;
+
+    height: 44px !important;
+
+    margin-top: 5px;
+
+    border-radius: 8px !important;
+
+    background:
+        linear-gradient(
+            90deg,
+            #0878d1,
+            #1598f0
+        ) !important;
+
+    border: 1px solid rgba(75, 185, 255, 0.70) !important;
+
+    box-shadow:
+        0 0 14px rgba(0, 140, 255, 0.18);
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+
+/* =========================================================
+   BUTTON TEXT
+   ========================================================= */
+
+.verificationButton .sapMBtnContent {
+
+    color: #ffffff !important;
+
+    font-size: 13px !important;
+
+    font-weight: 700 !important;
+}
+
+
+/* =========================================================
+   BUTTON ICON
+   ========================================================= */
+
+.verificationButton .sapMBtnIcon {
+
+    color: #ffffff !important;
+
+    font-size: 15px !important;
+
+    margin-right: 7px !important;
+}
+
+
+/* =========================================================
+   BUTTON HOVER
+   ========================================================= */
+
+.verificationButton:hover {
+
+    box-shadow:
+        0 0 20px rgba(0, 145, 255, 0.28);
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   CARD FOOTER
+   ========================================================= */
+
+.verificationFooter {
+
+    margin-top: 23px;
+
+    padding-top: 16px;
+
+    border-top: 1px solid rgba(110, 145, 175, 0.10);
+}
+
+
+/* =========================================================
+   FOOTER ICON
+   ========================================================= */
+
+.verificationFooterIcon {
+
+    color: #3eafff !important;
+
+    font-size: 14px !important;
+
+    margin-right: 7px;
+
+    text-shadow:
+        0 0 7px rgba(40, 170, 255, 0.35);
+}
+
+
+/* =========================================================
+   FOOTER TEXT
+   ========================================================= */
+
+.verificationFooterText {
+
+    color: #718aa2 !important;
+
+    font-size: 10px !important;
+}
+
+
+/* =========================================================
+   BOTTOM BRANDING
+   ========================================================= */
+
+.verificationBranding {
+
+    color: #50708d !important;
+
+    font-size: 10px !important;
+
+    margin-top: 18px;
+
+    letter-spacing: 0.2px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .verificationPageContent {
+
+        padding: 25px 15px;
+    }
+
+
+    .verificationCard {
+
+        width: 100% !important;
+
+        max-width: 420px;
+
+        padding: 25px 22px 21px 22px;
+    }
+
+
+    .verificationIconBox {
+
+        width: 68px;
+
+        height: 68px;
+    }
+
+
+    .verificationIcon {
+
+        font-size: 32px !important;
+    }
+
+}

@@ -1,1 +1,1882 @@
-/* Enter your custom styles here */
+/* =========================================================
+   SUPPLIER PORTAL - GLOBAL DASHBOARD THEME
+   ========================================================= */
+
+.supplierDashboardPage {
+    background:
+        radial-gradient(
+            circle at 85% 10%,
+            rgba(0, 105, 255, 0.10),
+            transparent 28%
+        ),
+        linear-gradient(
+            135deg,
+            #07111f 0%,
+            #091523 45%,
+            #0b1624 100%
+        ) !important;
+}
+
+
+/* =========================================================
+   MAIN CONTAINER
+   ========================================================= */
+
+.dashboardContainer {
+    padding: 28px 30px 22px 30px;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   TOP SECTION
+   ========================================================= */
+
+.dashboardTopSection {
+    min-height: 145px;
+    margin-bottom: 18px;
+}
+
+.dashboardWelcome {
+    color: #1597ff !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    margin-bottom: 5px;
+}
+
+.dashboardSupplierName {
+    color: #f3f7ff !important;
+    font-size: 27px !important;
+    font-weight: 700 !important;
+    margin-bottom: 9px;
+}
+
+.dashboardDescription {
+    color: #8fa5bd !important;
+    font-size: 13px !important;
+    margin-top: 8px;
+}
+
+
+/* =========================================================
+   SUPPLIER ID
+   ========================================================= */
+
+.supplierIdBadge {
+    background: rgba(19, 93, 185, 0.18);
+    border: 1px solid rgba(30, 128, 255, 0.28);
+    border-radius: 6px;
+    padding: 4px 9px;
+    width: fit-content;
+}
+
+.supplierIdIcon {
+    color: #42a5ff !important;
+    font-size: 12px !important;
+    margin-right: 5px;
+}
+
+.supplierIdText {
+    color: #d9e8ff !important;
+    font-size: 12px !important;
+}
+
+
+/* =========================================================
+   HERO ICON
+   ========================================================= */
+
+.dashboardHeroIcon {
+    position: relative;
+    width: 150px;
+    height: 120px;
+    margin-right: 25px;
+}
+
+.heroMainIcon {
+    color: #008cff !important;
+    font-size: 70px !important;
+
+    filter:
+        drop-shadow(0 0 8px rgba(0, 140, 255, 0.8))
+        drop-shadow(0 0 20px rgba(0, 100, 255, 0.4));
+}
+
+.heroCartIcon {
+    color: #009dff !important;
+    font-size: 28px !important;
+
+    position: absolute;
+    right: 25px;
+    bottom: 20px;
+
+    filter:
+        drop-shadow(0 0 7px rgba(0, 160, 255, 0.8));
+}
+
+
+/* =========================================================
+   STAT CARDS ROW
+   ========================================================= */
+
+.statsCardsRow {
+    gap: 14px;
+    margin-bottom: 15px;
+}
+
+
+/* =========================================================
+   BASE STAT CARD
+   ========================================================= */
+
+.statCard {
+    min-height: 135px;
+    padding: 17px 17px 12px 17px;
+
+    box-sizing: border-box;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(12, 29, 49, 0.96),
+            rgba(7, 19, 33, 0.96)
+        );
+
+    cursor: pointer;
+
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        background 0.18s ease;
+}
+
+.statCard:hover {
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   BLUE CARD
+   ========================================================= */
+
+.statCardBlue {
+    border: 1px solid rgba(0, 132, 255, 0.65);
+
+    box-shadow:
+        0 0 0 1px rgba(0, 105, 255, 0.08),
+        0 0 15px rgba(0, 105, 255, 0.12);
+}
+
+.statCardBlue:hover {
+    box-shadow:
+        0 0 18px rgba(0, 140, 255, 0.28);
+}
+
+
+/* =========================================================
+   ORANGE CARD
+   ========================================================= */
+
+.statCardOrange {
+    border: 1px solid rgba(255, 148, 0, 0.65);
+
+    box-shadow:
+        0 0 0 1px rgba(255, 145, 0, 0.08),
+        0 0 15px rgba(255, 145, 0, 0.10);
+}
+
+.statCardOrange:hover {
+    box-shadow:
+        0 0 18px rgba(255, 145, 0, 0.25);
+}
+
+
+/* =========================================================
+   GREEN CARD
+   ========================================================= */
+
+.statCardGreen {
+    border: 1px solid rgba(0, 220, 130, 0.55);
+
+    box-shadow:
+        0 0 0 1px rgba(0, 220, 130, 0.06),
+        0 0 15px rgba(0, 220, 130, 0.08);
+}
+
+.statCardGreen:hover {
+    box-shadow:
+        0 0 18px rgba(0, 220, 130, 0.22);
+}
+
+
+/* =========================================================
+   STAT CARD CONTENT
+   ========================================================= */
+
+.statCardTop {
+    width: 100%;
+}
+
+.statTextArea {
+    margin-left: 14px;
+}
+
+.statTitle {
+    color: #e5edf7 !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+}
+
+.statSubtitle {
+    color: #7f96ad !important;
+    font-size: 10px !important;
+    margin-top: 3px;
+}
+
+.statNumber {
+    font-size: 29px !important;
+    font-weight: 700 !important;
+    margin-top: 7px;
+}
+
+.statNumberBlue {
+    color: #0795ff !important;
+    text-shadow: 0 0 12px rgba(0, 145, 255, 0.35);
+}
+
+.statNumberOrange {
+    color: #ff9700 !important;
+    text-shadow: 0 0 12px rgba(255, 151, 0, 0.30);
+}
+
+.statNumberGreen {
+    color: #00d58a !important;
+    text-shadow: 0 0 12px rgba(0, 213, 138, 0.30);
+}
+
+
+/* =========================================================
+   ICON CIRCLES
+   ========================================================= */
+
+.statIconCircle {
+    width: 48px;
+    height: 48px;
+
+    border-radius: 50%;
+
+    align-items: center;
+    justify-content: center;
+
+    display: flex;
+    flex-shrink: 0;
+}
+
+.statBlueIcon {
+    background: rgba(0, 116, 255, 0.15);
+    border: 1px solid rgba(0, 145, 255, 0.30);
+}
+
+.statOrangeIcon {
+    background: rgba(255, 145, 0, 0.15);
+    border: 1px solid rgba(255, 145, 0, 0.30);
+}
+
+.statGreenIcon {
+    background: rgba(0, 215, 130, 0.14);
+    border: 1px solid rgba(0, 215, 130, 0.28);
+}
+
+.statIcon {
+    font-size: 25px !important;
+}
+
+.statBlueIcon .statIcon {
+    color: #159aff !important;
+    filter: drop-shadow(0 0 7px rgba(0, 145, 255, 0.65));
+}
+
+.statOrangeIcon .statIcon {
+    color: #ffad20 !important;
+    filter: drop-shadow(0 0 7px rgba(255, 150, 0, 0.60));
+}
+
+.statGreenIcon .statIcon {
+    color: #00e091 !important;
+    filter: drop-shadow(0 0 7px rgba(0, 220, 130, 0.60));
+}
+
+
+/* =========================================================
+   STAT FOOTER
+   ========================================================= */
+
+.statBottom {
+    margin-top: 9px;
+    padding-top: 8px;
+
+    border-top: 1px solid rgba(120, 150, 180, 0.10);
+}
+
+.statTrend {
+    font-size: 9px !important;
+}
+
+.statTrendBlue {
+    color: #00b4ff !important;
+}
+
+.statTrendOrange {
+    color: #ffac22 !important;
+}
+
+.statTrendGreen {
+    color: #00d990 !important;
+}
+
+.cardMenuDots {
+    color: #70879d !important;
+    font-size: 11px !important;
+}
+
+
+/* =========================================================
+   NAVIGATION CARDS
+   ========================================================= */
+
+.navigationCardsRow {
+    gap: 14px;
+    margin-bottom: 15px;
+}
+
+.navigationCard {
+    height: 108px;
+
+    padding: 17px 16px;
+
+    box-sizing: border-box;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+.navigationCard:hover {
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   PO NAV CARD
+   ========================================================= */
+
+.navigationCardBlue {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(7, 30, 57, 0.95),
+            rgba(6, 21, 40, 0.95)
+        );
+
+    border: 1px solid rgba(0, 132, 255, 0.65);
+
+    box-shadow:
+        0 0 15px rgba(0, 110, 255, 0.08);
+}
+
+.navigationCardBlue:hover {
+    box-shadow:
+        0 0 20px rgba(0, 140, 255, 0.24);
+}
+
+
+/* =========================================================
+   PROFILE NAV CARD
+   ========================================================= */
+
+.navigationCardPurple {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(28, 18, 60, 0.95),
+            rgba(15, 17, 45, 0.95)
+        );
+
+    border: 1px solid rgba(123, 73, 255, 0.68);
+
+    box-shadow:
+        0 0 15px rgba(123, 73, 255, 0.08);
+}
+
+.navigationCardPurple:hover {
+    box-shadow:
+        0 0 20px rgba(125, 75, 255, 0.24);
+}
+
+
+/* =========================================================
+   NAVIGATION ICON
+   ========================================================= */
+
+.navigationIconCircle {
+    width: 48px;
+    height: 48px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+}
+
+.navigationBlueIcon {
+    background: rgba(0, 120, 255, 0.16);
+    border: 1px solid rgba(0, 145, 255, 0.30);
+}
+
+.navigationPurpleIcon {
+    background: rgba(125, 75, 255, 0.17);
+    border: 1px solid rgba(145, 105, 255, 0.32);
+}
+
+.navigationIcon {
+    font-size: 25px !important;
+}
+
+.navigationBlueIcon .navigationIcon {
+    color: #159aff !important;
+
+    filter:
+        drop-shadow(0 0 7px rgba(0, 145, 255, 0.65));
+}
+
+.navigationPurpleIcon .navigationIcon {
+    color: #a67cff !important;
+
+    filter:
+        drop-shadow(0 0 7px rgba(145, 90, 255, 0.65));
+}
+
+
+/* =========================================================
+   NAVIGATION TEXT
+   ========================================================= */
+
+.navigationText {
+    margin-left: 14px;
+}
+
+.navigationTitle {
+    color: #edf4fc !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+}
+
+.navigationSubtitle {
+    color: #8195aa !important;
+    font-size: 10px !important;
+    margin-top: 4px;
+}
+
+
+/* =========================================================
+   NAVIGATION ARROW
+   ========================================================= */
+
+.navigationArrow {
+    width: 38px !important;
+    height: 38px !important;
+
+    border-radius: 50% !important;
+
+    background: rgba(30, 86, 220, 0.75) !important;
+
+    color: white !important;
+
+    box-shadow:
+        0 0 10px rgba(30, 100, 255, 0.25);
+}
+
+.navigationCardPurple .navigationArrow {
+    background: rgba(100, 65, 190, 0.75) !important;
+
+    box-shadow:
+        0 0 10px rgba(120, 70, 255, 0.20);
+}
+
+
+/* =========================================================
+   STATUS BAR
+   ========================================================= */
+
+.dashboardStatusBar {
+    min-height: 57px;
+
+    padding: 9px 16px;
+
+    box-sizing: border-box;
+
+    border-radius: 9px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(13, 28, 45, 0.92),
+            rgba(8, 19, 32, 0.92)
+        );
+
+    border: 1px solid rgba(90, 125, 160, 0.18);
+}
+
+.statusShield {
+    color: #159aff !important;
+    font-size: 21px !important;
+    margin-right: 11px;
+
+    filter:
+        drop-shadow(0 0 6px rgba(0, 145, 255, 0.55));
+}
+
+.statusTitle {
+    color: #159aff !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+}
+
+.statusSubtitle {
+    color: #71879d !important;
+    font-size: 9px !important;
+    margin-top: 3px;
+}
+
+.lastLoginIcon {
+    color: #71879d !important;
+    font-size: 12px !important;
+    margin-right: 6px;
+}
+
+.lastLoginText {
+    color: #71879d !important;
+    font-size: 9px !important;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .statCard {
+        width: 100% !important;
+        margin-bottom: 12px;
+    }
+
+    .navigationCard {
+        width: 100% !important;
+        margin-bottom: 12px;
+    }
+
+    .dashboardHeroIcon {
+        display: none;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .dashboardContainer {
+        padding: 18px 15px;
+    }
+
+    .dashboardSupplierName {
+        font-size: 22px !important;
+    }
+
+    .dashboardTopSection {
+        min-height: auto;
+    }
+}
+
+/* =========================================================
+   SUPPLIER PROFILE
+   ========================================================= */
+
+.supplierProfilePage,
+.supplierProfilePage .sapMPageBgStandard,
+.supplierProfilePage .sapMPageBgSolid {
+    background: #06101d !important;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.profileHeaderBar {
+    background: #071321 !important;
+    border-bottom: 1px solid rgba(30, 150, 255, 0.35) !important;
+    box-shadow: 0 2px 18px rgba(0, 110, 255, 0.12);
+}
+
+.profileHeaderTitle {
+    color: #f4f8ff !important;
+    font-weight: 600 !important;
+}
+
+.profileBackButton .sapMBtnIcon {
+    color: #49a9ff !important;
+}
+
+.profileEditButton .sapMBtnContent,
+.profileEditButton .sapMBtnIcon {
+    color: #58b7ff !important;
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+   ========================================================= */
+
+.profileContent {
+    padding: 28px 30px 40px 30px;
+    max-width: 1250px;
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   PROFILE HERO
+   ========================================================= */
+
+.profileHeroCard {
+    width: 100%;
+    min-height: 145px;
+    padding: 28px;
+    margin-bottom: 22px;
+
+    background:
+        radial-gradient(
+            circle at 90% 20%,
+            rgba(20, 105, 255, 0.18),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #0a1728,
+            #081321
+        );
+
+    border: 1px solid rgba(42, 151, 255, 0.55);
+    border-radius: 14px;
+
+    box-shadow:
+        0 0 18px rgba(0, 119, 255, 0.12),
+        inset 0 0 20px rgba(0, 100, 255, 0.035);
+}
+
+
+.profileAvatarBox {
+    width: 88px;
+    height: 88px;
+
+    justify-content: center;
+    align-items: center;
+
+    margin-right: 24px;
+
+    border-radius: 50%;
+
+    background: rgba(43, 95, 255, 0.16);
+    border: 1px solid rgba(60, 150, 255, 0.65);
+
+    box-shadow:
+        0 0 22px rgba(0, 125, 255, 0.28);
+}
+
+
+.profileHeroIcon {
+    font-size: 42px !important;
+    color: #65b8ff !important;
+}
+
+
+.profileHeroInfo {
+    gap: 3px;
+}
+
+
+.profileEyebrow {
+    color: #38a9ff !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+}
+
+
+.profileName {
+    color: #f5f8ff !important;
+    font-size: 28px !important;
+    font-weight: 700 !important;
+}
+
+
+.profileSubtitle {
+    color: #9baec5 !important;
+    font-size: 13px !important;
+}
+
+
+.profileSupplierId {
+    color: #58b7ff !important;
+    font-size: 13px !important;
+}
+
+
+/* =========================================================
+   INFORMATION CARDS
+   ========================================================= */
+
+.profileInfoCard {
+    width: 100%;
+    padding: 22px 24px;
+    margin-bottom: 20px;
+
+    border-radius: 13px;
+
+    background: rgba(9, 22, 38, 0.92);
+
+    box-sizing: border-box;
+
+    transition: all 0.2s ease;
+}
+
+
+.profileInfoCard:hover {
+    transform: translateY(-1px);
+}
+
+
+/* BLUE */
+
+.profileBlueCard {
+    border: 1px solid rgba(20, 139, 255, 0.65);
+
+    box-shadow:
+        0 0 16px rgba(0, 112, 255, 0.10),
+        inset 0 0 18px rgba(0, 100, 255, 0.025);
+}
+
+
+/* PURPLE */
+
+.profilePurpleCard {
+    border: 1px solid rgba(139, 76, 255, 0.62);
+
+    box-shadow:
+        0 0 16px rgba(130, 60, 255, 0.10),
+        inset 0 0 18px rgba(130, 60, 255, 0.025);
+}
+
+
+/* GREEN */
+
+.profileGreenCard {
+    border: 1px solid rgba(0, 205, 135, 0.58);
+
+    box-shadow:
+        0 0 16px rgba(0, 210, 130, 0.08),
+        inset 0 0 18px rgba(0, 210, 130, 0.025);
+}
+
+
+/* =========================================================
+   SECTION HEADER
+   ========================================================= */
+
+.profileCardTitleRow {
+    margin-bottom: 22px;
+}
+
+
+.profileSectionIcon {
+    width: 48px;
+    height: 48px;
+
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+
+    margin-right: 15px;
+
+    border-radius: 12px;
+}
+
+
+.blueIcon {
+    background: rgba(0, 125, 255, 0.14);
+    border: 1px solid rgba(30, 150, 255, 0.42);
+}
+
+
+.purpleIcon {
+    background: rgba(130, 70, 255, 0.14);
+    border: 1px solid rgba(150, 90, 255, 0.42);
+}
+
+
+.greenIcon {
+    background: rgba(0, 210, 130, 0.12);
+    border: 1px solid rgba(0, 220, 140, 0.38);
+}
+
+
+.blueIcon .sectionIcon {
+    color: #42aaff !important;
+}
+
+
+.purpleIcon .sectionIcon {
+    color: #9d70ff !important;
+}
+
+
+.greenIcon .sectionIcon {
+    color: #2ce59a !important;
+}
+
+
+.sectionIcon {
+    font-size: 24px !important;
+}
+
+
+.profileSectionTitle {
+    color: #f1f6ff !important;
+    font-size: 17px !important;
+    font-weight: 600 !important;
+}
+
+
+.profileSectionSubtitle {
+    color: #8295ad !important;
+    font-size: 12px !important;
+}
+
+
+/* =========================================================
+   PROFILE FIELDS
+   ========================================================= */
+
+.profileFields {
+    width: 100%;
+}
+
+
+.profileField {
+    width: 30%;
+    min-width: 220px;
+
+    padding: 13px 16px;
+    margin-right: 14px;
+    margin-bottom: 14px;
+
+    border-radius: 8px;
+
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(140, 170, 200, 0.10);
+
+    box-sizing: border-box;
+}
+
+
+.profileFieldLabel {
+    color: #71869f !important;
+    font-size: 11px !important;
+    margin-bottom: 5px;
+}
+
+
+.profileFieldValue {
+    color: #e8f1fc !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+}
+
+
+/* =========================================================
+   STATUS BAR
+   ========================================================= */
+
+.profileStatusBar {
+    width: 100%;
+
+    padding: 15px 18px;
+    margin-top: 2px;
+
+    box-sizing: border-box;
+
+    background: rgba(7, 25, 35, 0.82);
+
+    border: 1px solid rgba(0, 190, 255, 0.24);
+    border-radius: 10px;
+}
+
+
+.statusIcon {
+    color: #27baff !important;
+    font-size: 22px !important;
+    margin-right: 13px;
+}
+
+
+.statusTitle {
+    color: #35adff !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+}
+
+
+.statusSubtitle {
+    color: #70859c !important;
+    font-size: 11px !important;
+}
+
+/* =========================================================
+   PURCHASE ORDER PAGE
+   ========================================================= */
+
+.supplierPOPage,
+.supplierPOPage .sapMPageBgStandard,
+.supplierPOPage .sapMPageBgSolid {
+    background: #06101d !important;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.poHeaderBar {
+    background: #071321 !important;
+
+    border-bottom: 1px solid rgba(30, 150, 255, 0.35) !important;
+
+    box-shadow:
+        0 2px 18px rgba(0, 110, 255, 0.12);
+}
+
+
+.poHeaderTitle {
+    color: #f4f8ff !important;
+    font-weight: 600 !important;
+}
+
+
+.poBackButton .sapMBtnIcon {
+    color: #49a9ff !important;
+}
+
+
+.poRefreshButton .sapMBtnIcon {
+    color: #49a9ff !important;
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+   ========================================================= */
+
+.poContent {
+    padding: 28px 30px 40px 30px;
+
+    max-width: 1350px;
+
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   PAGE INTRO
+   ========================================================= */
+
+.poIntro {
+    margin-bottom: 22px;
+}
+
+
+.poEyebrow {
+    color: #38a9ff !important;
+
+    font-size: 13px !important;
+
+    font-weight: 600 !important;
+}
+
+
+.poPageTitle {
+    color: #f5f8ff !important;
+
+    font-size: 29px !important;
+
+    font-weight: 700 !important;
+
+    margin-top: 3px;
+}
+
+
+.poPageSubtitle {
+    color: #91a5bc !important;
+
+    font-size: 13px !important;
+}
+
+
+/* =========================================================
+   FILTER CARD
+   ========================================================= */
+
+.poFilterCard {
+    width: 100%;
+
+    padding: 22px 24px;
+
+    margin-bottom: 22px;
+
+    box-sizing: border-box;
+
+    background:
+        radial-gradient(
+            circle at 90% 0%,
+            rgba(0, 125, 255, 0.08),
+            transparent 35%
+        ),
+        rgba(9, 22, 38, 0.94);
+
+    border: 1px solid rgba(38, 151, 255, 0.48);
+
+    border-radius: 13px;
+
+    box-shadow:
+        0 0 17px rgba(0, 115, 255, 0.08),
+        inset 0 0 18px rgba(0, 100, 255, 0.025);
+}
+
+
+/* =========================================================
+   FILTER HEADER
+   ========================================================= */
+
+.poFilterHeader {
+    margin-bottom: 22px;
+}
+
+
+.poFilterIconBox {
+    width: 48px;
+    height: 48px;
+
+    margin-right: 15px;
+
+    display: flex !important;
+
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 12px;
+
+    background: rgba(0, 130, 255, 0.14);
+
+    border: 1px solid rgba(40, 160, 255, 0.45);
+
+    box-shadow:
+        0 0 14px rgba(0, 130, 255, 0.10);
+}
+
+
+.poFilterIcon {
+    color: #43aaff !important;
+
+    font-size: 23px !important;
+}
+
+
+.poFilterTitle {
+    color: #f1f6ff !important;
+
+    font-size: 17px !important;
+
+    font-weight: 600 !important;
+}
+
+
+.poFilterSubtitle {
+    color: #7f94aa !important;
+
+    font-size: 12px !important;
+}
+
+
+/* =========================================================
+   FILTER FIELDS
+   ========================================================= */
+
+.poFilterFields {
+    width: 100%;
+}
+
+
+.poFilterField {
+    width: 23%;
+
+    min-width: 210px;
+
+    margin-right: 15px;
+
+    margin-bottom: 12px;
+}
+
+
+.poSearchField {
+    width: 28%;
+}
+
+
+.poFieldLabel {
+    color: #8398ae !important;
+
+    font-size: 11px !important;
+
+    margin-bottom: 6px;
+}
+
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+.poSearchControl,
+.poSelectControl,
+.poDateControl {
+    border-radius: 7px !important;
+}
+
+
+.poFilterCard .sapMInputBaseContentWrapper,
+.poFilterCard .sapMSlt {
+    background: #0c1b2d !important;
+
+    border: 1px solid rgba(72, 151, 215, 0.30) !important;
+
+    border-radius: 7px !important;
+}
+
+
+.poFilterCard .sapMInputBaseInner,
+.poFilterCard .sapMSltLabel {
+    background: transparent !important;
+
+    color: #dceaff !important;
+}
+
+
+.poFilterCard .sapMInputBaseInner::placeholder {
+    color: #657b91 !important;
+}
+
+
+.poFilterCard .sapMInputBaseIcon,
+.poFilterCard .sapMSltArrow {
+    color: #4baaff !important;
+}
+
+
+/* =========================================================
+   FILTER ACTIONS
+   ========================================================= */
+
+.poFilterActions {
+    margin-top: 4px;
+}
+
+
+.poClearButton .sapMBtnContent,
+.poClearButton .sapMBtnIcon {
+    color: #53afff !important;
+}
+
+
+/* =========================================================
+   TABLE CARD
+   ========================================================= */
+
+.poTableCard {
+    width: 100%;
+
+    padding: 0;
+
+    margin-bottom: 20px;
+
+    box-sizing: border-box;
+
+    background: rgba(8, 20, 34, 0.96);
+
+    border: 1px solid rgba(35, 143, 255, 0.52);
+
+    border-radius: 13px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 0 18px rgba(0, 115, 255, 0.08);
+}
+
+
+/* =========================================================
+   TABLE HEADER
+   ========================================================= */
+
+.poTableHeader {
+    padding: 19px 22px;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(10, 36, 61, 0.95),
+            rgba(9, 25, 43, 0.92)
+        );
+
+    border-bottom: 1px solid rgba(45, 144, 235, 0.25);
+}
+
+
+.poTableIconBox {
+    width: 44px;
+    height: 44px;
+
+    margin-right: 14px;
+
+    display: flex !important;
+
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 11px;
+
+    background: rgba(0, 125, 255, 0.13);
+
+    border: 1px solid rgba(45, 154, 255, 0.42);
+}
+
+
+.poTableIcon {
+    color: #42aaff !important;
+
+    font-size: 22px !important;
+}
+
+
+.poTableTitle {
+    color: #f0f6ff !important;
+
+    font-size: 17px !important;
+
+    font-weight: 600 !important;
+}
+
+
+.poTableSubtitle {
+    color: #7e94aa !important;
+
+    font-size: 11px !important;
+}
+
+
+.poTableRefreshButton .sapMBtnIcon {
+    color: #4eafff !important;
+}
+
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.poTable {
+    background: transparent !important;
+}
+
+
+.poTable .sapMListTbl {
+    background: transparent !important;
+}
+
+
+.poTable .sapMListTblHeader {
+    background: #0a1b2d !important;
+
+    border-bottom: 1px solid rgba(54, 151, 239, 0.32) !important;
+}
+
+
+.poTable .sapMListTblHeaderCell {
+    background: #0a1b2d !important;
+
+    border-bottom: 1px solid rgba(54, 151, 239, 0.25) !important;
+}
+.poColumnHeader {
+    color: #72bfff !important;
+    font-size: 11px !important;
+   font-weight: 600 !important;
+}
+/* =========================================================
+   TABLE ROWS
+   ========================================================= */
+.poTable .sapMListTblRow {
+    background: rgba(7, 20, 34, 0.92) !important;
+    border-bottom: 1px solid rgba(115, 150, 180, 0.09) !important;
+    transition: background 0.18s ease;
+}
+.poTable .sapMListTblRow:hover {
+    background: rgba(15, 45, 72, 0.72) !important;
+}
+.poTable .sapMListTblCell {
+    border-bottom: 1px solid rgba(115, 150, 180, 0.08) !important;
+    padding-top: 13px !important;
+    padding-bottom: 13px !important;
+}
+.poCellPrimary {
+    color: #50b2ff !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+}
+.poCellText {
+    color: #c4d3e3 !important;
+    font-size: 12px !important;
+}
+/* =========================================================
+   STATUS
+   ========================================================= */
+.poStatus .sapMObjStatusText {
+    font-size: 12px !important;
+    font-weight: 600 !important;
+}
+/* =========================================================
+   NO DATA
+   ========================================================= */
+.poTable .sapMListNoData {
+    background: #081522 !important;
+    color: #8297ad !important;
+    border: none !important;
+}
+/* =========================================================
+   FOOTER STATUS
+   ========================================================= */
+.poStatusBar {
+    width: 100%;
+    padding: 15px 18px;
+    box-sizing: border-box;
+    background: rgba(7, 25, 35, 0.82);
+    border: 1px solid rgba(0, 190, 255, 0.24);
+    border-radius: 10px;
+}
+.poStatusIcon {
+    color: #27baff !important;
+    font-size: 22px !important;
+   margin-right: 13px;
+}
+.poStatusTitle {
+    color: #35adff !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+}
+.poStatusSubtitle {
+    color: #70859c !important;
+    font-size: 11px !important;
+}
+
+/* =========================================================
+   SUPPLIER VERIFICATION PAGE
+   SUPPLIER PORTAL PREMIUM THEME
+   ========================================================= */
+
+
+/* =========================================================
+   PAGE BACKGROUND
+   ========================================================= */
+
+.supplierVerificationPage,
+.supplierVerificationPage .sapMPageBgStandard,
+.supplierVerificationPage .sapMPageBgSolid {
+
+    background:
+        radial-gradient(
+            circle at 50% 30%,
+            rgba(0, 125, 255, 0.09),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at 15% 85%,
+            rgba(0, 100, 220, 0.045),
+            transparent 30%
+        ),
+        #06101d !important;
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+   ========================================================= */
+
+.verificationPageContent {
+
+    box-sizing: border-box;
+
+    padding: 35px 20px;
+
+    min-height: 100%;
+
+    position: relative;
+}
+
+
+/* =========================================================
+   VERIFICATION ICON CONTAINER
+   ========================================================= */
+
+.verificationIconBox {
+
+    width: 78px;
+
+    height: 78px;
+
+    margin-bottom: 18px;
+
+    border-radius: 22px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0, 145, 255, 0.22),
+            rgba(0, 95, 190, 0.07)
+        );
+
+    border: 1px solid rgba(55, 170, 255, 0.62);
+
+    box-shadow:
+        0 0 20px rgba(0, 135, 255, 0.18),
+        0 0 45px rgba(0, 115, 255, 0.07),
+        inset 0 0 18px rgba(0, 145, 255, 0.08);
+
+    position: relative;
+}
+
+
+/* =========================================================
+   ICON
+   ========================================================= */
+
+.verificationIcon {
+
+    color: #42adff !important;
+
+    font-size: 38px !important;
+
+    text-shadow:
+        0 0 8px rgba(45, 170, 255, 0.65),
+        0 0 20px rgba(0, 130, 255, 0.30);
+}
+
+
+/* =========================================================
+   VERIFICATION CARD
+   ========================================================= */
+
+.verificationCard {
+
+    box-sizing: border-box;
+
+    padding: 30px 32px 24px 32px;
+
+    background:
+        radial-gradient(
+            circle at 90% 0%,
+            rgba(0, 130, 255, 0.08),
+            transparent 32%
+        ),
+        linear-gradient(
+            145deg,
+            rgba(10, 27, 45, 0.98),
+            rgba(7, 20, 34, 0.98)
+        );
+
+    border: 1px solid rgba(48, 159, 255, 0.58);
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 0 22px rgba(0, 125, 255, 0.12),
+        0 10px 45px rgba(0, 0, 0, 0.25),
+        inset 0 0 24px rgba(0, 105, 220, 0.025);
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   CARD TOP NEON LINE
+   ========================================================= */
+
+.verificationCard::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+
+    left: 12%;
+
+    right: 12%;
+
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(60, 180, 255, 0.9),
+            transparent
+        );
+
+    box-shadow:
+        0 0 10px rgba(40, 170, 255, 0.5);
+}
+
+
+/* =========================================================
+   CARD HEADER
+   ========================================================= */
+
+.verificationCardHeader {
+
+    margin-bottom: 27px;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   TITLE
+   ========================================================= */
+
+.verificationTitle {
+
+    color: #f3f8ff !important;
+
+    font-size: 23px !important;
+
+    font-weight: 700 !important;
+
+    margin-bottom: 6px !important;
+}
+
+
+/* =========================================================
+   SUBTITLE
+   ========================================================= */
+
+.verificationSubtitle {
+
+    color: #8ea7bf !important;
+
+    font-size: 12px !important;
+
+    line-height: 18px !important;
+}
+
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+.verificationForm {
+
+    width: 100%;
+}
+
+
+/* =========================================================
+   FIELD
+   ========================================================= */
+
+.verificationField {
+
+    width: 100%;
+
+    margin-bottom: 19px;
+}
+
+
+/* =========================================================
+   LABEL
+   ========================================================= */
+
+.verificationLabel {
+
+    color: #9bb1c7 !important;
+
+    font-size: 11px !important;
+
+    font-weight: 600 !important;
+
+    margin-bottom: 7px !important;
+}
+
+
+/* =========================================================
+   INPUT CONTAINER
+   ========================================================= */
+
+.verificationInput {
+
+    width: 100%;
+}
+
+
+.verificationInput .sapMInputBaseContentWrapper {
+
+    background: #0b1c2f !important;
+
+    border: 1px solid rgba(76, 145, 201, 0.36) !important;
+
+    border-radius: 8px !important;
+
+    min-height: 42px !important;
+
+    box-shadow:
+        inset 0 0 10px rgba(0, 80, 150, 0.025);
+
+    transition:
+        border-color 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+
+/* =========================================================
+   INPUT TEXT
+   ========================================================= */
+
+.verificationInput .sapMInputBaseInner {
+
+    background: transparent !important;
+
+    color: #e2effb !important;
+
+    font-size: 13px !important;
+
+    padding-left: 13px !important;
+}
+
+
+/* =========================================================
+   PLACEHOLDER
+   ========================================================= */
+
+.verificationInput .sapMInputBaseInner::placeholder {
+
+    color: #647e96 !important;
+}
+
+
+/* =========================================================
+   INPUT FOCUS
+   ========================================================= */
+
+.verificationInput .sapMInputBaseContentWrapper:focus-within {
+
+    border-color: rgba(55, 174, 255, 0.78) !important;
+
+    box-shadow:
+        0 0 0 1px rgba(40, 155, 255, 0.14),
+        0 0 13px rgba(0, 135, 255, 0.12),
+        inset 0 0 10px rgba(0, 125, 255, 0.04) !important;
+}
+
+
+/* =========================================================
+   VERIFY BUTTON
+   ========================================================= */
+
+.verificationButton {
+
+    width: 100% !important;
+
+    height: 44px !important;
+
+    margin-top: 5px;
+
+    border-radius: 8px !important;
+
+    background:
+        linear-gradient(
+            90deg,
+            #0878d1,
+            #1598f0
+        ) !important;
+
+    border: 1px solid rgba(75, 185, 255, 0.70) !important;
+
+    box-shadow:
+        0 0 14px rgba(0, 140, 255, 0.18);
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+
+/* =========================================================
+   BUTTON TEXT
+   ========================================================= */
+
+.verificationButton .sapMBtnContent {
+
+    color: #ffffff !important;
+
+    font-size: 13px !important;
+
+    font-weight: 700 !important;
+}
+
+
+/* =========================================================
+   BUTTON ICON
+   ========================================================= */
+
+.verificationButton .sapMBtnIcon {
+
+    color: #ffffff !important;
+
+    font-size: 15px !important;
+
+    margin-right: 7px !important;
+}
+
+
+/* =========================================================
+   BUTTON HOVER
+   ========================================================= */
+
+.verificationButton:hover {
+
+    box-shadow:
+        0 0 20px rgba(0, 145, 255, 0.28);
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   CARD FOOTER
+   ========================================================= */
+
+.verificationFooter {
+
+    margin-top: 23px;
+
+    padding-top: 16px;
+
+    border-top: 1px solid rgba(110, 145, 175, 0.10);
+}
+
+
+/* =========================================================
+   FOOTER ICON
+   ========================================================= */
+
+.verificationFooterIcon {
+
+    color: #3eafff !important;
+
+    font-size: 14px !important;
+
+    margin-right: 7px;
+
+    text-shadow:
+        0 0 7px rgba(40, 170, 255, 0.35);
+}
+
+
+/* =========================================================
+   FOOTER TEXT
+   ========================================================= */
+
+.verificationFooterText {
+
+    color: #718aa2 !important;
+
+    font-size: 10px !important;
+}
+
+
+/* =========================================================
+   BOTTOM BRANDING
+   ========================================================= */
+
+.verificationBranding {
+
+    color: #50708d !important;
+
+    font-size: 10px !important;
+
+    margin-top: 18px;
+
+    letter-spacing: 0.2px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .verificationPageContent {
+
+        padding: 25px 15px;
+    }
+
+
+    .verificationCard {
+
+        width: 100% !important;
+
+        max-width: 420px;
+
+        padding: 25px 22px 21px 22px;
+    }
+
+
+    .verificationIconBox {
+
+        width: 68px;
+
+        height: 68px;
+    }
+
+
+    .verificationIcon {
+
+        font-size: 32px !important;
+    }
+
+}

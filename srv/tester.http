@@ -49,3 +49,14 @@ GET http://localhost:4004/bp/MyPurchaseOrderDetails(BusinessPartner='1',Purchase
 GET http://localhost:4004/bp/MyPurchaseOrderItems?BusinessPartner=1&PurchaseOrder=4500003742
 ###
 GET http://localhost:4004/bp/MyPurchaseOrders?BusinessPartner=1
+
+
+//======================================================================================================================
+### Validate Supplier through business_partner-srv
+GET http://localhost:4004/bp/validateSupplier(SupplierID='SUP001',SupplierEmail='supplier@example.com')
+###
+GET http://localhost:4004/bp/validateSupplier(SupplierID='SUP999',SupplierEmail='wrong@example.com')
+
+### Get logged-in supplier
+GET http://localhost:4004/bp/getMySupplier()
+Accept: application/json

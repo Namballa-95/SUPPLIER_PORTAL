@@ -1,0 +1,426 @@
+<mvc:View
+    controllerName="supplier.po.supplierportal.controller.Dashboard"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <Page
+        id="dashboardPage"
+        showHeader="false"
+        class="supplierDashboardPage">
+
+        <content>
+
+            <VBox
+                class="dashboardContainer"
+                width="100%">
+
+                <!-- ================================================= -->
+                <!-- TOP HEADER -->
+                <!-- ================================================= -->
+
+                <HBox
+                    class="dashboardTopSection"
+                    width="100%"
+                    justifyContent="SpaceBetween"
+                    alignItems="Center">
+
+                    <VBox>
+
+                        <Text
+                            text="Welcome to Supplier Portal"
+                            class="dashboardWelcome"/>
+
+                        <Title
+                            text="{dashboard>/value/0/SupplierName}"
+                            level="H1"
+                            class="dashboardSupplierName"/>
+
+                        <HBox
+                            class="supplierIdBadge"
+                            alignItems="Center">
+
+                            <core:Icon
+                                xmlns:core="sap.ui.core"
+                                src="sap-icon://business-suite"
+                                class="supplierIdIcon"/>
+
+                            <Text
+                                text="{dashboard>/value/0/Supplier}"
+                                class="supplierIdText"/>
+
+                        </HBox>
+
+                        <Text
+                            text="Manage your purchase orders and supplier information."
+                            class="dashboardDescription"/>
+
+                    </VBox>
+
+
+                    <!-- Dashboard Illustration -->
+
+                    <VBox
+                        class="dashboardHeroIcon"
+                        alignItems="Center"
+                        justifyContent="Center">
+
+                        <core:Icon
+                            xmlns:core="sap.ui.core"
+                            src="sap-icon://inventory"
+                            class="heroMainIcon"/>
+
+                        <core:Icon
+                            xmlns:core="sap.ui.core"
+                            src="sap-icon://cart"
+                            class="heroCartIcon"/>
+
+                    </VBox>
+
+                </HBox>
+
+
+                <!-- ================================================= -->
+                <!-- STATISTICS CARDS -->
+                <!-- ================================================= -->
+
+                <HBox
+                    class="statsCardsRow"
+                    width="100%"
+                    wrap="Wrap"
+                    justifyContent="SpaceBetween">
+
+
+                    <!-- TOTAL PO -->
+
+                    <VBox
+                        class="statCard statCardBlue"
+                        width="32%"
+                        press=".onTotalPurchaseOrdersPress">
+
+                        <HBox
+                            class="statCardTop"
+                            alignItems="Center">
+
+                            <VBox
+                                class="statIconCircle statBlueIcon">
+
+                                <core:Icon
+                                    xmlns:core="sap.ui.core"
+                                    src="sap-icon://sales-order"
+                                    class="statIcon"/>
+
+                            </VBox>
+
+                            <VBox
+                                class="statTextArea">
+
+                                <Text
+                                    text="Total Purchase Orders"
+                                    class="statTitle"/>
+
+                                <Text
+                                    text="All Purchase Orders"
+                                    class="statSubtitle"/>
+
+                                <Text
+                                    text="{dashboard>/value/0/TotalPurchaseOrders}"
+                                    class="statNumber statNumberBlue"/>
+
+                            </VBox>
+
+                        </HBox>
+
+                        <HBox
+                            class="statBottom"
+                            justifyContent="SpaceBetween">
+
+                            <Text
+                                text="↗ 12% this month"
+                                class="statTrend statTrendBlue"/>
+
+                            <Text
+                                text="•••"
+                                class="cardMenuDots"/>
+
+                        </HBox>
+
+                    </VBox>
+
+
+                    <!-- OPEN PO -->
+
+                    <VBox
+                        class="statCard statCardOrange"
+                        width="32%"
+                        press=".onOpenPurchaseOrdersPress">
+
+                        <HBox
+                            class="statCardTop"
+                            alignItems="Center">
+
+                            <VBox
+                                class="statIconCircle statOrangeIcon">
+
+                                <core:Icon
+                                    xmlns:core="sap.ui.core"
+                                    src="sap-icon://pending"
+                                    class="statIcon"/>
+
+                            </VBox>
+
+                            <VBox
+                                class="statTextArea">
+
+                                <Text
+                                    text="Open Purchase Orders"
+                                    class="statTitle"/>
+
+                                <Text
+                                    text="Purchase Orders in progress"
+                                    class="statSubtitle"/>
+
+                                <Text
+                                    text="{dashboard>/value/0/OpenPurchaseOrders}"
+                                    class="statNumber statNumberOrange"/>
+
+                            </VBox>
+
+                        </HBox>
+
+                        <HBox
+                            class="statBottom"
+                            justifyContent="SpaceBetween">
+
+                            <Text
+                                text="↗ 8% this month"
+                                class="statTrend statTrendOrange"/>
+
+                            <Text
+                                text="•••"
+                                class="cardMenuDots"/>
+
+                        </HBox>
+
+                    </VBox>
+
+
+                    <!-- COMPLETED PO -->
+
+                    <VBox
+                        class="statCard statCardGreen"
+                        width="32%"
+                        press=".onCompletedPurchaseOrdersPress">
+
+                        <HBox
+                            class="statCardTop"
+                            alignItems="Center">
+
+                            <VBox
+                                class="statIconCircle statGreenIcon">
+
+                                <core:Icon
+                                    xmlns:core="sap.ui.core"
+                                    src="sap-icon://complete"
+                                    class="statIcon"/>
+
+                            </VBox>
+
+                            <VBox
+                                class="statTextArea">
+
+                                <Text
+                                    text="Completed Purchase Orders"
+                                    class="statTitle"/>
+
+                                <Text
+                                    text="Completed Purchase Orders"
+                                    class="statSubtitle"/>
+
+                                <Text
+                                    text="{dashboard>/value/0/CompletedPurchaseOrders}"
+                                    class="statNumber statNumberGreen"/>
+
+                            </VBox>
+
+                        </HBox>
+
+                        <HBox
+                            class="statBottom"
+                            justifyContent="SpaceBetween">
+
+                            <Text
+                                text="→ 0% this month"
+                                class="statTrend statTrendGreen"/>
+
+                            <Text
+                                text="•••"
+                                class="cardMenuDots"/>
+
+                        </HBox>
+
+                    </VBox>
+
+                </HBox>
+
+
+                <!-- ================================================= -->
+                <!-- NAVIGATION CARDS -->
+                <!-- ================================================= -->
+
+                <HBox
+                    class="navigationCardsRow"
+                    width="100%"
+                    justifyContent="SpaceBetween"
+                    wrap="Wrap">
+
+
+                    <!-- MY PURCHASE ORDERS -->
+
+                    <HBox
+                        class="navigationCard navigationCardBlue"
+                        width="49%"
+                        alignItems="Center"
+                        justifyContent="SpaceBetween"
+                        press=".onPurchaseOrdersPress">
+
+                        <HBox
+                            alignItems="Center">
+
+                            <VBox
+                                class="navigationIconCircle navigationBlueIcon">
+
+                                <core:Icon
+                                    xmlns:core="sap.ui.core"
+                                    src="sap-icon://sales-order"
+                                    class="navigationIcon"/>
+
+                            </VBox>
+
+                            <VBox
+                                class="navigationText">
+
+                                <Text
+                                    text="My Purchase Orders"
+                                    class="navigationTitle"/>
+
+                                <Text
+                                    text="View and manage purchase orders"
+                                    class="navigationSubtitle"/>
+
+                            </VBox>
+
+                        </HBox>
+
+                        <Button
+                            icon="sap-icon://navigation-right-arrow"
+                            type="Transparent"
+                            class="navigationArrow"
+                            press=".onPurchaseOrdersPress"/>
+
+                    </HBox>
+
+
+                    <!-- MY PROFILE -->
+
+                    <HBox
+                        class="navigationCard navigationCardPurple"
+                        width="49%"
+                        alignItems="Center"
+                        justifyContent="SpaceBetween"
+                        press=".onProfilePress">
+
+                        <HBox
+                            alignItems="Center">
+
+                            <VBox
+                                class="navigationIconCircle navigationPurpleIcon">
+
+                                <core:Icon
+                                    xmlns:core="sap.ui.core"
+                                    src="sap-icon://employee"
+                                    class="navigationIcon"/>
+
+                            </VBox>
+
+                            <VBox
+                                class="navigationText">
+
+                                <Text
+                                    text="My Profile"
+                                    class="navigationTitle"/>
+
+                                <Text
+                                    text="View supplier profile"
+                                    class="navigationSubtitle"/>
+
+                            </VBox>
+
+                        </HBox>
+
+                        <Button
+                            icon="sap-icon://navigation-right-arrow"
+                            type="Transparent"
+                            class="navigationArrow"
+                            press=".onProfilePress"/>
+
+                    </HBox>
+
+                </HBox>
+
+
+                <!-- ================================================= -->
+                <!-- SECURITY / CONNECTION FOOTER -->
+                <!-- ================================================= -->
+
+                <HBox
+                    class="dashboardStatusBar"
+                    width="100%"
+                    justifyContent="SpaceBetween"
+                    alignItems="Center">
+
+                    <HBox
+                        alignItems="Center">
+
+                        <core:Icon
+                            xmlns:core="sap.ui.core"
+                            src="sap-icon://shield"
+                            class="statusShield"/>
+
+                        <VBox>
+
+                            <Text
+                                text="Secure • Reliable • Connected"
+                                class="statusTitle"/>
+
+                            <Text
+                                text="Your trusted partner in procurement and supply chain."
+                                class="statusSubtitle"/>
+
+                        </VBox>
+
+                    </HBox>
+
+
+                    <HBox
+                        alignItems="Center">
+
+                        <core:Icon
+                            xmlns:core="sap.ui.core"
+                            src="sap-icon://locked"
+                            class="lastLoginIcon"/>
+
+                        <Text
+                            text="Last login: Today, 10:30 AM"
+                            class="lastLoginText"/>
+
+                    </HBox>
+
+                </HBox>
+
+            </VBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

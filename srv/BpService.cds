@@ -336,4 +336,11 @@ action updateMyProfile(
     Mobile                  : String(30)
 ) returns String;
 
+function validateSupplier(
+    SupplierID    : String(20),
+    SupplierEmail : String(150)
+) returns Boolean;
+
+function getMySupplier() returns String;
+
 }
