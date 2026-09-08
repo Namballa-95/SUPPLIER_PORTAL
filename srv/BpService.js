@@ -1,4 +1,5 @@
 const cds = require('@sap/cds');
+const { SELECT } = cds.ql;
 const { executeHttpRequest } = require('@sap-cloud-sdk/http-client');
 const { sendMail } = require("@sap-cloud-sdk/mail-client");
 
@@ -1128,12 +1129,8 @@ module.exports = cds.service.impl(async function (srv) {
                         }
                     }
                 );
-
-
             const bpData =
                 bpResponse.data?.d || {};
-
-
             console.log(
                 'Business Partner Data:',
                 bpData
@@ -3090,15 +3087,11 @@ Supplier Portal`;
             console.error(
                 "===================================="
             );
-
-
             return req.error(
                 500,
                 "Failed to send Purchase Order email: " +
                 error.message
             );
         }
-
     });
-
 });
