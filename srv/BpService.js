@@ -1060,7 +1060,7 @@ module.exports = cds.service.impl(async function (srv) {
             // -----------------------------------------------------
 
             const businessPartner =
-                getLoggedInBusinessPartner(req);
+                await getLoggedInBusinessPartner(req);
 
             console.log(
                 '=============================================='
@@ -1804,7 +1804,7 @@ async function getLoggedInBusinessPartner(req) {
             // STEP 1: GET BUSINESS PARTNER
             // -----------------------------------------------------
             const businessPartner =
-                getLoggedInBusinessPartner(req);
+                await getLoggedInBusinessPartner(req);
 
             console.log('==============================================');
             console.log('MY PURCHASE ORDERS');
