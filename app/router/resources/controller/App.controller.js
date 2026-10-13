@@ -1,30 +1,18 @@
 sap.ui.define([
-
     "sap/ui/core/mvc/Controller",
     "sap/m/MessageBox"
-
 ], (BaseController, MessageBox) => {
-
     "use strict";
 
     return BaseController.extend(
         "supplier.po.supplierportal.controller.App",
         {
-
-            onInit() {
-
+            onInit: function () {
                 this._validateSupplier();
-
             },
 
-
-            async _validateSupplier() {
-
+            _validateSupplier: async function () {
                 try {
-
-                    console.log("Supplier validation started...");
-
-
                     const response = await fetch(
                         "/bp/getMySupplier()",
                         {
@@ -36,120 +24,90 @@ sap.ui.define([
                         }
                     );
 
+                    const responseText = await response.text();
 
-                    console.log(
-                        "Supplier validation status:",
-                        response.status
-                    );
-
-
-                    // ------------------------------------------------
-                    // SUPPLIER NOT REGISTERED
-                    // ------------------------------------------------
-
+                    // Stop validation if the backend returns an error.
                     if (!response.ok) {
-
-                        let message =
-                            "This email is not registered in Business Partner. Please contact the administrator.";
-
+                        let errorMessage =
+                            "Unable to validate your supplier registration. Please try again later.";
 
                         try {
+                            const errorData = JSON.parse(responseText);
 
-                            const errorData =
-                                await response.json();
-
-                            if (
-                                errorData &&
-                                errorData.error &&
-                                errorData.error.message
-                            ) {
-
-                                message =
-                                    errorData.error.message;
-
+                            if (errorData?.error?.message) {
+                                errorMessage = errorData.error.message;
                             }
-
-                        } catch (error) {
-
-                            console.log(
-                                "Unable to read error response."
-                            );
-
+                        } catch (parseError) {
+                            // Keep the default message if the response
+                            // is not valid JSON.
                         }
 
+                        MessageBox.error(errorMessage, {
+                            title: "Supplier Validation Failed"
+                        });
 
+                        return;
+                    }
+
+                    // Parse the successful backend response.
+                    let data;
+
+                    try {
+                        data = JSON.parse(responseText);
+                    } catch (parseError) {
+                        data = responseText.trim();
+                    }
+
+                    // Support a scalar response, { value: "..." },
+                    // or an object containing SupplierID.
+                    const supplier =
+                        data?.value ?? data;
+
+                    const supplierId =
+                        typeof supplier === "string" ||
+                        typeof supplier === "number"
+                            ? supplier
+                            : supplier?.SupplierID ??
+                              supplier?.supplierID ??
+                              supplier?.supplierId ??
+                              supplier?.ID;
+
+                    // Never allow dashboard navigation without a valid ID.
+                    if (
+                        supplierId === undefined ||
+                        supplierId === null ||
+                        String(supplierId).trim() === ""
+                    ) {
                         MessageBox.error(
-                            message,
+                            "Your supplier registration could not be identified. Please contact the administrator.",
                             {
-                                title: "Access Denied"
+                                title: "Supplier Validation Failed"
                             }
                         );
 
                         return;
-
                     }
 
-
-                    // ------------------------------------------------
-                    // SUPPLIER REGISTERED
-                    // ------------------------------------------------
-
-                    const supplierId =
-                        await response.json();
-
-
-                    console.log(
-                        "Supplier validation successful."
-                    );
-
-                    console.log(
-                        "Supplier ID:",
-                        supplierId
-                    );
-
-
-                    // Store SupplierID
+                    // Store the validated supplier ID.
                     sessionStorage.setItem(
                         "SupplierID",
-                        supplierId
+                        String(supplierId)
                     );
 
-
-                    // ------------------------------------------------
-                    // OPEN DASHBOARD
-                    // ------------------------------------------------
-
+                    // Navigate only after successful validation.
                     this.getOwnerComponent()
                         .getRouter()
-                        .navTo(
-                            "Dashboard",
-                            {},
-                            true
-                        );
+                        .navTo("RouteDashboard", {}, true);
 
-                }
-
-
-                catch (error) {
-
-                    console.error(
-                        "Supplier validation failed:",
-                        error
-                    );
-
-
+                } catch (error) {
                     MessageBox.error(
-                        "Unable to validate the logged-in supplier. Please try again later.",
+                        "Unable to connect to the supplier validation service. Please try again later.",
                         {
-                            title: "Supplier Validation Error"
+                            title: "Supplier Validation Failed"
                         }
                     );
-
                 }
-
             }
-
         }
     );
-
 });

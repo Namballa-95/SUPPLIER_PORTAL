@@ -60,3 +60,6 @@ GET http://localhost:4004/bp/validateSupplier(SupplierID='SUP999',SupplierEmail=
 ### Get logged-in supplier
 GET http://localhost:4004/bp/getMySupplier()
 Accept: application/json
+
+###
+GET https://s4hana23.expertsoft.in:44300/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartnerAddress(BusinessPartner='17300006',AddressID='23469')/to_EmailAddress

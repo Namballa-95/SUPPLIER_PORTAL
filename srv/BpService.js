@@ -3,7 +3,7 @@ const { SELECT } = cds.ql;
 const { executeHttpRequest } = require('@sap-cloud-sdk/http-client');
 const { sendMail } = require("@sap-cloud-sdk/mail-client");
 
-module.exports = cds.service.impl(async function (srv) {
+ module.exports = cds.service.impl(async function (srv) {
 
     const {
         MyBp,
@@ -87,12 +87,11 @@ module.exports = cds.service.impl(async function (srv) {
                 "Unable to validate supplier with the Business Partner service."
             );
         }
-    });
+    }); 
 //===========================================================================================================
-    this.on("getMySupplier", async (req) => {
 
+this.on("getMySupplier", async (req) => {
     try {
-
         const user = req.user;
 
         console.log("==============================================");
@@ -101,97 +100,36 @@ module.exports = cds.service.impl(async function (srv) {
         console.log("User Email:", user?.email);
         console.log("==============================================");
 
-        // ---------------------------------------------
-        // Check XSUAA authentication
-        // ---------------------------------------------
-
         if (!user || user.id === "anonymous") {
-            return req.error(
-                401,
-                "User is not authenticated."
-            );
+            return req.reject(401, "User is not authenticated.");
         }
 
-        // ---------------------------------------------
-        // Get logged-in user's email
-        // ---------------------------------------------
-
-        const email =
-            user.email ||
-            user.attr?.email ||
-            user.id;
-
-        console.log(
-            "Resolved login email:",
-            email
-        );
+        const email = user.email || user.attr?.email || user.id;
 
         if (!email || !email.includes("@")) {
-            return req.error(
-                400,
-                "Unable to determine the email address of the logged-in user."
-            );
+            return req.reject(400, "Unable to determine the email address of the logged-in user.");
         }
 
-        // ---------------------------------------------
-        // Connect to database
-        // ---------------------------------------------
-
-        const db = await cds.connect.to("db");
-
-        // ---------------------------------------------
-        // Search BP Supplier master
-        // ---------------------------------------------
-
-        const supplier = await db.run(
-            SELECT.one
-                .from("bp.Suppliers")
-                .where({
-                    SupplierEmail: email
-                })
-        );
-
-        // ---------------------------------------------
-        // NOT registered in Business Partner
-        // ---------------------------------------------
+        // Use the entity reference directly from this.entities
+        const supplier = await SELECT.one
+            .from(Suppliers)
+            .where({ SupplierEmail: email });
 
         if (!supplier) {
-
-            console.log(
-                "Email is NOT registered in Business Partner:",
-                email
-            );
-
-            return req.error(
-                403,
-                "This email is not registered in Business Partner. Please contact the administrator."
-            );
+            console.log("Email is NOT registered in Business Partner:", email);
+            return req.reject(403, "This email is not registered in Business Partner. Please contact the administrator.");
         }
 
-        // ---------------------------------------------
-        // Supplier registered
-        // ---------------------------------------------
-
-        console.log(
-            "Supplier identified:",
-            supplier.SupplierID
-        );
-
+        console.log("Supplier identified:", supplier.SupplierID);
         return supplier.SupplierID;
 
     } catch (err) {
-
-        console.error(
-            "GET MY SUPPLIER ERROR:",
-            err
-        );
-
-        return req.error(
-            500,
-            "Unable to validate the logged-in supplier."
-        );
+        console.error("GET MY SUPPLIER ERROR:", err);
+        return req.reject(500, "Unable to validate the logged-in supplier.");
     }
 });
+
+
     // =========================================================
     // 1. GET SUPPLIERS
     //
@@ -1633,154 +1571,91 @@ srv.on('updateMyProfile', async (req) => {
 
 });
 
-   // =========================================================
+// =========================================================
 // DEVELOPMENT / USER BUSINESS PARTNER RESOLUTION
 // =========================================================
 
+
 async function getLoggedInBusinessPartner(req) {
-
-    // ---------------------------------------------------------
-    // 1. GET AUTHENTICATED USER
-    // ---------------------------------------------------------
-
     const user = req.user;
 
-    console.log(
-        '=============================================='
-    );
+    console.log("==============================================");
+    console.log("LOGGED-IN BUSINESS PARTNER RESOLUTION");
+    console.log("User ID:", user?.id);
+    console.log("User Email:", user?.email);
+    console.log("==============================================");
 
-    console.log(
-        'LOGGED-IN BUSINESS PARTNER RESOLUTION'
-    );
-
-    console.log(
-        'User ID:',
-        user?.id
-    );
-
-    console.log(
-        'User Email:',
-        user?.email
-    );
-
-    console.log(
-        '=============================================='
-    );
-
-
-    // ---------------------------------------------------------
-    // 2. USER MUST BE AUTHENTICATED
-    // ---------------------------------------------------------
-
-    if (
-        !user ||
-        user.id === 'anonymous'
-    ) {
-
+    if (!user || user.id === "anonymous") {
+        console.log("User is not authenticated.");
         return null;
-
     }
-
-
-    // ---------------------------------------------------------
-    // 3. GET EMAIL FROM XSUAA USER
-    // ---------------------------------------------------------
 
     const email =
         user.email ||
         user.attr?.email ||
         user.id;
 
-
-    if (
-        !email ||
-        !email.includes('@')
-    ) {
-
-        console.log(
-            'Unable to determine logged-in user email.'
-        );
-
+    if (!email || !email.includes("@")) {
+        console.log("Unable to determine logged-in user email.");
         return null;
-
     }
 
-
-    console.log(
-        'Resolved login email:',
-        email
-    );
-
-
-    // ---------------------------------------------------------
-    // 4. VALIDATE EMAIL AGAINST BP CAP
-    // ---------------------------------------------------------
+    console.log("Resolved login email:", email);
 
     try {
+        const jwtToken = user?.authInfo?.token?.jwt;
 
-        const response =
-            await executeHttpRequest(
-                {
-                    destinationName: 'BP_CAP_API'
-                },
-                {
-                    method: 'GET',
-
-                    url:
-                        '/bp/getMySupplier()',
-
-                    headers: {
-                        Accept:
-                            'application/json'
-                    }
-                }
-            );
-
-
-        const supplierId =
-            response.data;
-
-
-        console.log(
-            'Supplier ID returned by BP CAP:',
-            supplierId
-        );
-
-
-        if (!supplierId) {
-
+        if (!jwtToken) {
             console.log(
-                'No supplier found for logged-in user.'
+                "JWT token not available for BP CAP token exchange."
             );
-
             return null;
-
         }
 
+        const response = await executeHttpRequest(
+            {
+                destinationName: "BP_CAP_APP",
+                jwt: jwtToken
+            },
+            {
+                method: "GET",
+                url: "/bp/getMySupplier()",
+                headers: {
+                    Accept: "application/json"
+                }
+            }
+        );
 
-        // SupplierID is used as the
-        // Business Partner / Supplier identifier
-        return normalizeValue(
+        const supplierId = response.data?.value;
+
+        console.log(
+            "Supplier ID returned by BP CAP:",
             supplierId
         );
 
-    }
+        if (
+            supplierId === undefined ||
+            supplierId === null ||
+            String(supplierId).trim() === ""
+        ) {
+            console.log(
+                "No supplier found for logged-in user."
+            );
+            return null;
+        }
 
+        return normalizeValue(supplierId);
 
-    catch (error) {
-
+    } catch (error) {
         console.error(
-            'BP CAP supplier validation failed:',
-            error.response?.data ||
-            error.message ||
-            error
+            "BP CAP supplier validation failed:",
+            error.response?.data || error.message || error
         );
 
         return null;
-
     }
-
 }
+
 
     // =========================================================
     // 6. MY PURCHASE ORDERS
@@ -1817,8 +1692,6 @@ async function getLoggedInBusinessPartner(req) {
                     'Business Partner could not be determined for the logged-in user'
                 );
             }
-
-
             // -----------------------------------------------------
             // STEP 2: GET SUPPLIER FROM BUSINESS PARTNER
             // -----------------------------------------------------
@@ -2129,22 +2002,16 @@ async function getLoggedInBusinessPartner(req) {
 
 
             const supplier =
-                bpData.Supplier;
-
-
+                bpData.Supplier;            
             console.log(
                 'Supplier from BP:',
                 supplier
             );
-
-
             if (!supplier) {
-
                 return req.error(
                     404,
                     `No Supplier found for Business Partner ${businessPartner}`
                 );
-
             }
 
 

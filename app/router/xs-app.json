@@ -2,9 +2,16 @@
   "authenticationMethod": "route",
   "routes": [
     {
+      "source": "^/bp/getMySupplier\\(\\)$",
+      "target": "/bp/getMySupplier()",
+      "destination": "BP_CAP_APP",
+      "authenticationType": "xsuaa",
+      "csrfProtection": true
+    },
+    {
       "source": "^/bp/(.*)$",
       "target": "/bp/$1",
-      "destination": "BP_CAP_API",
+      "destination": "srv-api",
       "authenticationType": "xsuaa",
       "csrfProtection": true
     },
