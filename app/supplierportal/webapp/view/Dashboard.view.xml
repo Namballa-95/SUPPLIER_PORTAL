@@ -410,8 +410,8 @@
                             class="lastLoginIcon"/>
 
                         <Text
-                            text="Last login: Today, 10:30 AM"
-                            class="lastLoginText"/>
+    text="{dashboard>/value/0/LastLoginDisplay}"
+    class="lastLoginText"/>
 
                     </HBox>
 

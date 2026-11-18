@@ -1,3 +1,4 @@
+
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/model/json/JSONModel",
@@ -34,6 +35,36 @@ sap.ui.define([
 
 
             // =====================================================
+            // FORMAT LAST LOGIN
+            // =====================================================
+
+            formatLastLogin: function (timestamp) {
+
+                if (!timestamp) {
+                    return "Last login: No previous login";
+                }
+
+                const loginDate = new Date(timestamp);
+
+                if (isNaN(loginDate.getTime())) {
+                    return "Last login: Not available";
+                }
+
+                const formattedDate =
+                    new Intl.DateTimeFormat("en-IN", {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: true
+                    }).format(loginDate);
+
+                return "Last login: " + formattedDate;
+            },
+
+
+            // =====================================================
             // LOAD DASHBOARD
             // =====================================================
 
@@ -41,37 +72,23 @@ sap.ui.define([
 
                 try {
 
-                    console.log(
-                        "===================================="
-                    );
+                    console.log("====================================");
+                    console.log("LOADING SUPPLIER DASHBOARD");
+                    console.log("====================================");
 
-                    console.log(
-                        "LOADING SUPPLIER DASHBOARD"
-                    );
-
-                    console.log(
-                        "===================================="
-                    );
-
-
-                    const response =
-                        await fetch(
-                            "/bp/MyDashboard",
-                            {
-                                method: "GET",
-
-                                headers: {
-                                    "Accept":
-                                        "application/json"
-                                }
+                    const response = await fetch(
+                        "/bp/MyDashboard",
+                        {
+                            method: "GET",
+                            headers: {
+                                "Accept": "application/json"
                             }
-                        );
-
+                        }
+                    );
 
                     if (!response.ok) {
 
-                        const errorText =
-                            await response.text();
+                        const errorText = await response.text();
 
                         throw new Error(
                             "HTTP " +
@@ -81,16 +98,12 @@ sap.ui.define([
                         );
                     }
 
-
-                    const data =
-                        await response.json();
-
+                    const data = await response.json();
 
                     console.log(
                         "FULL DASHBOARD RESPONSE:",
                         data
                     );
-
 
                     // =================================================
                     // CHECK BACKEND RESPONSE
@@ -106,13 +119,11 @@ sap.ui.define([
                             "Dashboard API returned no data."
                         );
 
-
                         this.getView()
                             .getModel("dashboard")
                             .setData({
                                 value: []
                             });
-
 
                         MessageToast.show(
                             "No dashboard information found."
@@ -121,22 +132,14 @@ sap.ui.define([
                         return;
                     }
 
-
                     // =================================================
                     // LOGGED-IN SUPPLIER DASHBOARD
                     // =================================================
 
-                    const dashboard =
-                        data.value[0];
+                    const dashboard = data.value[0];
 
-
-                    console.log(
-                        "===================================="
-                    );
-
-                    console.log(
-                        "LOGGED-IN SUPPLIER DASHBOARD"
-                    );
+                    console.log("====================================");
+                    console.log("LOGGED-IN SUPPLIER DASHBOARD");
 
                     console.log(
                         "Business Partner:",
@@ -169,9 +172,20 @@ sap.ui.define([
                     );
 
                     console.log(
-                        "===================================="
+                        "Previous Login:",
+                        dashboard.LastLogin
                     );
 
+                    console.log("====================================");
+
+                    // =================================================
+                    // FORMAT LAST LOGIN
+                    // =================================================
+
+                    dashboard.LastLoginDisplay =
+                        this.formatLastLogin(
+                            dashboard.LastLogin
+                        );
 
                     // =================================================
                     // SET MODEL
@@ -181,11 +195,9 @@ sap.ui.define([
                         .getModel("dashboard")
                         .setData(data);
 
-
                     this.getView()
                         .getModel("dashboard")
                         .refresh(true);
-
 
                     // =================================================
                     // WELCOME MESSAGE
@@ -199,25 +211,12 @@ sap.ui.define([
                         )
                     );
 
-
                 } catch (error) {
 
-                    console.error(
-                        "===================================="
-                    );
-
-                    console.error(
-                        "DASHBOARD ERROR"
-                    );
-
-                    console.error(
-                        error
-                    );
-
-                    console.error(
-                        "===================================="
-                    );
-
+                    console.error("====================================");
+                    console.error("DASHBOARD ERROR");
+                    console.error(error);
+                    console.error("====================================");
 
                     MessageBox.error(
                         "Failed to load Supplier Dashboard.\n\n" +
@@ -236,7 +235,6 @@ sap.ui.define([
                 console.log(
                     "Total Purchase Orders tile clicked."
                 );
-
 
                 this.getOwnerComponent()
                     .getRouter()
@@ -259,7 +257,6 @@ sap.ui.define([
                     "Open Purchase Orders tile clicked."
                 );
 
-
                 this.getOwnerComponent()
                     .getRouter()
                     .navTo(
@@ -280,7 +277,6 @@ sap.ui.define([
                 console.log(
                     "Completed Purchase Orders tile clicked."
                 );
-
 
                 this.getOwnerComponent()
                     .getRouter()
@@ -303,7 +299,6 @@ sap.ui.define([
                     "My Purchase Orders tile clicked."
                 );
 
-
                 this.getOwnerComponent()
                     .getRouter()
                     .navTo(
@@ -325,13 +320,9 @@ sap.ui.define([
                     "Navigating to My Profile..."
                 );
 
-
                 this.getOwnerComponent()
                     .getRouter()
-                    .navTo(
-                        "RouteProfile"
-                    );
-
+                    .navTo("RouteProfile");
             }
 
         }

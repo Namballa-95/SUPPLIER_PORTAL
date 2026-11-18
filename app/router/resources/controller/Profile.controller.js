@@ -1,3 +1,4 @@
+
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/model/json/JSONModel",
@@ -22,9 +23,7 @@ sap.ui.define([
 
             onInit: function () {
 
-                // =====================================================
                 // PROFILE MODEL - DISPLAY
-                // =====================================================
 
                 this.getView().setModel(
                     new JSONModel({
@@ -33,9 +32,7 @@ sap.ui.define([
                     "profile"
                 );
 
-                // =====================================================
                 // PROFILE EDIT MODEL
-                // =====================================================
 
                 this.getView().setModel(
                     new JSONModel({
@@ -51,14 +48,6 @@ sap.ui.define([
 
             // =====================================================
             // LOAD LOGGED-IN SUPPLIER PROFILE
-            //
-            // Logged-in User
-            //       ↓
-            // Business Partner
-            //       ↓
-            // Supplier
-            //       ↓
-            // MyProfile
             // =====================================================
 
             loadProfile: async function () {
@@ -69,8 +58,7 @@ sap.ui.define([
                         "Loading your profile..."
                     );
 
-                    const url =
-                        "/bp/MyProfile";
+                    const url = "/bp/MyProfile";
 
                     console.log(
                         "===================================="
@@ -89,20 +77,15 @@ sap.ui.define([
                         "===================================="
                     );
 
-
-                    const response =
-                        await fetch(
-                            url,
-                            {
-                                method: "GET",
-
-                                headers: {
-                                    "Accept":
-                                        "application/json"
-                                }
+                    const response = await fetch(
+                        url,
+                        {
+                            method: "GET",
+                            headers: {
+                                "Accept": "application/json"
                             }
-                        );
-
+                        }
+                    );
 
                     if (!response.ok) {
 
@@ -117,20 +100,15 @@ sap.ui.define([
                         );
                     }
 
-
                     const data =
                         await response.json();
-
 
                     console.log(
                         "MyProfile Response:",
                         data
                     );
 
-
-                    // =================================================
                     // VALIDATE RESPONSE
-                    // =================================================
 
                     if (
                         !data ||
@@ -145,19 +123,13 @@ sap.ui.define([
                         return;
                     }
 
-
-                    // =================================================
                     // SET PROFILE MODEL
-                    // =================================================
 
                     this.getView()
                         .getModel("profile")
                         .setData(data);
 
-
-                    const profile =
-                        data.value[0];
-
+                    const profile = data.value[0];
 
                     console.log(
                         "===================================="
@@ -186,11 +158,9 @@ sap.ui.define([
                         "===================================="
                     );
 
-
                     MessageToast.show(
                         "Profile loaded successfully."
                     );
-
 
                 } catch (error) {
 
@@ -199,13 +169,14 @@ sap.ui.define([
                         error
                     );
 
-
                     MessageBox.error(
                         "Failed to load supplier profile.\n\n" +
                         error.message
                     );
                 }
             },
+
+
             // =====================================================
             // EDIT PROFILE
             // =====================================================
@@ -231,54 +202,77 @@ sap.ui.define([
                 }
 
                 // Create a separate copy for editing
+
                 oEditModel.setData({
 
                     isEditing: true,
 
+                    // BUSINESS PARTNER
+
+                    BusinessPartner:
+                        oProfileData.BusinessPartner || "",
+
                     BusinessPartnerFullName:
-                        oProfileData.BusinessPartnerFullName,
+                        oProfileData.BusinessPartnerFullName || "",
 
                     BusinessPartnerName:
-                        oProfileData.BusinessPartnerName,
+                        oProfileData.BusinessPartnerName || "",
+
+                    SearchTerm1:
+                        oProfileData.SearchTerm1 || "",
+
+                    SearchTerm2:
+                        oProfileData.SearchTerm2 || "",
+
+                    // ADDRESS
+
+                    AddressID:
+                        oProfileData.AddressID || "",
 
                     StreetName:
-                        oProfileData.StreetName,
+                        oProfileData.StreetName || "",
 
                     HouseNumber:
-                        oProfileData.HouseNumber,
+                        oProfileData.HouseNumber || "",
 
                     CityName:
-                        oProfileData.CityName,
+                        oProfileData.CityName || "",
 
                     PostalCode:
-                        oProfileData.PostalCode,
+                        oProfileData.PostalCode || "",
 
                     Region:
-                        oProfileData.Region,
+                        oProfileData.Region || "",
 
                     Country:
-                        oProfileData.Country,
+                        oProfileData.Country || "",
+
+                    // CONTACT INFORMATION
 
                     Email:
-                        oProfileData.Email,
+                        oProfileData.Email || "",
 
                     Phone:
-                        oProfileData.Phone,
+                        oProfileData.Phone || "",
 
                     Mobile:
-                        oProfileData.Mobile
+                        oProfileData.Mobile || ""
+
                 });
 
                 MessageToast.show(
-                    "Edit mode enabled."
+                    "You can now edit your profile."
                 );
             },
 
-            // =====================================================
-// SAVE PROFILE - UI TEST
-// =====================================================
 
-onSaveProfile: function () {
+            // =====================================================
+            // SAVE PROFILE - VALIDATION ONLY
+            // BACKEND INTEGRATION WILL BE ADDED NEXT
+            // =====================================================
+
+            
+onSaveProfile: async function () {
 
     const oEditModel =
         this.getView().getModel("profileEdit");
@@ -287,128 +281,187 @@ onSaveProfile: function () {
         oEditModel.getData();
 
     // ---------------------------------------------
-    // Basic validation
+    // BASIC VALIDATION
     // ---------------------------------------------
 
-    if (!oData.BusinessPartnerFullName) {
-
+    if (!oData.BusinessPartnerFullName?.trim()) {
         MessageBox.warning(
             "Please enter your full name."
         );
-
         return;
     }
 
-    if (!oData.CityName) {
-
+    if (!oData.CityName?.trim()) {
         MessageBox.warning(
             "Please enter your city."
         );
-
         return;
     }
 
-    if (!oData.Email) {
-
+    if (!oData.Email?.trim()) {
         MessageBox.warning(
             "Please enter your email address."
         );
-
         return;
     }
-
-    // ---------------------------------------------
-    // Email validation
-    // ---------------------------------------------
 
     const emailPattern =
         /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!emailPattern.test(oData.Email)) {
-
+    if (!emailPattern.test(oData.Email.trim())) {
         MessageBox.error(
             "Please enter a valid email address."
         );
-
         return;
     }
 
     // ---------------------------------------------
-    // Temporary console output
+    // BUILD REQUEST PAYLOAD
     // ---------------------------------------------
 
-    console.log(
-        "===================================="
-    );
+    const payload = {
+        BusinessPartner: oData.BusinessPartner,
+        BusinessPartnerFullName: oData.BusinessPartnerFullName,
+        BusinessPartnerName: oData.BusinessPartnerName,
+        SearchTerm1: oData.SearchTerm1,
+        SearchTerm2: oData.SearchTerm2,
+        AddressID: oData.AddressID,
+        StreetName: oData.StreetName,
+        HouseNumber: oData.HouseNumber,
+        CityName: oData.CityName,
+        PostalCode: oData.PostalCode,
+        Region: oData.Region,
+        Country: oData.Country,
+        Email: oData.Email,
+        Phone: oData.Phone,
+        Mobile: oData.Mobile
+    };
 
-    console.log(
-        "PROFILE CHANGES"
-    );
+    try {
 
-    console.log(
-        "Full Name:",
-        oData.BusinessPartnerFullName
-    );
+        // -----------------------------------------
+        // FETCH CSRF TOKEN
+        // -----------------------------------------
 
-    console.log(
-        "Business Partner Name:",
-        oData.BusinessPartnerName
-    );
+        MessageToast.show(
+            "Saving supplier profile..."
+        );
 
-    console.log(
-        "Street:",
-        oData.StreetName
-    );
+        const csrfResponse = await fetch(
+            "/bp/",
+            {
+                method: "GET",
+                credentials: "same-origin",
+                headers: {
+                    "Accept": "application/json",
+                    "X-CSRF-Token": "Fetch"
+                }
+            }
+        );
 
-    console.log(
-        "House Number:",
-        oData.HouseNumber
-    );
+        if (!csrfResponse.ok) {
+            throw new Error(
+                "Unable to retrieve CSRF token. HTTP " +
+                csrfResponse.status
+            );
+        }
 
-    console.log(
-        "City:",
-        oData.CityName
-    );
+        const csrfToken =
+            csrfResponse.headers.get("x-csrf-token");
 
-    console.log(
-        "Postal Code:",
-        oData.PostalCode
-    );
+        if (!csrfToken) {
+            throw new Error(
+                "CSRF token was not received from CAP."
+            );
+        }
 
-    console.log(
-        "Region:",
-        oData.Region
-    );
+        // -----------------------------------------
+        // CALL CAP ACTION
+        // -----------------------------------------
 
-    console.log(
-        "Email:",
-        oData.Email
-    );
+        const response = await fetch(
+            "/bp/updateMyProfile",
+            {
+                method: "POST",
+                credentials: "same-origin",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                    "X-CSRF-Token": csrfToken
+                },
+                body: JSON.stringify(payload)
+            }
+        );
 
-    console.log(
-        "Phone:",
-        oData.Phone
-    );
+        const responseText =
+            await response.text();
 
-    console.log(
-        "Mobile:",
-        oData.Mobile
-    );
+        let result = {};
 
-    console.log(
-        "===================================="
-    );
+        try {
+            result = responseText
+                ? JSON.parse(responseText)
+                : {};
+        } catch (parseError) {
+            result = {
+                message: responseText
+            };
+        }
 
-    MessageToast.show(
-        "Profile changes validated successfully."
-    );
+        if (!response.ok) {
 
-    // Exit edit mode
-    oEditModel.setProperty(
-        "/isEditing",
-        false
-    );
+            const errorMessage =
+                result?.error?.message?.value ||
+                result?.error?.message ||
+                result?.message ||
+                responseText ||
+                "Profile update failed.";
+
+            throw new Error(
+                typeof errorMessage === "string"
+                    ? errorMessage
+                    : JSON.stringify(errorMessage)
+            );
+        }
+
+        console.log(
+            "UPDATE MY PROFILE RESPONSE:",
+            result
+        );
+
+        // -----------------------------------------
+        // RELOAD PROFILE FROM S/4HANA
+        // -----------------------------------------
+
+        await this.loadProfile();
+
+        oEditModel.setProperty(
+            "/isEditing",
+            false
+        );
+
+        MessageBox.success(
+            "Supplier profile update request completed. Please verify the refreshed profile."
+        );
+
+    } catch (error) {
+
+        console.error(
+            "UPDATE PROFILE ERROR:",
+            error
+        );
+
+        MessageBox.error(
+            "Unable to update supplier profile.\n\n" +
+            error.message
+        );
+
+    }
+
 },
+
+
+
             // =====================================================
             // CANCEL EDIT
             // =====================================================
@@ -426,6 +479,8 @@ onSaveProfile: function () {
                     "Changes discarded."
                 );
             },
+
+
             // =====================================================
             // BACK TO DASHBOARD
             // =====================================================

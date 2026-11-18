@@ -308,7 +308,11 @@ entity MyDashboard {
     TotalPurchaseOrders       : Integer;
     OpenPurchaseOrders        : Integer;
     CompletedPurchaseOrders   : Integer;
+    LastLogin : Timestamp;
 }
+
+// save timestamp
+action recordSupplierLogin() returns String;
 
 // =========================================================
 // SEND PURCHASE ORDER
