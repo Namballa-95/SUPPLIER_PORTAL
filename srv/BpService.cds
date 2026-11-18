@@ -4,6 +4,8 @@ using {
     SCP_API_BUSINESS_PARTNER as Bp
 } from './external/SCP_API_BUSINESS_PARTNER';
 
+using { BpService.db as db } from '../db/schema';
+
 
 service BpService @(path:'/bp') {
 
@@ -35,6 +37,8 @@ service BpService @(path:'/bp') {
         Phone               : String(30);
         Mobile              : String(30);
     }
+
+    entity SupplierMappings as projection on db.SupplierMapping;
 
 
     entity SupplierDetail {

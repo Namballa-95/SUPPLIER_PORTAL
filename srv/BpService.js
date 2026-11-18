@@ -1,9 +1,10 @@
 const cds = require('@sap/cds');
 const { SELECT } = cds.ql;
 const { executeHttpRequest } = require('@sap-cloud-sdk/http-client');
+const { getDestination } = require("@sap-cloud-sdk/connectivity");
 const { sendMail } = require("@sap-cloud-sdk/mail-client");
 
- module.exports = cds.service.impl(async function (srv) {
+module.exports = cds.service.impl(async function (srv) {
 
     const {
         MyBp,
@@ -87,11 +88,12 @@ const { sendMail } = require("@sap-cloud-sdk/mail-client");
                 "Unable to validate supplier with the Business Partner service."
             );
         }
-    }); 
-//===========================================================================================================
+    });
+    //===========================================================================================================
 
-this.on("getMySupplier", async (req) => {
-    try {
+
+
+    this.on("getMySupplier", async (req) => {
         const user = req.user;
 
         console.log("==============================================");
@@ -100,35 +102,98 @@ this.on("getMySupplier", async (req) => {
         console.log("User Email:", user?.email);
         console.log("==============================================");
 
+        // 1. Validate login
         if (!user || user.id === "anonymous") {
             return req.reject(401, "User is not authenticated.");
         }
 
+        // 2. Get logged-in user's email
         const email = user.email || user.attr?.email || user.id;
 
         if (!email || !email.includes("@")) {
-            return req.reject(400, "Unable to determine the email address of the logged-in user.");
+            return req.reject(
+                400,
+                "Unable to determine the email address of the logged-in user."
+            );
         }
 
-        // Use the entity reference directly from this.entities
-        const supplier = await SELECT.one
-            .from(Suppliers)
-            .where({ SupplierEmail: email });
+        // 3. Retrieve logged-in user's JWT
+        const authorization = req.http?.req?.headers?.authorization;
+
+        console.log("HTTP context available:", !!req.http);
+        console.log("Authorization header available:", !!authorization);
+
+        if (!authorization || !authorization.startsWith("Bearer ")) {
+            return req.reject(
+                401,
+                "Unable to retrieve the logged-in user's access token."
+            );
+        }
+
+        const jwt = authorization.substring(7);
+
+        // 4. Prepare supplier email filter
+        const escapedEmail = email.replace(/'/g, "''");
+        const filter = `SupplierEmail eq '${escapedEmail}'`;
+
+        console.log("Validating supplier email:", email);
+
+        let response;
+
+        // 5. Resolve BP CAP destination and call the service
+        try {
+            const destination = await getDestination({
+                destinationName: "BP_CAP_APP",
+                jwt: jwt
+            });
+
+            if (!destination) {
+                throw new Error("BP_CAP_APP destination could not be resolved.");
+            }
+
+            response = await executeHttpRequest(
+                destination,
+                {
+                    method: "GET",
+                    url: `/bp/Suppliers?$filter=${encodeURIComponent(filter)}&$select=SupplierID,SupplierEmail&$top=1`,
+                    headers: {
+                        Accept: "application/json"
+                    }
+                }
+            );
+
+            console.log("BP CAP response:", response.data);
+
+        } catch (err) {
+            console.error("BP CAP SUPPLIER VALIDATION ERROR:", {
+                message: err.message,
+                status: err.response?.status,
+                response: err.response?.data
+            });
+
+            return req.reject(
+                502,
+                "Unable to validate supplier registration through Business Partner service."
+            );
+        }
+
+        // 6. Get matching supplier
+        const supplier = response.data?.value?.[0];
 
         if (!supplier) {
-            console.log("Email is NOT registered in Business Partner:", email);
-            return req.reject(403, "This email is not registered in Business Partner. Please contact the administrator.");
+            console.log("Supplier not registered:", email);
+
+            return req.reject(
+                403,
+                "This email is not registered in Business Partner. Please contact the administrator."
+            );
         }
 
         console.log("Supplier identified:", supplier.SupplierID);
+
+        // 7. Return SupplierID
         return supplier.SupplierID;
-
-    } catch (err) {
-        console.error("GET MY SUPPLIER ERROR:", err);
-        return req.reject(500, "Unable to validate the logged-in supplier.");
-    }
-});
-
+    });
 
     // =========================================================
     // 1. GET SUPPLIERS
@@ -989,295 +1054,15 @@ this.on("getMySupplier", async (req) => {
     // MyProfile
     // =========================================================
 
-    srv.on('READ', MyProfile, async (req) => {
+    
 
-        try {
-
-            // -----------------------------------------------------
-            // STEP 1: GET LOGGED-IN BUSINESS PARTNER
-            // -----------------------------------------------------
-
-            const businessPartner =
-                await getLoggedInBusinessPartner(req);
-
-            console.log(
-                '=============================================='
-            );
-
-            console.log(
-                'MY PROFILE'
-            );
-
-            console.log(
-                'Resolved Business Partner:',
-                businessPartner
-            );
-
-            console.log(
-                '=============================================='
-            );
-
-
-            if (!businessPartner) {
-
-                return req.error(
-                    400,
-                    'Business Partner could not be determined for the logged-in user'
-                );
-            }
-
-
-            // -----------------------------------------------------
-            // STEP 2: FETCH BUSINESS PARTNER
-            // -----------------------------------------------------
-
-            const bpResponse =
-                await executeHttpRequest(
-                    {
-                        destinationName: 'S4HANA1'
-                    },
-                    {
-                        method: 'GET',
-
-                        url:
-                            `/sap/opu/odata/sap/API_BUSINESS_PARTNER/` +
-                            `A_BusinessPartner('${encodeURIComponent(businessPartner)}')`,
-
-                        params: {
-                            '$select':
-                                [
-                                    'BusinessPartner',
-                                    'Customer',
-                                    'Supplier',
-                                    'BusinessPartnerFullName',
-                                    'BusinessPartnerName',
-                                    'BusinessPartnerCategory',
-                                    'BusinessPartnerGrouping',
-                                    'SearchTerm1',
-                                    'SearchTerm2'
-                                ].join(','),
-
-                            '$format':
-                                'json'
-                        },
-
-                        headers: {
-                            Accept:
-                                'application/json'
-                        }
-                    }
-                );
-            const bpData =
-                bpResponse.data?.d || {};
-            console.log(
-                'Business Partner Data:',
-                bpData
-            );
-
-
-            // -----------------------------------------------------
-            // STEP 3: GET BUSINESS PARTNER ADDRESS
-            // -----------------------------------------------------
-
-            const addressResponse =
-                await executeHttpRequest(
-                    {
-                        destinationName: 'S4HANA1'
-                    },
-                    {
-                        method: 'GET',
-
-                        url:
-                            `/sap/opu/odata/sap/API_BUSINESS_PARTNER/` +
-                            `A_BusinessPartner('${encodeURIComponent(businessPartner)}')` +
-                            `/to_BusinessPartnerAddress`,
-
-                        params: {
-                            '$format':
-                                'json'
-                        },
-
-                        headers: {
-                            Accept:
-                                'application/json'
-                        }
-                    }
-                );
-
-
-            const addressResults =
-                addressResponse.data?.d?.results || [];
-
-
-            const address =
-                addressResults[0] || {};
-
-
-            console.log(
-                'Address Data:',
-                address
-            );
-
-
-            // -----------------------------------------------------
-            // STEP 4: NORMALIZE VALUES
-            // -----------------------------------------------------
-
-            const normalizedBusinessPartner =
-                normalizeValue(
-                    bpData.BusinessPartner ||
-                    businessPartner
-                );
-
-
-            const normalizedSupplier =
-                normalizeValue(
-                    bpData.Supplier
-                );
-
-
-            const normalizedCustomer =
-                normalizeValue(
-                    bpData.Customer
-                );
-
-
-            // -----------------------------------------------------
-            // STEP 5: BUILD PROFILE
-            // -----------------------------------------------------
-
-            const profile = {
-
-                BusinessPartner:
-                    normalizedBusinessPartner,
-
-                Supplier:
-                    normalizedSupplier,
-
-                Customer:
-                    normalizedCustomer,
-
-                BusinessPartnerFullName:
-                    bpData.BusinessPartnerFullName || '',
-
-                BusinessPartnerName:
-                    bpData.BusinessPartnerName || '',
-
-                BusinessPartnerCategory:
-                    bpData.BusinessPartnerCategory || '',
-
-                BusinessPartnerGrouping:
-                    bpData.BusinessPartnerGrouping || '',
-
-                SearchTerm1:
-                    bpData.SearchTerm1 || '',
-
-                SearchTerm2:
-                    bpData.SearchTerm2 || '',
-
-                AddressID:
-                    address.AddressID || '',
-
-                StreetName:
-                    address.StreetName || '',
-
-                HouseNumber:
-                    address.HouseNumber || '',
-
-                CityName:
-                    address.CityName || '',
-
-                PostalCode:
-                    address.PostalCode || '',
-
-                Country:
-                    address.Country || '',
-
-                Region:
-                    address.Region || '',
-
-                Email:
-                    address.EmailAddress || '',
-
-                Phone:
-                    address.PhoneNumber || '',
-
-                Mobile:
-                    address.MobilePhoneNumber || ''
-            };
-
-
-            // -----------------------------------------------------
-            // STEP 6: LOG RESULT
-            // -----------------------------------------------------
-
-            console.log(
-                '=============================================='
-            );
-
-            console.log(
-                'MY PROFILE RESULT'
-            );
-
-            console.log(
-                JSON.stringify(
-                    profile,
-                    null,
-                    2
-                )
-            );
-
-            console.log(
-                '=============================================='
-            );
-
-
-            // -----------------------------------------------------
-            // STEP 7: RETURN PROFILE
-            // -----------------------------------------------------
-
-            return [profile];
-
-
-        } catch (err) {
-
-            console.error(
-                'My Profile API Error:',
-                err.response?.data ||
-                err.message ||
-                err
-            );
-
-
-            return req.error(
-                500,
-                'Failed to fetch Supplier Profile from S/4HANA'
-            );
-
-        }
-
-    });
-
-// =========================================================
-// UPDATE MY PROFILE
-//
-// Updates:
-// 1. Business Partner information
-// 2. Business Partner Address
-//
-// Email / Phone / Mobile are intentionally NOT updated here.
-// =========================================================
-
-srv.on('updateMyProfile', async (req) => {
-
+srv.on('READ', MyProfile, async (req) => {
     try {
+        // STEP 1: Identify the logged-in portal supplier
+        const businessPartner = await getLoggedInBusinessPartner(req);
 
-        // =====================================================
-        // STEP 1: GET LOGGED-IN BUSINESS PARTNER
-        // =====================================================
-
-        const businessPartner =
-            getLoggedInBusinessPartner(req);
+        console.log('========== MY PROFILE ==========');
+        console.log('Portal Supplier ID:', businessPartner);
 
         if (!businessPartner) {
             return req.error(
@@ -1286,193 +1071,332 @@ srv.on('updateMyProfile', async (req) => {
             );
         }
 
-
-        // =====================================================
-        // STEP 2: READ REQUEST DATA
-        // =====================================================
-
-        const {
-            BusinessPartnerFullName,
-            BusinessPartnerName,
-            SearchTerm1,
-            SearchTerm2,
-
-            AddressID,
-            StreetName,
-            HouseNumber,
-            CityName,
-            PostalCode,
-            Region,
-            Country
-        } = req.data;
-
-
-        console.log(
-            '=============================================='
+        // STEP 2: Resolve the S/4HANA supplier ID dynamically
+        const supplierMapping = await cds.run(
+            cds.ql.SELECT.one
+                .from('BpService.db.SupplierMapping')
+                .where({ PortalSupplierID: businessPartner })
         );
 
-        console.log(
-            'UPDATE MY PROFILE'
-        );
-
-        console.log(
-            'Business Partner:',
-            businessPartner
-        );
-
-        console.log(
-            'Address ID:',
-            AddressID
-        );
-
-        console.log(
-            'Request Data:',
-            req.data
-        );
-
-        console.log(
-            '=============================================='
-        );
-
-
-        // =====================================================
-        // STEP 3: UPDATE BUSINESS PARTNER
-        // =====================================================
-
-        const businessPartnerPayload = {};
-
-        if (BusinessPartnerFullName !== undefined) {
-            businessPartnerPayload.BusinessPartnerFullName =
-                BusinessPartnerFullName;
-        }
-
-        if (BusinessPartnerName !== undefined) {
-            businessPartnerPayload.BusinessPartnerName =
-                BusinessPartnerName;
-        }
-
-        if (SearchTerm1 !== undefined) {
-            businessPartnerPayload.SearchTerm1 =
-                SearchTerm1;
-        }
-
-        if (SearchTerm2 !== undefined) {
-            businessPartnerPayload.SearchTerm2 =
-                SearchTerm2;
-        }
-
-
-        if (
-            Object.keys(businessPartnerPayload).length > 0
-        ) {
-
-            console.log(
-                'Updating Business Partner:',
-                businessPartnerPayload
+        if (!supplierMapping?.S4SupplierID) {
+            return req.error(
+                404,
+                `No S/4HANA supplier mapping found for ${businessPartner}`
             );
+        }
 
+        const s4SupplierID = normalizeValue(
+            supplierMapping.S4SupplierID
+        );
 
-            await executeHttpRequest(
+        console.log('S/4 Supplier ID:', s4SupplierID);
+
+        // STEP 3: Fetch Business Partner details
+        const bpParams = new URLSearchParams({
+            '$filter': `BusinessPartner eq '${s4SupplierID}'`,
+            '$select': [
+                'BusinessPartner',
+                'Customer',
+                'Supplier',
+                'BusinessPartnerFullName',
+                'BusinessPartnerName',
+                'BusinessPartnerCategory',
+                'BusinessPartnerGrouping',
+                'SearchTerm1',
+                'SearchTerm2'
+            ].join(','),
+            '$format': 'json'
+        });
+
+        const bpResponse = await executeHttpRequest(
+            { destinationName: 'S4HANA1' },
+            {
+                method: 'GET',
+                url:
+                    '/sap/opu/odata/sap/API_BUSINESS_PARTNER/' +
+                    'A_BusinessPartner?' +
+                    bpParams.toString(),
+                headers: {
+                    Accept: 'application/json'
+                }
+            }
+        );
+
+        const bpData = bpResponse.data?.d?.results?.[0] || {};
+
+        if (!bpData.BusinessPartner) {
+            return req.error(
+                404,
+                `Business Partner ${s4SupplierID} was not found in S/4HANA`
+            );
+        }
+
+        // STEP 4: Fetch address and communication details
+        let address = {};
+        let email = '';
+        let phone = '';
+        let mobile = '';
+
+        try {
+            const addressParams = new URLSearchParams({
+                '$filter': `BusinessPartner eq '${s4SupplierID}'`,
+                '$expand':
+                    'to_EmailAddress,to_PhoneNumber,to_MobilePhoneNumber',
+                '$format': 'json'
+            });
+
+            const addressResponse = await executeHttpRequest(
+                { destinationName: 'S4HANA1' },
                 {
-                    destinationName: 'S4HANA1'
-                },
-                {
-                    method: 'PATCH',
-
+                    method: 'GET',
                     url:
-                        `/sap/opu/odata/sap/API_BUSINESS_PARTNER/` +
-                        `A_BusinessPartner('${encodeURIComponent(businessPartner)}')`,
-
-                    data:
-                        businessPartnerPayload,
-
+                        '/sap/opu/odata/sap/API_BUSINESS_PARTNER/' +
+                        'A_BusinessPartnerAddress?' +
+                        addressParams.toString(),
                     headers: {
-                        Accept:
-                            'application/json',
-
-                        'Content-Type':
-                            'application/json'
+                        Accept: 'application/json'
                     }
                 }
             );
 
+            const addresses =
+                addressResponse.data?.d?.results || [];
 
-            console.log(
-                'Business Partner updated successfully'
+            // Prefer the default address; otherwise use the first address
+            address =
+                addresses.find(item => item.IsDefaultAddress === true) ||
+                addresses[0] ||
+                {};
+
+            // OData V2 expanded navigation collections
+            const getExpandedResults = (navigation) => {
+                const value = address[navigation];
+
+                if (Array.isArray(value?.results)) {
+                    return value.results;
+                }
+
+                if (Array.isArray(value)) {
+                    return value;
+                }
+
+                return [];
+            };
+
+            const emails = getExpandedResults('to_EmailAddress');
+            const phones = getExpandedResults('to_PhoneNumber');
+            const mobiles = getExpandedResults('to_MobilePhoneNumber');
+
+            // Prefer default email, then the first available email
+            const emailRecord =
+                emails.find(item => item.IsDefaultEmailAddress === true) ||
+                emails[0];
+
+            // Prefer default telephone, then the first available telephone
+            const phoneRecord =
+                phones.find(item => item.IsDefaultPhoneNumber === true) ||
+                phones[0];
+
+            // Prefer default mobile, then the first available mobile
+            const mobileRecord =
+                mobiles.find(item => item.IsDefaultPhoneNumber === true) ||
+                mobiles[0];
+
+            email = emailRecord?.EmailAddress || '';
+
+            phone =
+                phoneRecord?.InternationalPhoneNumber ||
+                phoneRecord?.PhoneNumber ||
+                '';
+
+            mobile =
+                mobileRecord?.InternationalPhoneNumber ||
+                mobileRecord?.PhoneNumber ||
+                '';
+
+        } catch (communicationError) {
+            console.warn(
+                'Address/communication details could not be loaded:',
+                communicationError.response?.data ||
+                communicationError.message
             );
         }
 
+        // STEP 5: Build the supplier profile
+        const profile = {
+            BusinessPartner: normalizeValue(
+                bpData.BusinessPartner
+            ),
+            Supplier: normalizeValue(bpData.Supplier),
+            Customer: normalizeValue(bpData.Customer),
 
-        // =====================================================
-        // STEP 4: UPDATE BUSINESS PARTNER ADDRESS
-        // =====================================================
+            BusinessPartnerFullName:
+                bpData.BusinessPartnerFullName || '',
 
-        if (!AddressID) {
+            BusinessPartnerName:
+                bpData.BusinessPartnerName || '',
+
+            BusinessPartnerCategory:
+                bpData.BusinessPartnerCategory || '',
+
+            BusinessPartnerGrouping:
+                bpData.BusinessPartnerGrouping || '',
+
+            SearchTerm1: bpData.SearchTerm1 || '',
+            SearchTerm2: bpData.SearchTerm2 || '',
+
+            AddressID: address.AddressID || '',
+            StreetName: address.StreetName || '',
+            HouseNumber: address.HouseNumber || '',
+            CityName: address.CityName || '',
+            PostalCode: address.PostalCode || '',
+            Country: address.Country || '',
+            Region: address.Region || '',
+
+            // Dynamically fetched S/4HANA communication details
+            Email: email,
+            Phone: phone,
+            Mobile: mobile
+        };
+
+        console.log('MY PROFILE RESULT:', {
+            BusinessPartner: profile.BusinessPartner,
+            Supplier: profile.Supplier,
+            EmailLoaded: Boolean(profile.Email),
+            PhoneLoaded: Boolean(profile.Phone),
+            MobileLoaded: Boolean(profile.Mobile)
+        });
+
+        return [profile];
+
+    } catch (err) {
+        console.error(
+            'My Profile API Error:',
+            err.response?.data ||
+            err.message ||
+            err
+        );
+
+        return req.error(
+            500,
+            'Failed to fetch Supplier Profile from S/4HANA'
+        );
+    }
+});
+
+
+
+    // =========================================================
+    // UPDATE MY PROFILE
+    //
+    // Updates:
+    // 1. Business Partner information
+    // 2. Business Partner Address
+    //
+    // Email / Phone / Mobile are intentionally NOT updated here.
+    // =========================================================
+
+    srv.on('updateMyProfile', async (req) => {
+
+        try {
+
+            // =====================================================
+            // STEP 1: GET LOGGED-IN BUSINESS PARTNER
+            // =====================================================
+
+            const businessPartner =
+                getLoggedInBusinessPartner(req);
+
+            if (!businessPartner) {
+                return req.error(
+                    400,
+                    'Business Partner could not be determined for the logged-in user'
+                );
+            }
+
+
+            // =====================================================
+            // STEP 2: READ REQUEST DATA
+            // =====================================================
+
+            const {
+                BusinessPartnerFullName,
+                BusinessPartnerName,
+                SearchTerm1,
+                SearchTerm2,
+
+                AddressID,
+                StreetName,
+                HouseNumber,
+                CityName,
+                PostalCode,
+                Region,
+                Country
+            } = req.data;
+
 
             console.log(
-                'No AddressID supplied. Address update skipped.'
+                '=============================================='
             );
 
-        } else {
+            console.log(
+                'UPDATE MY PROFILE'
+            );
 
-            const addressPayload = {};
+            console.log(
+                'Business Partner:',
+                businessPartner
+            );
+
+            console.log(
+                'Address ID:',
+                AddressID
+            );
+
+            console.log(
+                'Request Data:',
+                req.data
+            );
+
+            console.log(
+                '=============================================='
+            );
 
 
-            if (StreetName !== undefined) {
-                addressPayload.StreetName =
-                    StreetName;
+            // =====================================================
+            // STEP 3: UPDATE BUSINESS PARTNER
+            // =====================================================
+
+            const businessPartnerPayload = {};
+
+            if (BusinessPartnerFullName !== undefined) {
+                businessPartnerPayload.BusinessPartnerFullName =
+                    BusinessPartnerFullName;
             }
 
-            if (HouseNumber !== undefined) {
-                addressPayload.HouseNumber =
-                    HouseNumber;
+            if (BusinessPartnerName !== undefined) {
+                businessPartnerPayload.BusinessPartnerName =
+                    BusinessPartnerName;
             }
 
-            if (CityName !== undefined) {
-                addressPayload.CityName =
-                    CityName;
+            if (SearchTerm1 !== undefined) {
+                businessPartnerPayload.SearchTerm1 =
+                    SearchTerm1;
             }
 
-            if (PostalCode !== undefined) {
-                addressPayload.PostalCode =
-                    PostalCode;
-            }
-
-            if (Region !== undefined) {
-                addressPayload.Region =
-                    Region;
-            }
-
-            if (Country !== undefined) {
-                addressPayload.Country =
-                    Country;
+            if (SearchTerm2 !== undefined) {
+                businessPartnerPayload.SearchTerm2 =
+                    SearchTerm2;
             }
 
 
             if (
-                Object.keys(addressPayload).length > 0
+                Object.keys(businessPartnerPayload).length > 0
             ) {
 
                 console.log(
-                    'Updating Business Partner Address:'
-                );
-
-                console.log(
-                    addressPayload
-                );
-
-
-                const addressUrl =
-                    `/sap/opu/odata/sap/API_BUSINESS_PARTNER/` +
-                    `A_BusinessPartnerAddress(` +
-                    `BusinessPartner='${encodeURIComponent(businessPartner)}',` +
-                    `AddressID='${encodeURIComponent(AddressID)}'` +
-                    `)`;
-
-
-                console.log(
-                    'Address PATCH URL:',
-                    addressUrl
+                    'Updating Business Partner:',
+                    businessPartnerPayload
                 );
 
 
@@ -1484,10 +1408,11 @@ srv.on('updateMyProfile', async (req) => {
                         method: 'PATCH',
 
                         url:
-                            addressUrl,
+                            `/sap/opu/odata/sap/API_BUSINESS_PARTNER/` +
+                            `A_BusinessPartner('${encodeURIComponent(businessPartner)}')`,
 
                         data:
-                            addressPayload,
+                            businessPartnerPayload,
 
                         headers: {
                             Accept:
@@ -1501,160 +1426,263 @@ srv.on('updateMyProfile', async (req) => {
 
 
                 console.log(
-                    'Business Partner Address updated successfully'
+                    'Business Partner updated successfully'
                 );
             }
-        }
 
 
-        // =====================================================
-        // STEP 5: RETURN SUCCESS
-        // =====================================================
+            // =====================================================
+            // STEP 4: UPDATE BUSINESS PARTNER ADDRESS
+            // =====================================================
 
-        console.log(
-            '=============================================='
-        );
+            if (!AddressID) {
 
-        console.log(
-            'PROFILE UPDATE COMPLETED SUCCESSFULLY'
-        );
+                console.log(
+                    'No AddressID supplied. Address update skipped.'
+                );
 
-        console.log(
-            '=============================================='
-        );
+            } else {
+
+                const addressPayload = {};
 
 
-        return 'Supplier profile updated successfully';
+                if (StreetName !== undefined) {
+                    addressPayload.StreetName =
+                        StreetName;
+                }
+
+                if (HouseNumber !== undefined) {
+                    addressPayload.HouseNumber =
+                        HouseNumber;
+                }
+
+                if (CityName !== undefined) {
+                    addressPayload.CityName =
+                        CityName;
+                }
+
+                if (PostalCode !== undefined) {
+                    addressPayload.PostalCode =
+                        PostalCode;
+                }
+
+                if (Region !== undefined) {
+                    addressPayload.Region =
+                        Region;
+                }
+
+                if (Country !== undefined) {
+                    addressPayload.Country =
+                        Country;
+                }
 
 
-    } catch (err) {
+                if (
+                    Object.keys(addressPayload).length > 0
+                ) {
 
-        console.error(
-            '=============================================='
-        );
+                    console.log(
+                        'Updating Business Partner Address:'
+                    );
 
-        console.error(
-            'UPDATE MY PROFILE ERROR'
-        );
-
-        console.error(
-            'Status:',
-            err.response?.status
-        );
-
-        console.error(
-            'SAP Error:',
-            JSON.stringify(
-                err.response?.data,
-                null,
-                2
-            )
-        );
-
-        console.error(
-            'Message:',
-            err.message
-        );
-
-        console.error(
-            '=============================================='
-        );
+                    console.log(
+                        addressPayload
+                    );
 
 
-        return req.error(
-            500,
-            err.response?.data?.error?.message?.value ||
-            err.message ||
-            'Failed to update Supplier Profile in S/4HANA'
-        );
-    }
-
-});
-
-// =========================================================
-// DEVELOPMENT / USER BUSINESS PARTNER RESOLUTION
-// =========================================================
+                    const addressUrl =
+                        `/sap/opu/odata/sap/API_BUSINESS_PARTNER/` +
+                        `A_BusinessPartnerAddress(` +
+                        `BusinessPartner='${encodeURIComponent(businessPartner)}',` +
+                        `AddressID='${encodeURIComponent(AddressID)}'` +
+                        `)`;
 
 
-async function getLoggedInBusinessPartner(req) {
-    const user = req.user;
+                    console.log(
+                        'Address PATCH URL:',
+                        addressUrl
+                    );
 
-    console.log("==============================================");
-    console.log("LOGGED-IN BUSINESS PARTNER RESOLUTION");
-    console.log("User ID:", user?.id);
-    console.log("User Email:", user?.email);
-    console.log("==============================================");
 
-    if (!user || user.id === "anonymous") {
-        console.log("User is not authenticated.");
-        return null;
-    }
+                    await executeHttpRequest(
+                        {
+                            destinationName: 'S4HANA1'
+                        },
+                        {
+                            method: 'PATCH',
 
-    const email =
-        user.email ||
-        user.attr?.email ||
-        user.id;
+                            url:
+                                addressUrl,
 
-    if (!email || !email.includes("@")) {
-        console.log("Unable to determine logged-in user email.");
-        return null;
-    }
+                            data:
+                                addressPayload,
 
-    console.log("Resolved login email:", email);
+                            headers: {
+                                Accept:
+                                    'application/json',
 
-    try {
-        const jwtToken = user?.authInfo?.token?.jwt;
+                                'Content-Type':
+                                    'application/json'
+                            }
+                        }
+                    );
 
-        if (!jwtToken) {
-            console.log(
-                "JWT token not available for BP CAP token exchange."
-            );
-            return null;
-        }
 
-        const response = await executeHttpRequest(
-            {
-                destinationName: "BP_CAP_APP",
-                jwt: jwtToken
-            },
-            {
-                method: "GET",
-                url: "/bp/getMySupplier()",
-                headers: {
-                    Accept: "application/json"
+                    console.log(
+                        'Business Partner Address updated successfully'
+                    );
                 }
             }
-        );
 
-        const supplierId = response.data?.value;
 
-        console.log(
-            "Supplier ID returned by BP CAP:",
-            supplierId
-        );
+            // =====================================================
+            // STEP 5: RETURN SUCCESS
+            // =====================================================
 
-        if (
-            supplierId === undefined ||
-            supplierId === null ||
-            String(supplierId).trim() === ""
-        ) {
             console.log(
-                "No supplier found for logged-in user."
+                '=============================================='
             );
+
+            console.log(
+                'PROFILE UPDATE COMPLETED SUCCESSFULLY'
+            );
+
+            console.log(
+                '=============================================='
+            );
+
+
+            return 'Supplier profile updated successfully';
+
+
+        } catch (err) {
+
+            console.error(
+                '=============================================='
+            );
+
+            console.error(
+                'UPDATE MY PROFILE ERROR'
+            );
+
+            console.error(
+                'Status:',
+                err.response?.status
+            );
+
+            console.error(
+                'SAP Error:',
+                JSON.stringify(
+                    err.response?.data,
+                    null,
+                    2
+                )
+            );
+
+            console.error(
+                'Message:',
+                err.message
+            );
+
+            console.error(
+                '=============================================='
+            );
+
+
+            return req.error(
+                500,
+                err.response?.data?.error?.message?.value ||
+                err.message ||
+                'Failed to update Supplier Profile in S/4HANA'
+            );
+        }
+
+    });
+
+    // =========================================================
+    // DEVELOPMENT / USER BUSINESS PARTNER RESOLUTION
+    // =========================================================
+
+
+    async function getLoggedInBusinessPartner(req) {
+        const user = req.user;
+
+        console.log("==============================================");
+        console.log("LOGGED-IN BUSINESS PARTNER RESOLUTION");
+        console.log("User ID:", user?.id);
+        console.log("User Email:", user?.email);
+        console.log("==============================================");
+
+        if (!user || user.id === "anonymous") {
+            console.log("User is not authenticated.");
             return null;
         }
 
-        return normalizeValue(supplierId);
+        const email =
+            user.email ||
+            user.attr?.email ||
+            user.id;
 
-    } catch (error) {
-        console.error(
-            "BP CAP supplier validation failed:",
-            error.response?.data || error.message || error
-        );
+        if (!email || !email.includes("@")) {
+            console.log("Unable to determine logged-in user email.");
+            return null;
+        }
 
-        return null;
+        console.log("Resolved login email:", email);
+
+        try {
+            const jwtToken = user?.authInfo?.token?.jwt;
+
+            if (!jwtToken) {
+                console.log(
+                    "JWT token not available for BP CAP token exchange."
+                );
+                return null;
+            }
+
+            const response = await executeHttpRequest(
+                {
+                    destinationName: "BP_CAP_APP",
+                    jwt: jwtToken
+                },
+                {
+                    method: "GET",
+                    url: "/bp/getMySupplier()",
+                    headers: {
+                        Accept: "application/json"
+                    }
+                }
+            );
+
+            const supplierId = response.data?.value;
+
+            console.log(
+                "Supplier ID returned by BP CAP:",
+                supplierId
+            );
+
+            if (
+                supplierId === undefined ||
+                supplierId === null ||
+                String(supplierId).trim() === ""
+            ) {
+                console.log(
+                    "No supplier found for logged-in user."
+                );
+                return null;
+            }
+
+            return normalizeValue(supplierId);
+
+        } catch (error) {
+            console.error(
+                "BP CAP supplier validation failed:",
+                error.response?.data || error.message || error
+            );
+
+            return null;
+        }
     }
-}
 
 
     // =========================================================
@@ -1671,260 +1699,142 @@ async function getLoggedInBusinessPartner(req) {
     // Purchase Orders for that Supplier
     // =========================================================
 
-    srv.on('READ', MyPurchaseOrders, async (req) => {
-
-        try {
-
-            // -----------------------------------------------------
-            // STEP 1: GET BUSINESS PARTNER
-            // -----------------------------------------------------
-            const businessPartner =
-                await getLoggedInBusinessPartner(req);
-
-            console.log('==============================================');
-            console.log('MY PURCHASE ORDERS');
-            console.log('Resolved Business Partner:', businessPartner);
-            console.log('==============================================');
-
-            if (!businessPartner) {
-                return req.error(
-                    400,
-                    'Business Partner could not be determined for the logged-in user'
-                );
-            }
-            // -----------------------------------------------------
-            // STEP 2: GET SUPPLIER FROM BUSINESS PARTNER
-            // -----------------------------------------------------
-
-            const bpResponse =
-                await executeHttpRequest(
-                    {
-                        destinationName: 'S4HANA1'
-                    },
-                    {
-                        method: 'GET',
-
-                        url:
-                            `/sap/opu/odata/sap/API_BUSINESS_PARTNER/` +
-                            `A_BusinessPartner('${encodeURIComponent(businessPartner)}')`,
-
-                        params: {
-                            '$select': 'BusinessPartner,Supplier',
-                            '$format': 'json'
-                        },
-
-                        headers: {
-                            Accept: 'application/json'
-                        }
-                    }
-                );
-
-
-            const bpData =
-                bpResponse.data?.d || {};
-
-            const supplier =
-                bpData.Supplier;
-
-
-            console.log(
-                'Supplier from BP:',
-                supplier
-            );
-
-
-            if (!supplier) {
-
-                console.log(
-                    `No Supplier found for Business Partner ${businessPartner}`
-                );
-
-                return [];
-            }
-
-
-            // -----------------------------------------------------
-            // STEP 3: NORMALIZE VALUES
-            // -----------------------------------------------------
-
-            const normalizedBusinessPartner =
-                normalizeValue(businessPartner);
-
-            const normalizedSupplier =
-                normalizeValue(supplier);
-
-
-            console.log(
-                'Normalized BusinessPartner:',
-                normalizedBusinessPartner
-            );
-
-            console.log(
-                'Normalized Supplier:',
-                normalizedSupplier
-            );
-
-            // -----------------------------------------------------
-            // STEP 4: FETCH PURCHASE ORDERS FOR THIS SUPPLIER
-            // -----------------------------------------------------
-
-            console.log(
-                'Fetching Purchase Orders for Supplier:',
-                normalizedSupplier
-            );
-
-            const filter =
-                `Supplier eq '${normalizedSupplier}'`;
-
-            const queryParams =
-                new URLSearchParams({
-                    '$filter': filter,
-                    '$format': 'json'
-                });
-
-            const poResponse =
-                await executeHttpRequest(
-                    {
-                        destinationName: 'S4HANA1'
-                    },
-                    {
-                        method: 'GET',
-
-                        url:
-                            '/sap/opu/odata/sap/' +
-                            'API_PURCHASEORDER_PROCESS_SRV/' +
-                            'A_PurchaseOrder?' +
-                            queryParams.toString(),
-
-                        headers: {
-                            Accept: 'application/json'
-                        }
-                    }
-                );
-
-            const myPurchaseOrders =
-                poResponse.data?.d?.results || [];
-
-            console.log(
-                'Purchase Orders for Supplier:',
-                myPurchaseOrders.length
-            );
-
-
-            // -----------------------------------------------------
-            // STEP 5: VERIFY MATCHING PURCHASE ORDERS
-            // -----------------------------------------------------
-
-            myPurchaseOrders.forEach(po => {
-
-                console.log(
-                    `PO ${po.PurchaseOrder} | Supplier ${po.Supplier}`
-                );
-
-            });
-
-
-            // -----------------------------------------------------
-            // STEP 6: RETURN DATA TO OUR ODATA SERVICE
-            // -----------------------------------------------------
-
-            return myPurchaseOrders.map(po => ({
-
-                PurchaseOrder:
-                    po.PurchaseOrder,
-
-                CompanyCode:
-                    po.CompanyCode || '',
-
-                PurchaseOrderType:
-                    po.PurchaseOrderType || '',
-
-                PurchasingProcessingStatus:
-                    po.PurchasingProcessingStatus || '',
-
-                CreatedByUser:
-                    po.CreatedByUser || '',
-
-                CreationDate:
-                    po.CreationDate || null,
-
-                Supplier:
-                    po.Supplier || '',
-
-                PaymentTerms:
-                    po.PaymentTerms || '',
-
-                NetPaymentDays:
-                    po.NetPaymentDays || 0,
-
-                PurchasingOrganization:
-                    po.PurchasingOrganization || '',
-
-                PurchasingGroup:
-                    po.PurchasingGroup || '',
-
-                PurchaseOrderDate:
-                    po.PurchaseOrderDate || null,
-
-                DocumentCurrency:
-                    po.DocumentCurrency || '',
-
-                SupplierQuotationExternalID:
-                    po.SupplierQuotationExternalID || '',
-
-                SupplierRespSalesPersonName:
-                    po.SupplierRespSalesPersonName || '',
-
-                SupplierPhoneNumber:
-                    po.SupplierPhoneNumber || '',
-
-                IncotermsClassification:
-                    po.IncotermsClassification || '',
-
-                IncotermsLocation1:
-                    po.IncotermsLocation1 || '',
-
-                IncotermsLocation2:
-                    po.IncotermsLocation2 || '',
-
-                AddressCityName:
-                    po.AddressCityName || '',
-
-                AddressPostalCode:
-                    po.AddressPostalCode || '',
-
-                AddressStreetName:
-                    po.AddressStreetName || '',
-
-                AddressHouseNumber:
-                    po.AddressHouseNumber || '',
-
-                AddressRegion:
-                    po.AddressRegion || '',
-
-                AddressCountry:
-                    po.AddressCountry || ''
-
-            }));
-
-
-        } catch (err) {
-
-            console.error(
-                'Purchase Order API Error:',
-                err.response?.data ||
-                err.message ||
-                err
-            );
-
+    
+srv.on('READ', MyPurchaseOrders, async (req) => {
+    try {
+
+        // STEP 1: GET PORTAL SUPPLIER ID
+        const businessPartner =
+            await getLoggedInBusinessPartner(req);
+
+        console.log('==============================================');
+        console.log('MY PURCHASE ORDERS');
+        console.log('Portal Supplier ID:', businessPartner);
+        console.log('==============================================');
+
+        if (!businessPartner) {
             return req.error(
-                500,
-                'Failed to fetch Purchase Orders from S/4HANA'
+                400,
+                'Business Partner could not be determined for the logged-in user'
             );
-
         }
 
-    });
+        // STEP 2: GET DYNAMIC S/4HANA SUPPLIER MAPPING
+        const supplierMapping = await cds.run(
+            cds.ql.SELECT.one
+                .from('BpService.db.SupplierMapping')
+                .where({ PortalSupplierID: businessPartner })
+        );
+
+        if (!supplierMapping || !supplierMapping.S4SupplierID) {
+            return req.error(
+                404,
+                `No S/4HANA supplier mapping found for ${businessPartner}`
+            );
+        }
+
+        const normalizedSupplier =
+            normalizeValue(supplierMapping.S4SupplierID);
+
+        console.log(
+            'Mapped S/4HANA Supplier ID:',
+            normalizedSupplier
+        );
+
+        // STEP 3: FETCH PURCHASE ORDERS FROM S/4HANA
+        const filter =
+            `Supplier eq '${normalizedSupplier}'`;
+
+        const queryParams = new URLSearchParams({
+            '$filter': filter,
+            '$format': 'json'
+        });
+
+        const poResponse = await executeHttpRequest(
+            {
+                destinationName: 'S4HANA1'
+            },
+            {
+                method: 'GET',
+                url:
+                    '/sap/opu/odata/sap/' +
+                    'API_PURCHASEORDER_PROCESS_SRV/' +
+                    'A_PurchaseOrder?' +
+                    queryParams.toString(),
+                headers: {
+                    Accept: 'application/json'
+                }
+            }
+        );
+
+        const myPurchaseOrders =
+            poResponse.data?.d?.results || [];
+
+        console.log(
+            'Purchase Orders Found:',
+            myPurchaseOrders.length
+        );
+
+        // STEP 4: RETURN EMPTY RESULT WHEN NO PURCHASE ORDERS
+        if (myPurchaseOrders.length === 0) {
+            console.log(
+                'No Purchase Orders found for Supplier:',
+                normalizedSupplier
+            );
+
+            return [];
+        }
+
+        // STEP 5: RETURN PURCHASE ORDER DATA
+        return myPurchaseOrders.map(po => ({
+            PurchaseOrder: po.PurchaseOrder,
+            CompanyCode: po.CompanyCode || '',
+            PurchaseOrderType: po.PurchaseOrderType || '',
+            PurchasingProcessingStatus:
+                po.PurchasingProcessingStatus || '',
+            CreatedByUser: po.CreatedByUser || '',
+            CreationDate: po.CreationDate || null,
+            Supplier: po.Supplier || '',
+            PaymentTerms: po.PaymentTerms || '',
+            NetPaymentDays: po.NetPaymentDays || 0,
+            PurchasingOrganization:
+                po.PurchasingOrganization || '',
+            PurchasingGroup: po.PurchasingGroup || '',
+            PurchaseOrderDate: po.PurchaseOrderDate || null,
+            DocumentCurrency: po.DocumentCurrency || '',
+            SupplierQuotationExternalID:
+                po.SupplierQuotationExternalID || '',
+            SupplierRespSalesPersonName:
+                po.SupplierRespSalesPersonName || '',
+            SupplierPhoneNumber: po.SupplierPhoneNumber || '',
+            IncotermsClassification:
+                po.IncotermsClassification || '',
+            IncotermsLocation1: po.IncotermsLocation1 || '',
+            IncotermsLocation2: po.IncotermsLocation2 || '',
+            AddressCityName: po.AddressCityName || '',
+            AddressPostalCode: po.AddressPostalCode || '',
+            AddressStreetName: po.AddressStreetName || '',
+            AddressHouseNumber: po.AddressHouseNumber || '',
+            AddressRegion: po.AddressRegion || '',
+            AddressCountry: po.AddressCountry || ''
+        }));
+
+    } catch (err) {
+
+        console.error(
+            'Purchase Order API Error:',
+            err.response?.data ||
+            err.message ||
+            err
+        );
+
+        return req.error(
+            500,
+            'Failed to fetch Purchase Orders from S/4HANA'
+        );
+    }
+});
+
     srv.on('READ', MyPurchaseOrderDetails, async (req) => {
 
         try {
@@ -2002,7 +1912,7 @@ async function getLoggedInBusinessPartner(req) {
 
 
             const supplier =
-                bpData.Supplier;            
+                bpData.Supplier;
             console.log(
                 'Supplier from BP:',
                 supplier
@@ -2493,329 +2403,276 @@ async function getLoggedInBusinessPartner(req) {
         }));
     });
 
-  srv.on('READ', MyDashboard, async (req) => {
 
-    try {
-
-        // -----------------------------------------------------
-        // STEP 1: GET LOGGED-IN SUPPLIER ID
-        // -----------------------------------------------------
-
-        const supplierId =
-            await getLoggedInBusinessPartner(req);
-
-        console.log(
-            '=============================================='
-        );
-
-        console.log(
-            'MY DASHBOARD'
-        );
-
-        console.log(
-            'Resolved Supplier ID:',
-            supplierId
-        );
-
-        console.log(
-            '=============================================='
-        );
-
-
-        if (!supplierId) {
-
-            return req.error(
-                403,
-                'This email is not registered in Business Partner. Please contact the administrator.'
-            );
-        }
-
-
-        // -----------------------------------------------------
-        // STEP 2: FIND S/4 BUSINESS PARTNER USING SUPPLIER ID
-        // -----------------------------------------------------
-
-        const supplierFilter =
-            `Supplier eq '${supplierId}'`;
-
-
-        const bpQueryParams =
-            new URLSearchParams({
-                '$filter':
-                    supplierFilter,
-
-                '$select':
-                    'BusinessPartner,' +
-                    'Supplier,' +
-                    'BusinessPartnerFullName,' +
-                    'BusinessPartnerName',
-
-                '$format':
-                    'json'
-            });
-
-
-        console.log(
-            'Finding S/4 Business Partner using Supplier:',
-            supplierId
-        );
-
-
-        const bpResponse =
-            await executeHttpRequest(
-                {
-                    destinationName: 'S4HANA1'
-                },
-                {
-                    method: 'GET',
-
-                    url:
-                        '/sap/opu/odata/sap/' +
-                        'API_BUSINESS_PARTNER/' +
-                        'A_BusinessPartner?' +
-                        bpQueryParams.toString(),
-
-                    headers: {
-                        Accept:
-                            'application/json'
-                    }
-                }
-            );
-
-
-        const bpResults =
-            bpResponse.data?.d?.results || [];
-
-
-        console.log(
-            'S/4 Business Partner Results:',
-            bpResults.length
-        );
-
-
-        // -----------------------------------------------------
-        // STEP 3: HANDLE SUPPLIER NOT FOUND IN S/4
-        // -----------------------------------------------------
-
-        if (bpResults.length === 0) {
-
-            console.log(
-                `No S/4 Business Partner found for Supplier ${supplierId}`
-            );
-
-            return req.error(
-                404,
-                `Supplier ${supplierId} was found in Business Partner Portal but was not found in S/4HANA.`
-            );
-        }
-
-
-        const bpData =
-            bpResults[0];
-
-
-        const businessPartner =
-            bpData.BusinessPartner;
-
-
-        const supplier =
-            bpData.Supplier;
-
-
-        // -----------------------------------------------------
-        // GET SUPPLIER DISPLAY NAME
-        // -----------------------------------------------------
-
-        const supplierName =
-            bpData.BusinessPartnerFullName ||
-            bpData.BusinessPartnerName ||
-            '';
-
-
-        console.log(
-            'Supplier ID:',
-            supplierId
-        );
-
-        console.log(
-            'S/4 Business Partner:',
-            businessPartner
-        );
-
-        console.log(
-            'S/4 Supplier:',
-            supplier
-        );
-
-        console.log(
-            'Supplier Name:',
-            supplierName
-        );
-
-
-        // -----------------------------------------------------
-        // STEP 4: NORMALIZE SUPPLIER
-        // -----------------------------------------------------
-        const normalizedSupplier =
-            normalizeValue(
-                supplier || supplierId
-            );
-        console.log(
-            'Normalized Supplier:',
-            normalizedSupplier
-        );
-        // -----------------------------------------------------
-        // STEP 5: FETCH PURCHASE ORDERS
-        // -----------------------------------------------------
-
-        const filter =
-            `Supplier eq '${normalizedSupplier}'`;
-
-
-        const queryParams =
-            new URLSearchParams({
-                '$filter':
-                    filter,
-
-                '$format':
-                    'json'
-            });
-
-
-        console.log(
-            'Fetching dashboard POs using filter:',
-            filter
-        );
-
-
-        const poResponse =
-            await executeHttpRequest(
-                {
-                    destinationName: 'S4HANA1'
-                },
-                {
-                    method: 'GET',
-
-                    url:
-                        '/sap/opu/odata/sap/' +
-                        'API_PURCHASEORDER_PROCESS_SRV/' +
-                        'A_PurchaseOrder?' +
-                        queryParams.toString(),
-                    headers: {
-                        Accept:
-                            'application/json'
-                    }
-                }
-            );
-        const purchaseOrders =
-            poResponse.data?.d?.results || [];
-        console.log(
-            'Dashboard Purchase Orders:',
-            purchaseOrders.length
-        );
-        // -----------------------------------------------------
-        // STEP 6: CALCULATE TOTAL
-        // -----------------------------------------------------
-
-        const totalPurchaseOrders =
-            purchaseOrders.length;
-        // -----------------------------------------------------
-        // STEP 7: CALCULATE OPEN / COMPLETED
-        // -----------------------------------------------------
-
-        let completedPurchaseOrders = 0;
-
-        let openPurchaseOrders = 0;
-
-
-        purchaseOrders.forEach(po => {
-
-            console.log(
-                `PO ${po.PurchaseOrder} | ` +
-                `Status ${po.PurchasingProcessingStatus}`
-            );
-
-
-            if (
-                po.PurchasingProcessingStatus === '05'
-            ) {
-
-                completedPurchaseOrders++;
-
-            } else {
-
-                openPurchaseOrders++;
-
+    srv.on('READ', MyDashboard, async (req) => {
+        try {
+
+            // -----------------------------------------------------
+            // STEP 1: GET LOGGED-IN PORTAL SUPPLIER ID
+            // -----------------------------------------------------
+
+            const supplierId =
+                await getLoggedInBusinessPartner(req);
+
+            console.log('==============================================');
+            console.log('MY DASHBOARD');
+            console.log('Portal Supplier ID:', supplierId);
+            console.log('==============================================');
+
+            if (!supplierId) {
+                return req.error(
+                    403,
+                    'This email is not registered in Business Partner. Please contact the administrator.'
+                );
             }
 
-        });
+            // -----------------------------------------------------
+            // STEP 2: GET S/4 SUPPLIER ID FROM MAPPING TABLE
+            // -----------------------------------------------------
 
+            const supplierMapping = await cds.run(
+                cds.ql.SELECT.one
+                    .from('BpService.db.SupplierMapping')
+                    .where({
+                        PortalSupplierID: supplierId
+                    })
+            );
 
-        // -----------------------------------------------------
-        // STEP 8: BUILD DASHBOARD
-        // -----------------------------------------------------
+            if (!supplierMapping || !supplierMapping.S4SupplierID) {
+                console.log(
+                    'No S/4 mapping found for Portal Supplier:',
+                    supplierId
+                );
 
-        const dashboard = {
+                return req.error(
+                    404,
+                    `No S/4HANA supplier mapping found for Portal Supplier ${supplierId}.`
+                );
+            }
 
-            ID:
-                '1',
+            const s4SupplierId =
+                supplierMapping.S4SupplierID;
 
-            BusinessPartner:
-                businessPartner,
+            console.log('Portal Supplier ID:', supplierId);
+            console.log('Mapped S/4 Supplier ID:', s4SupplierId);
 
-            Supplier:
-                normalizedSupplier,
+            // -----------------------------------------------------
+            // STEP 3: FIND S/4 BUSINESS PARTNER USING MAPPED ID
+            // -----------------------------------------------------
 
-            SupplierName:
-                supplierName,
+            const supplierFilter =
+                `Supplier eq '${s4SupplierId}'`;
 
-            TotalPurchaseOrders:
-                totalPurchaseOrders,
+            const bpQueryParams =
+                new URLSearchParams({
+                    '$filter': supplierFilter,
+                    '$select':
+                        'BusinessPartner,' +
+                        'Supplier,' +
+                        'BusinessPartnerFullName,' +
+                        'BusinessPartnerName',
+                    '$format': 'json'
+                });
 
-            OpenPurchaseOrders:
-                openPurchaseOrders,
+            console.log(
+                'Finding S/4 Business Partner using:',
+                s4SupplierId
+            );
 
-            CompletedPurchaseOrders:
-                completedPurchaseOrders
-        };
-        // -----------------------------------------------------
-        // STEP 9: LOG DASHBOARD
-        // -----------------------------------------------------
-        console.log(
-            '=============================================='
-        );
-        console.log(
-            'DASHBOARD RESULT'
-        );
-        console.log(
-            JSON.stringify(
-                dashboard,
-                null,
-                2
-            )
-        );
-        console.log(
-            '=============================================='
-        );
-        // -----------------------------------------------------
-        // STEP 10: RETURN DASHBOARD
-        // -----------------------------------------------------
-        return [
-            dashboard
-        ];
-    } catch (err) {
-        console.error(
-            'Dashboard API Error:',
-            err.response?.data ||
-            err.message ||
-            err
-        );
-        return req.error(
-            500,
-            'Failed to fetch Supplier Dashboard from S/4HANA'
-        );
-    }
-});
+            const bpResponse =
+                await executeHttpRequest(
+                    {
+                        destinationName: 'S4HANA1'
+                    },
+                    {
+                        method: 'GET',
+                        url:
+                            '/sap/opu/odata/sap/' +
+                            'API_BUSINESS_PARTNER/' +
+                            'A_BusinessPartner?' +
+                            bpQueryParams.toString(),
+                        headers: {
+                            Accept: 'application/json'
+                        }
+                    }
+                );
+
+            const bpResults =
+                bpResponse.data?.d?.results || [];
+
+            console.log(
+                'S/4 Business Partner Results:',
+                bpResults.length
+            );
+
+            if (bpResults.length === 0) {
+                return req.error(
+                    404,
+                    `Mapped S/4HANA Supplier ${s4SupplierId} was not found.`
+                );
+            }
+
+            const bpData = bpResults[0];
+
+            const businessPartner =
+                bpData.BusinessPartner;
+
+            const supplier =
+                bpData.Supplier;
+
+            const supplierName =
+                bpData.BusinessPartnerFullName ||
+                bpData.BusinessPartnerName ||
+                '';
+
+            console.log('S/4 Business Partner:', businessPartner);
+            console.log('S/4 Supplier:', supplier);
+            console.log('Supplier Name:', supplierName);
+
+            // -----------------------------------------------------
+            // STEP 4: NORMALIZE S/4 SUPPLIER ID
+            // -----------------------------------------------------
+
+            const normalizedSupplier =
+                normalizeValue(
+                    supplier || s4SupplierId
+                );
+
+            console.log(
+                'Normalized S/4 Supplier:',
+                normalizedSupplier
+            );
+
+            // -----------------------------------------------------
+            // STEP 5: FETCH PURCHASE ORDERS
+            // -----------------------------------------------------
+
+            const filter =
+                `Supplier eq '${normalizedSupplier}'`;
+
+            const queryParams =
+                new URLSearchParams({
+                    '$filter': filter,
+                    '$format': 'json'
+                });
+
+            console.log(
+                'Fetching dashboard POs using filter:',
+                filter
+            );
+
+            const poResponse =
+                await executeHttpRequest(
+                    {
+                        destinationName: 'S4HANA1'
+                    },
+                    {
+                        method: 'GET',
+                        url:
+                            '/sap/opu/odata/sap/' +
+                            'API_PURCHASEORDER_PROCESS_SRV/' +
+                            'A_PurchaseOrder?' +
+                            queryParams.toString(),
+                        headers: {
+                            Accept: 'application/json'
+                        }
+                    }
+                );
+
+            const purchaseOrders =
+                poResponse.data?.d?.results || [];
+
+            console.log(
+                'Dashboard Purchase Orders:',
+                purchaseOrders.length
+            );
+
+            // -----------------------------------------------------
+            // STEP 6: CALCULATE TOTAL PURCHASE ORDERS
+            // -----------------------------------------------------
+
+            const totalPurchaseOrders =
+                purchaseOrders.length;
+
+            // -----------------------------------------------------
+            // STEP 7: CALCULATE OPEN / COMPLETED ORDERS
+            // -----------------------------------------------------
+
+            let completedPurchaseOrders = 0;
+            let openPurchaseOrders = 0;
+
+            purchaseOrders.forEach(po => {
+
+                console.log(
+                    `PO ${po.PurchaseOrder} | ` +
+                    `Status ${po.PurchasingProcessingStatus}`
+                );
+
+                if (po.PurchasingProcessingStatus === '05') {
+                    completedPurchaseOrders++;
+                } else {
+                    openPurchaseOrders++;
+                }
+            });
+
+            // -----------------------------------------------------
+            // STEP 8: BUILD DASHBOARD
+            // -----------------------------------------------------
+
+            const dashboard = {
+                ID: '1',
+
+                BusinessPartner:
+                    businessPartner,
+
+                Supplier:
+                    normalizedSupplier,
+
+                SupplierName:
+                    supplierName,
+
+                TotalPurchaseOrders:
+                    totalPurchaseOrders,
+
+                OpenPurchaseOrders:
+                    openPurchaseOrders,
+
+                CompletedPurchaseOrders:
+                    completedPurchaseOrders
+            };
+
+            // -----------------------------------------------------
+            // STEP 9: LOG DASHBOARD
+            // -----------------------------------------------------
+
+            console.log('==============================================');
+            console.log('DASHBOARD RESULT');
+            console.log(
+                JSON.stringify(dashboard, null, 2)
+            );
+            console.log('==============================================');
+
+            // -----------------------------------------------------
+            // STEP 10: RETURN DASHBOARD
+            // -----------------------------------------------------
+
+            return [dashboard];
+
+        } catch (err) {
+
+            console.error(
+                'Dashboard API Error:',
+                err.response?.data ||
+                err.message ||
+                err
+            );
+
+            return req.error(
+                500,
+                'Failed to fetch Supplier Dashboard from S/4HANA'
+            );
+        }
+    });
 
     // =========================================================
     // SEND PURCHASE ORDER EMAIL
